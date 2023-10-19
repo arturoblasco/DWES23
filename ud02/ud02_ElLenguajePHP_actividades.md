@@ -361,39 +361,38 @@ Todos los ejercicios se deben realizar creando nuevas funciones para encapsular 
 
 **Actividad 251**
 
-251fraseImpares.php: Lee una frase y devuelve una nueva con solo los caracteres de las posiciones impares.
+`251fraseImpares.php`: Lee una frase y devuelve una nueva con solo los caracteres de las posiciones impares.
 
 
 **Actividad 252**
 
-252vocales.php: A partir de una frase, devuelve la cantidad de cada una de las vocales, y el total de ellas.
-
+`252vocales.php`: A partir de una frase, devuelve la cantidad de cada una de las vocales, y el total de ellas.
 
 **Actividad 253**
 
-253analizador.php: A partir de una frase con palabras sólo separadas por espacios, devolver
+`253analizador.php`: A partir de una frase con palabras sólo separadas por espacios, devolver
 
 - Letras totales y cantidad de palabras
 - Una línea por cada palabra indicando su tamaño
 
-***Nota***: no se puede usar str_word_count
+>  ***Nota***: no se puede usar `str_word_count`
 
-253analizadorWC.php: Investiga que hace la función str_word_count, y vuelve a hacer el ejercicio.
+`253analizadorWC.php`: Investiga que hace la función `str_word_count`, y vuelve a hacer el ejercicio.
 
 
 **Actividad 254**
 
-254cani.php: EsCrIbE uNa FuNcIóN qUe TrAnSfOrMe UnA cAdEnA eN cAnI.
+`254cani.php`: EsCrIbE uNa FuNcIóN qUe TrAnSfOrMe UnA cAdEnA eN cAnI.
 
 
 **Actividad 255**
 
-255palindromo.php: Escribe una función que devuelva un booleano indicando si una palabra es palíndroma (se lee igual de izquierda a derecha que de derecha a izquierda, por ejemplo, “ligar es ser agil”).
+`255palindromo.php`: Escribe una función que devuelva un booleano indicando si una palabra es palíndroma (se lee igual de izquierda a derecha que de derecha a izquierda, por ejemplo, “ligar es ser agil”).
 
 
 **Actividad 256**
 
-256codificar.php: Utilizando las funciones para trabajar con caracteres, a partir de una cadena y un desplazamiento:
+`256codificar.php`: Utilizando las funciones para trabajar con caracteres, a partir de una cadena y un desplazamiento:
 
 - Si el desplazamiento es 1, sustituye la A por B, la B por C, etc.
 - El desplazamiento no puede ser negativo
@@ -403,9 +402,9 @@ Todos los ejercicios se deben realizar creando nuevas funciones para encapsular 
 
 **Actividad 257**
 
-257filtrado.html: Crea un programa que permita al usuario leer un conjunto de números separados por espacios.
+`257filtrado.html`: Crea un programa que permita al usuario leer un conjunto de números separados por espacios.
 
-257filtrado.php: El programa filtrará los números leídos para volver a mostrar únicamente los números pares e indicará la cantidad existente.
+`257filtrado.php`: El programa filtrará los números leídos para volver a mostrar únicamente los números pares e indicará la cantidad existente.
 
 ```processing
 Dame números: 1 4 7 9 23 10 8
@@ -415,32 +414,28 @@ Los 3 números pares son: 4 10 8
 
 **Actividad 258**
 
-258investiga.php: Investiga las siguientes funciones de cadena (explica para qué sirven mediante comentarios, y programa un pequeño ejemplo de cada una de ellas): ucwords, strrev, str_repeat y md5.
-
-
-
-------
+`258investiga.php`: Investiga las siguientes funciones de cadena (explica para qué sirven mediante comentarios, y programa un pequeño ejemplo de cada una de ellas): `ucwords`, `strrev`, `str_repeat` y `md5`.
 
 Los siguientes ejercicios se basan en la generación de números aleatorios.
 
 
 **Actividad 259**
 
-259generador.php: Crea una función que permite generar una letra aleatoria, mayúscula o minúscula.
+`259generador.php`: Crea una función que permite generar una letra aleatoria, mayúscula o minúscula.
 
 
 **Actividad 260**
 
-260generaContrasenya.php: Crea una función que a partir de un tamaño, genere una contraseña aleatoria compuesta de letras y dígitos de manera aleatoria.
+`260generaContrasenya.php`: Crea una función que a partir de un tamaño, genera una contraseña aleatoria compuesta de letras y dígitos de manera aleatoria.
 
 
 **Actividad 261**
 
-261quinielas.php: Crea las siguientes funciones:
+`261quinielas.php`: Crea las siguientes funciones:
 
-- quinigol() : array → Genera un array multidimensional con 6 resultados aleatorios con combinaciones [012M, 012M].
-- quiniela() : array → Genera un array con una combinación de quiniela generada de manera aleatoria: 14 resultados con 1X2 y el pleno al quince con [012M, 012M].
-- tabla(array $quiniela) : string → transforma un array de una quiniela en una tabla HTML.
+- `quinigol() : array` → Genera un array multidimensional con 6 resultados aleatorios con combinaciones [012M, 012M].
+- `quiniela() : array` → Genera un array con una combinación de quiniela generada de manera aleatoria: 14 resultados con 1X2 y el pleno al quince con [012M, 012M].
+- `tabla(array $quiniela) : string`→ transforma un array de una quiniela en una tabla HTML.
 
 
 
