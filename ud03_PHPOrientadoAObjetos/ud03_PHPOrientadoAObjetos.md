@@ -1,15 +1,15 @@
 ---
-unit: unidad didáctica 3
-title: PHP Orientado a Objetos
-language: ES
-author: Arturo Blasco
-subject: Desarrollo Web en Entorno Servidor
-keywords: [DWES, 2023, PHP]
-IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
-header: ${unit}: ${title} - ${subject} (versión: ${today})
-footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
-typora-root-url:${filename}/../
-typora-copy-images-to:${filename}/../assets
+    unit: unidad didáctica 3
+    title: PHP Orientado a Objetos
+    language: ES
+    author: Arturo Blasco
+    subject: Desarrollo Web en Entornos Servidor
+    keywords: [2023-2024, DWES, PHP]
+    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
+    header: ${title} - ${subject} (ver: ${today}) 
+    footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
+    typora-root-url:${filename}/../
+    typora-copy-images-to:${filename}/../assets
 
 ---
 
@@ -49,7 +49,7 @@ PHP sigue un paradigma de programación orientada a objetos (POO) basada en clas
 
 Un clase es un plantilla que define las propiedades y métodos para poder crear objetos. De este manera, un objeto es una instancia de una clase.
 
-Tanto las propiedades como los métodos se definen con una visibilidad (quien puede acceder)
+Tanto las propiedades como los métodos se definen con una visibilidad (quién puede acceder):
 
 - Privado - `private`: Sólo puede acceder la propia clase.
 - Protegido - `protected`: Sólo puede acceder la propia clase o sus descendientes.
@@ -59,12 +59,12 @@ Para declarar una clase, se utiliza la palabra clave `class` seguido del nombre 
 
 ```php
 <?php
-    class NombreClase {
-    // propiedades
-    // y métodos
-    }
+class NombreClase {
+// propiedades
+// y métodos
+}
 
-    $ob = new NombreClase();
+$ob = new NombreClase();
 ```
 
 > **clases con mayúscula**
@@ -95,61 +95,65 @@ $this->método(parámetros);
 
 ```php
 <?php
-    class Persona {
-        private string $nombre;
+class Persona {
+    private string $nombre;
 
-        public function setNombre(string $nom) {
-            $this->nombre=$nom;
-        }
-
-        public function imprimir(){
-            echo $this->nombre;
-            echo '<br>';
-        }
+    public function setNombre(string $nombre) {
+        $this->nombre = $nombre;
     }
 
-    $bruno = new Persona(); // creamos un objeto
-    $bruno->setNombre("Bruno Díaz");
-    $bruno->imprimir();
+    public function imprimir(){
+        echo $this->nombre;
+        echo '<br>';
+    }
+}
+
+$bruno = new Persona(); // creamos un objeto
+$bruno->setNombre("Bruno Díaz");
+$bruno->imprimir();
 ```
 
-Aunque se pueden declarar varias clases en el mismo archivo, es una mala práctica. Así pues, cada fichero contedrá una sola clase, y se nombrará con el nombre de la clase.
+Aunque se pueden declarar varias clases en el mismo archivo, es una mala práctica. Así pues:
+
+- cada fichero contedrá una sola clase, y 
+- se nombrará con el nombre de la clase.
 
 # encapsulación
 
-Las propiedades se definen privadas o protegidas (si queremos que las clases heredadas puedan acceder).
+Las propiedades se definen *privadas* o *protegidas* (si queremos que las clases heredadas puedan acceder).
 
-Para cada propiedad, se añaden métodos públicos (getter/setter):
+Para cada propiedad, se añaden métodos públicos (*getter*/*setter*):
 
 ```php
-public setPropiedad(tipo $param)
-public getPropiedad() : tipo
+public setPropiedad(tipo $param);
+
+public getPropiedad() : tipo;
 ```
 
-Las constantes se definen públicas para que sean accesibles por todos los recursos.
+Las *constantes* se definen *públicas* para que sean accesibles por todos los recursos.
 
 ```php
 <?php
-    class MayorMenor {
-        private int $mayor;
-        private int $menor;
+  class MayorMenor {
+     private int $mayor;
+     private int $menor;
 
-        public function setMayor(int $may) {
-            $this->mayor = $may;
-        }
+     public function setMayor(int $may) {
+         $this->mayor = $may;
+     }
 
-        public function setMenor(int $men) {
-            $this->menor = $men;
-        }
+     public function setMenor(int $men) {
+         $this->menor = $men;
+     }
 
-        public function getMayor() : int {
-            return $this->mayor;
-        }
+     public function getMayor() : int {
+         return $this->mayor;
+     }
 
-        public function getMenor() : int {
-            return $this->menor;
-        }
-    }
+     public function getMenor() : int {
+         return $this->menor;
+     }
+  }
 ```
 
 ## Recibiendo y enviando objetos
@@ -162,43 +166,45 @@ Es recomendable indicarlo en el tipo de parámetros. Si el objeto puede devolver
 
 ```php
 <?php
-    function maymen(array $numeros) : ?MayorMenor {
-        $a = max($numeros);
-        $b = min($numeros);
+  function maymen(array $numeros) : ?MayorMenor {
+    $a = max($numeros);
+    $b = min($numeros);
 
-        $result = new MayorMenor();
-        $result->setMayor($a);
-        $result->setMenor($b);
+    $result = new MayorMenor();
+    $result->setMayor($a);
+    $result->setMenor($b);
 
-        return $result;
-    }
+    return $result;
+  }
 
-    $resultado =  maymen([1,76,9,388,41,39,25,97,22]);
-    echo "<br>Mayor: ".$resultado->getMayor();
-    echo "<br>Menor: ".$resultado->getMenor();
+  $resultado =  maymen([1,76,9,388,41,39,25,97,22]);
+  echo "<br>Mayor: ".$resultado->getMayor();
+  echo "<br>Menor: ".$resultado->getMenor();
 ```
 
 # constructor
 
-El constructor de los objetos se define mediante el método mágico `__construct`. Puede o no tener parámetros, pero sólo puede haber un único constructor.
+El constructor de los objetos se define mediante el método mágico `__construct`. 
+
+> Puede o no tener parámetros, pero **sólo puede haber un único constructor**.
 
 ```php
 <?php
-    class Persona {
-        private string $nombre;
+  class Persona {
+     private string $nombre;
 
-        public function __construct(string $nom) {
-            $this->nombre = $nom;
-        }
+     public function __construct(string $nom) {
+         $this->nombre = $nom;
+     }
 
-        public function imprimir(){
-          echo $this->nombre;
-          echo '<br>';
-        }
-    }
+     public function imprimir(){
+       echo $this->nombre;
+       echo '<br>';
+     }
+  }
 
-    $bruno = new Persona("Bruno Díaz");
-    $bruno->imprimir();
+  $bruno = new Persona("Bruno Díaz");
+  $bruno->imprimir();
 ```
 
 ## constructores en PHP8
@@ -211,34 +217,34 @@ Veámoslo mejor con un ejemplo. Imaginemos una clase `Punto` donde queramos alma
 
 ```php
 <?php
-    class Punto {
-        protected float $x;
-        protected float $y;
-        protected float $z;
+class Punto {
+    protected float $x;
+    protected float $y;
+    protected float $z;
 
-        public function __construct(
-            float $x = 0.0,
-            float $y = 0.0,
-            float $z = 0.0
-        ) {
-            $this->x = $x;
-            $this->y = $y;
-            $this->z = $z;
-        }
+    public function __construct(
+        float $x = 0.0,
+        float $y = 0.0,
+        float $z = 0.0
+    ) {
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
     }
+}
 ```
 
 En PHP 8, quedaría del siguiente modo (mucho más corto, lo que facilita su legibilidad):
 
 ```php
 <?php
-    class Punto {
-        public function __construct(
-            protected float $x = 0.0,
-            protected float $y = 0.0,
-            protected float $z = 0.0,
-        ) {}
-    }
+class Punto {
+    public function __construct(
+        protected float $x = 0.0,
+        protected float $y = 0.0,
+        protected float $z = 0.0,
+    ) {}
+}
 ```
 
 > **el orden importa:**
@@ -247,17 +253,17 @@ En PHP 8, quedaría del siguiente modo (mucho más corto, lo que facilita su leg
 >
 > ```php
 > <?php
->     declare(strict_types=1);
+> declare(strict_types=1);
 > 
->     class NombreClase {
->         // propiedades
+> class NombreClase {
+>     // propiedades
 > 
->         // constructor
+>     // constructor
 > 
->         // getters - setters
+>     // getters - setters
 > 
->         // resto de métodos
->     }
+>     // resto de métodos
+> }
 > ?>
 > ```
 
@@ -272,42 +278,42 @@ Se declaran con `static` y se referencian con `::`.
 
 ```php
 <?php
-    class Producto {
-        const IVA = 0.23;
-        private static $numProductos = 0; 
+class Producto {
+    const IVA = 0.23;
+    private static $numProductos = 0; 
 
-        public static function nuevoProducto() {
-            self::$numProductos++;
-        }
+    public static function nuevoProducto() {
+        self::$numProductos++;
     }
+}
 
-    Producto::nuevoProducto();
-    $impuesto = Producto::IVA;
+Producto::nuevoProducto();
+$impuesto = Producto::IVA;
 ```
 
 También podemos tener clases normales que tengan alguna propiedad estática:
 
 ```php
 <?php
-  class Producto {
+class Producto {
     const IVA = 0.23;
     private static $numProductos = 0; 
     private $codigo;
 
     public function __construct(string $cod) {
-      self::$numProductos++;
-      $this->codigo = $cod;
+        self::$numProductos++;
+        $this->codigo = $cod;
     }
 
     public function mostrarResumen() : string {
-      return "El producto ".$this->codigo." es el número ".self::$numProductos;
+        return "El producto ".$this->codigo." es el número ".self::$numProductos;
     }
-  }
+}
 
-  $prod1 = new Producto("PS5");
-  $prod2 = new Producto("XBOX Series X");
-  $prod3 = new Producto("Nintendo Switch");
-  echo $prod3->mostrarResumen();
+$prod1 = new Producto("PS5");
+$prod2 = new Producto("XBOX Series X");
+$prod3 = new Producto("Nintendo Switch");
+echo $prod3->mostrarResumen();
 ```
 
 # introspección
@@ -325,23 +331,23 @@ Un ejemplo de estas funciones puede ser el siguiente:
 
 ```php
 <?php
-    $p = new Producto("PS5");
-    if ($p instanceof Producto) {
-        echo "Es un producto";
-        echo "La clase es ".get_class($p);
+$p = new Producto("PS5");
+if ($p instanceof Producto) {
+    echo "Es un producto";
+    echo "La clase es ".get_class($p);
 
-        class_alias("Producto", "Articulo");
-        $c = new Articulo("Nintendo Switch");
-        echo "Un articulo es un ".get_class($c);
+    class_alias("Producto", "Articulo");
+    $c = new Articulo("Nintendo Switch");
+    echo "Un articulo es un ".get_class($c);
 
-        print_r(get_class_methods("Producto"));
-        print_r(get_class_vars("Producto"));
-        print_r(get_object_vars($p));
+    print_r(get_class_methods("Producto"));
+    print_r(get_class_vars("Producto"));
+    print_r(get_object_vars($p));
 
-        if (method_exists($p, "mostrarResumen")) {
-            $p->mostrarResumen();
-        }
+    if (method_exists($p, "mostrarResumen")) {
+        $p->mostrarResumen();
     }
+}
 ```
 
 > **clonado**
@@ -370,21 +376,21 @@ Por ejemplo, tenemos una clase `Producto` y una `Tv` que hereda de `Producto`:
 
 ```php
 <?php
-    class Producto {
-        public $codigo;
-        public $nombre;
-        public $nombreCorto;
-        public $PVP;
+class Producto {
+    public $codigo;
+    public $nombre;
+    public $nombreCorto;
+    public $PVP;
 
-        public function mostrarResumen() {
-            echo "<p>Prod:".$this->codigo."</p>";
-        }
+    public function mostrarResumen() {
+        echo "<p>Prod:".$this->codigo."</p>";
     }
+}
 
-    class Tv extends Producto {
-        public $pulgadas;
-        public $tecnologia;
-    }
+class Tv extends Producto {
+    public $pulgadas;
+    public $tecnologia;
+}
 ```
 
 Podemos utilizar las siguientes funciones para averiguar si hay relación entre dos clases:
@@ -394,20 +400,20 @@ Podemos utilizar las siguientes funciones para averiguar si hay relación entre 
 
 ```php
 <?php
-    $t = new Tv();
-    $t->codigo = 33;
-    if ($t instanceof Producto) {
-        echo $t->mostrarResumen();
-    }
+$t = new Tv();
+$t->codigo = 33;
+if ($t instanceof Producto) {
+    echo $t->mostrarResumen();
+}
 
-    $padre = get_parent_class($t);
-    echo "<br>La clase padre es: " . $padre;
-    $objetoPadre = new $padre;
-    echo $objetoPadre->mostrarResumen();
+$padre = get_parent_class($t);
+echo "<br>La clase padre es: " . $padre;
+$objetoPadre = new $padre;
+echo $objetoPadre->mostrarResumen();
 
-    if (is_subclass_of($t, 'Producto')) {
-        echo "<br>Soy un hijo de Producto";
-    }
+if (is_subclass_of($t, 'Producto')) {
+    echo "<br>Soy un hijo de Producto";
+}
 ```
 
 ## sobreescribir métodos
@@ -416,15 +422,15 @@ Podemos crear métodos en los hijos con el mismo nombre que el padre, cambiando 
 
 ```php
 <?php
-  class Tv extends Producto {
-    public $pulgadas;
-    public $tecnologia;
+class Tv extends Producto {
+   public $pulgadas;
+   public $tecnologia;
 
-    public function mostrarResumen() {
+   public function mostrarResumen() {
       parent::mostrarResumen();
       echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
    }
- }
+}
 ```
 
 ## constructor en hijos
@@ -435,60 +441,62 @@ En cambio, si lo definimos en el hijo, hemos de invocar al del padre de manera e
 
 ```php
 <?php
-  class Producto {
+class Producto {
     public string $codigo;
 
     public function __construct(string $codigo) {
-       $this->codigo = $codigo;
+        $this->codigo = $codigo;
     }
 
     public function mostrarResumen() {
-       echo "<p>Prod:".$this->codigo."</p>";
+        echo "<p>Prod:".$this->codigo."</p>";
     }
-  }
+}
 
-  class Tv extends Producto {
+class Tv extends Producto {
     public $pulgadas;
     public $tecnologia;
 
     public function __construct(string $codigo, int $pulgadas, string $tecnologia) {
-      parent::__construct($codigo);
-      $this->pulgadas = $pulgadas;
-      $this->tecnologia = $tecnologia;
+        parent::__construct($codigo);
+        $this->pulgadas = $pulgadas;
+        $this->tecnologia = $tecnologia;
     }
 
     public function mostrarResumen() {
-      parent::mostrarResumen();
-      echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
+        parent::mostrarResumen();
+        echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
     }
-  }
+}
 ```
 
 **PHP 8**:
 
 ```php
 <?php
-  class Producto {
+class Producto {
     public function __construct(private string $codigo) { }
 
     public function mostrarResumen() {
-      echo "<p>Prod:".$this->codigo."</p>";
+        echo "<p>Prod:".$this->codigo."</p>";
     }        
-  }
+}
 
-  class Tv extends Producto {
+class Tv extends Producto {
 
-  public function __construct (string $codigo,
-      							private int $pulgadas,
-      							private string $tecnologia) {
-      parent::__construct($codigo);
-  }
+    public function __construct(
+        string $codigo,
+        private int $pulgadas,
+        private string $tecnologia)
+    {
+        parent::__construct($codigo);
+    }
 
-  public function mostrarResumen() {
-      parent::mostrarResumen();
+    public function mostrarResumen() {
+        parent::mostrarResumen();
         echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
-      }
-  }
+    }
+}
 ```
 
 # clases abstractas
@@ -499,33 +507,33 @@ Una clase abstracta puede contener propiedades y métodos no-abstractos, y/o mé
 
 ```php
 <?php
-    // Clase abstracta
-    abstract class Producto {
-        private $codigo;
-        public function getCodigo() : string {
-            return $this->codigo;
-        }
-        // Método abstracto
-        abstract public function mostrarResumen();
+// Clase abstracta
+abstract class Producto {
+    private $codigo;
+    public function getCodigo() : string {
+        return $this->codigo;
     }
+    // Método abstracto
+    abstract public function mostrarResumen();
+}
 ```
 
 Cuando una clase hereda de una clase abstracta, obligatóriamente debe implementar los métodos que tiene el padre marcados como abstractos.
 
 ```php
 <?php
-  class Tv extends Producto {
+class Tv extends Producto {
     public $pulgadas;
     public $tecnologia;
 
     public function mostrarResumen() { //obligado a implementarlo
-      echo "<p>Código ".$this->getCodigo()."</p>";
-      echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
+        echo "<p>Código ".$this->getCodigo()."</p>";
+        echo "<p>TV ".$this->tecnologia." de ".$this->pulgadas."</p>";
     }
-  }
+}
 
-  $t = new Tv();
-  echo $t->getCodigo();
+$t = new Tv();
+echo $t->getCodigo();
 ```
 
 # clases finales
@@ -534,28 +542,28 @@ Son clases opuestas a abstractas, ya que evitan que se pueda heredar una clase o
 
 ```php
 <?php
-    class Producto {
-        private $codigo;
+class Producto {
+    private $codigo;
 
-        public function getCodigo() : string {
-            return $this->codigo;
-        }
-
-        final public function mostrarResumen() : string {
-            return "Producto ".$this->codigo;
-        }
+    public function getCodigo() : string {
+        return $this->codigo;
     }
 
-    // No podremos heredar de Microondas
-    final class Microondas extends Producto {
-        private $potencia;
-
-        public function getPotencia() : int {
-            return $this->potencia;
-        }
-
-        // No podemos implementar mostrarResumen()
+    final public function mostrarResumen() : string {
+        return "Producto ".$this->codigo;
     }
+}
+
+// No podremos heredar de Microondas
+final class Microondas extends Producto {
+    private $potencia;
+
+    public function getPotencia() : int {
+        return $this->potencia;
+    }
+
+    // No podemos implementar mostrarResumen()
+}
 ```
 
 # interfaces
@@ -566,34 +574,33 @@ Se declaran con la palabra clave `interface` y luego las clases que cumplan el c
 
 ```php
 <?php
-    interface Nombreable {
-    // declaración de funciones
-    }
-    class NombreClase implements NombreInterfaz {
-    // código de la clase
+interface Nombreable {
+// declaración de funciones
+}
+class NombreClase implements NombreInterfaz {
+// código de la clase
 ```
 
 Se permite la herencia de interfaces. Además, una clase puede implementar varios interfaces (en este caso, sí soporta la herecia múltiple, pero sólo de interfaces).
 
 ```php
 <?php
-  interface Mostrable {
+interface Mostrable {
     public function mostrarResumen() : string;
-  }
+}
 
-  interface MostrableTodo extends Mostrable {
+interface MostrableTodo extends Mostrable {
     public function mostrarTodo() : string;
-  }
+}
 
-  interface Facturable {
+interface Facturable {
     public function generarFactura() : string;
-  }
+}
 
-  class Producto implements MostrableTodo, Facturable {
+class Producto implements MostrableTodo, Facturable {
     // Implementaciones de los métodos
-    // Obligatoriamente deberá implementar
-    // public function mostrarResumen, mostrarTodo y generarFactura
-  }
+    // Obligatoriamente deberá implementar public function mostrarResumen, mostrarTodo y generarFactura
+}
 ```
 
 # métodos encadenados
@@ -602,45 +609,45 @@ Sigue el planteamiento de la programación funcional, y también se conoce como 
 
 ```php
 <?php
-    $p1 = new Libro();
-    $p1->setNombre("Harry Potter");
-    $p1->setAutor("JK Rowling");
-    echo $p1;
+$p1 = new Libro();
+$p1->setNombre("Harry Potter");
+$p1->setAutor("JK Rowling");
+echo $p1;
 
-    // Method chaining
-    $p2 = new Libro();
-    $p2->setNombre("Patria")->setAutor("Aramburu");
-    echo $p2;
+// Method chaining
+$p2 = new Libro();
+$p2->setNombre("Patria")->setAutor("Aramburu");
+echo $p2;
 ```
 
 Para facilitarlo, vamos a modificar todos sus métodos mutadores (que modifican datos, setters, ...) para que devuelvan una referencia a `$this`:
 
 ```php
 <?php
-  class Libro {
+class Libro {
     private string $nombre;
     private string $autor;
 
     public function getNombre() : string {
-      return $this->nombre;
+        return $this->nombre;
     }
     public function setNombre(string $nombre) : Libro { 
-      $this->nombre = $nombre;
-      return $this;
+        $this->nombre = $nombre;
+        return $this;
     }
 
     public function getAutor() : string {
-      return $this->autor;
+        return $this->autor;
     }
     public function setAutor(string $autor) : Libro {
-      $this->autor = $autor;
-      return $this;
+        $this->autor = $autor;
+        return $this;
     }
 
     public function __toString() : string {
-      return $this->nombre." de ".$this->autor;
+        return $this->nombre." de ".$this->autor;
     }
-  }
+}
 ```
 
 # métodos mágicos
@@ -683,17 +690,17 @@ Por ejemplo, para colocar la clase `Producto` dentro del namespace `Dwes\Ejemplo
 
 ```php
 <?php
-    namespace Dwes\Ejemplos;
+namespace Dwes\Ejemplos;
 
-    const IVA = 0.21;
+const IVA = 0.21;
 
-    class Producto {
-        public $nombre;
-
-        public function muestra() : void {
-            echo"<p>Prod:" . $this->nombre . "</p>";
-        }
+class Producto {
+    public $nombre;
+      
+    public function muestra() : void {
+        echo"<p>Prod:" . $this->nombre . "</p>";
     }
+}
 ```
 
 ## acceso
@@ -708,17 +715,17 @@ Realmente hay tres tipos de acceso:
 
 ```php
 <?php
-    namespace Dwes\Ejemplos;
+namespace Dwes\Ejemplos;
 
-    include_once("Producto.php");
+include_once("Producto.php");
 
-    echo IVA; // sin cualificar
-    echo Utilidades\IVA; // acceso cualificado. Daría error, no existe \Dwes\Ejemplos\Utilidades\IVA
-    echo \Dwes\Ejemplos\IVA; // totalmente cualificado
+echo IVA; // sin cualificar
+echo Utilidades\IVA; // acceso cualificado. Daría error, no existe \Dwes\Ejemplos\Utilidades\IVA
+echo \Dwes\Ejemplos\IVA; // totalmente cualificado
 
-    $p1 = new Producto(); // lo busca en el mismo namespace y encuentra \Dwes\Ejemplos\Producto
-    $p2 = new Model\Producto(); // daría error, no existe el namespace Model. Está buscando \Dwes\Ejemplos\Model\Producto
-    $p3 = new \Dwes\Ejemplos\Producto(); // \Dwes\Ejemplos\Producto
+$p1 = new Producto(); // lo busca en el mismo namespace y encuentra \Dwes\Ejemplos\Producto
+$p2 = new Model\Producto(); // daría error, no existe el namespace Model. Está buscando \Dwes\Ejemplos\Model\Producto
+$p3 = new \Dwes\Ejemplos\Producto(); // \Dwes\Ejemplos\Producto
 ```
 
 Para evitar la referencia cualificada podemos declarar el uso mediante `use` (similar a hacer `import` en Java). Se hace en la cabecera, tras el namespace:
@@ -734,13 +741,13 @@ Por ejemplo, si queremos utilizar la clase `\Dwes\Ejemplos\Producto` desde un re
 
 ```php
 <?php
-    include_once("Dwes\Ejemplo\Producto.php");
+include_once("Dwes\Ejemplo\Producto.php");
 
-    use const Dwes\Ejemplos\IVA;
-    use \Dwes\Ejemplos\Producto;
+use const Dwes\Ejemplos\IVA;
+use \Dwes\Ejemplos\Producto;
 
-    echo IVA;
-    $p1 = new Producto();
+echo IVA;
+$p1 = new Producto();
 ```
 
 > **to use or not to use**
@@ -769,9 +776,9 @@ Así pues, permite cargar las clases (no las constantes ni las funciones) que se
 
 ```php
 <?php
-    spl_autoload_register( function( $nombreClase ) {
-    include_once $nombreClase.'.php';
-    } );
+spl_autoload_register( function( $nombreClase ) {
+include_once $nombreClase.'.php';
+} );
 ?>
 ```
 
@@ -781,7 +788,7 @@ Así pues, permite cargar las clases (no las constantes ni las funciones) que se
 
 Y ¿cómo organizamos ahora nuestro código aprovechando el autoload?
 
-<img src="/assets/img03.png" style="zoom: 55%;" />
+<img src="/assets/img03.png" style="zoom: 67%;" />
 
 Para facilitar la búsqueda de los recursos a incluir, es recomendable colocar todas las clases dentro de una misma carpeta. Nosotros la vamos a colocar dentro de `app` (más adelante, cuando estudiemos *Laravel* veremos el motivo de esta decisión). Otras carpetas que podemos crear son `test` para colocar las pruebas PhpUnit que luego realizaremos, o la carpeta `vendor` donde se almacenarán las librerías del proyecto (esta carpeta es un estándard dentro de PHP, ya que Composer la crea automáticamente).
 
@@ -789,9 +796,9 @@ Como hemos colocado todos nuestros recursos dentro de `app`, ahora nuestro `auto
 
 ```php
 <?php
-    spl_autoload_register( function( $nombreClase ) {
-        include_once "app/".$nombreClase.'.php';
-    } );
+spl_autoload_register( function( $nombreClase ) {
+    include_once "app/".$nombreClase.'.php';
+} );
 ?>
 ```
 
@@ -801,11 +808,11 @@ Como hemos colocado todos nuestros recursos dentro de `app`, ahora nuestro `auto
 >
 > ```php
 > <?php
->     spl_autoload_register( function( $nombreClase ) {
->         $ruta = "app\\".$nombreClase.'.php';
->         $ruta = str_replace("\\", "/", $ruta); // Sustituimos las barras
->         include_once $ruta';
->     } );
+> spl_autoload_register( function( $nombreClase ) {
+>     $ruta = "app\\".$nombreClase.'.php';
+>     $ruta = str_replace("\\", "/", $ruta); // Sustituimos las barras
+>     include_once $ruta';
+> } );
 > ?>
 > ```
 
@@ -835,28 +842,24 @@ A continuación tenemos un ejemplo mediante código:
 
 ```php
 <?php
-   error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-   $resultado = $dividendo / $divisor;
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+$resultado = $dividendo / $divisor;
 
-   error_reporting(E_ALL & ~E_NOTICE);
-   set_error_handler("miManejadorErrores");
-   $resultado = $dividendo / $divisor;
-   restore_error_handler(); // vuelve al anterior
+error_reporting(E_ALL & ~E_NOTICE);
+set_error_handler("miManejadorErrores");
+$resultado = $dividendo / $divisor;
+restore_error_handler(); // vuelve al anterior
 
-   function miManejadorErrores($nivel, $mensaje) {
-       switch($nivel) {
-           case E_WARNING:
-               echo "<strong>Warning</strong>: $mensaje.<br/>";
-               break;
-           default:
-               echo "Error de tipo no especificado: $mensaje.<br/>";
-       }
-   }
+function miManejadorErrores($nivel, $mensaje) {
+    switch($nivel) {
+        case E_WARNING:
+            echo "<strong>Warning</strong>: $mensaje.<br/>";
+            break;
+        default:
+            echo "Error de tipo no especificado: $mensaje.<br/>";
+    }
+}
 ```
-
-
-
-
 
 **Consola**
 
@@ -872,14 +875,14 @@ La gestión de excepciones forma parte desde PHP 5. Su funcionamiento es similar
 
 ```php
 <?php
-   try {
-       if ($divisor == 0) {
-           throw new Exception("División por cero.");
-       }
-       $resultado = $dividendo / $divisor;
-   } catch (Exception $e) {
-       echo "Se ha producido el siguiente error: ".$e->getMessage();
-   }
+try {
+    if ($divisor == 0) {
+        throw new Exception("División por cero.");
+    }
+    $resultado = $dividendo / $divisor;
+} catch (Exception $e) {
+    echo "Se ha producido el siguiente error: ".$e->getMessage();
+}
 ```
 
 La clase `Exception` es la clase padre de todas las excepciones. Su constructor recibe `mensaje [, codigoError][, excepcionPrevia]`.
@@ -894,7 +897,7 @@ Para crear una excepción, la forma más corta es crear una clase que únicament
 
 ```php
 <?php
-   class HolaExcepcion extends Exception {}
+class HolaExcepcion extends Exception {}
 ```
 
 Si queremos, y es recomendable dependiendo de los requisitos, podemos sobrecargar los métodos mágicos, por ejemplo, sobrecargando el constructor y llamando al constructor del padre, o rescribir el método `__toString` para cambiar su mensaje:
@@ -921,20 +924,20 @@ Si definimos una excepción de aplicación dentro de un *namespace*, cuando refe
 
 ```php
 <?php
-    namespace \Dwes\Ejemplos;
+namespace \Dwes\Ejemplos;
 
-    class AppExcepcion extends \Exception {}
+class AppExcepcion extends \Exception {}
 ```
 
 **Mediante use**
 
 ```php
 <?php
-    namespace \Dwes\Ejemplos;
+namespace \Dwes\Ejemplos;
 
-    use Exception;
+use Exception;
 
-    class AppExcepcion extends Exception {}
+class AppExcepcion extends Exception {}
 ```
 
 ## excepciones múltiples
@@ -943,21 +946,21 @@ Se pueden usar excepciones múltiples para comprobar diferentes condiciones. A l
 
 ```php
 <?php
-    $email = "ejemplo@ejemplo.com";
-    try {
-        // Comprueba si el email es válido
-        if(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
-            throw new MiExcepcion($email);
-        }
-        // Comprueba la palabra ejemplo en la dirección email
-        if(strpos($email, "ejemplo") !== FALSE) {
-            throw new Exception("$email es un email de ejemplo no válido");
-        }
-    } catch (MiExcepcion $e) {
-        echo $e->miFuncion();
-    } catch(Exception $e) {
-        echo $e->getMessage();
+$email = "ejemplo@ejemplo.com";
+try {
+    // Comprueba si el email es válido
+    if(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
+        throw new MiExcepcion($email);
     }
+    // Comprueba la palabra ejemplo en la dirección email
+    if(strpos($email, "ejemplo") !== FALSE) {
+        throw new Exception("$email es un email de ejemplo no válido");
+    }
+} catch (MiExcepcion $e) {
+    echo $e->miFuncion();
+} catch(Exception $e) {
+    echo $e->getMessage();
+}
 ```
 
 > **autoevaluación**
@@ -983,39 +986,39 @@ Si en el mismo `catch` queremos capturar varias excepciones, hemos de utilizar e
 
 ```php
 <?php
-    class MainException extends Exception {}
-    class SubException extends MainException {}
+class MainException extends Exception {}
+class SubException extends MainException {}
 
-    try {
-        throw new SubException("Lanzada SubException");
-    } catch (MainException | SubException $e ) {
-        echo "Capturada Exception " . $e->getMessage();
-    }
+try {
+    throw new SubException("Lanzada SubException");
+} catch (MainException | SubException $e ) {
+    echo "Capturada Exception " . $e->getMessage();
+}
 ```
 
 Desde PHP 7, existe el tipo `Throwable`, el cual es un interfaz que implementan tanto los errores como las excepciones, y nos permite capturar los dos tipos a la vez:
 
 ```php
 <?php
-    try {
-        // tu codigo
-    } catch (Throwable $e) {
-        echo 'Forma de capturar errores y excepciones a la vez';
-    }
+try {
+    // tu codigo
+} catch (Throwable $e) {
+    echo 'Forma de capturar errores y excepciones a la vez';
+}
 ```
 
 Si sólo queremos capturar los errores fatales, podemos hacer uso de la clase `Error`:
 
 ```php
 <?php
-    try {
-        // Genera una notificación que no se captura
-        echo $variableNoAsignada;
-        // Error fatal que se captura
-        funcionQueNoExiste();
-    } catch (Error $e) {
-        echo "Error capturado: " . $e->getMessage();
-    }
+try {
+    // Genera una notificación que no se captura
+    echo $variableNoAsignada;
+    // Error fatal que se captura
+    funcionQueNoExiste();
+} catch (Error $e) {
+    echo "Error capturado: " . $e->getMessage();
+}
 ```
 
 ## relanzar excepciones
@@ -1024,13 +1027,13 @@ En las aplicaciones reales, es muy común capturar una excepción de sistema y l
 
 ```php
 <?php
-    class AppException extends Exception {}
+class AppException extends Exception {}
 
-    try {
-        // Código de negocio que falla
-    } catch (Exception $e) {
-        throw new AppException("AppException: ".$e->getMessage(), $e->getCode(), $e);
-    }
+try {
+    // Código de negocio que falla
+} catch (Exception $e) {
+    throw new AppException("AppException: ".$e->getMessage(), $e->getCode(), $e);
+}
 ```
 
 # SPL
@@ -1064,6 +1067,5 @@ También podéis consultar la documentación de estas excepciones en https://www
 
 # referencias
 
-- apuntes profesor Aitor Medrano https://aitor-medrano.github.io
 - [Manual de PHP](https://www.php.net/manual/es/index.php)
 - [Manual de OO en PHP - www.desarrolloweb.com](https://desarrolloweb.com/manuales/manual-php.html#manual68)

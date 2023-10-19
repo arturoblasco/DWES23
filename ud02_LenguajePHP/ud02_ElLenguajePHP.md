@@ -1,20 +1,21 @@
 ---
-unit: unidad didáctica 2
-title: El lenguaje PHP
-language: ES
-author: Arturo Blasco
-subject: Desarrollo Web en Entorno Servidor
-keywords: [DWES, 2023, PHP]
-IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
-header: ${unit}: ${title} - ${subject} (versión: ${today})
-footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
-typora-root-url:${filename}/../
-typora-copy-images-to:${filename}/../assets
+    unit: unidad didáctica 2
+    title: El lenguaje PHP
+    language: ES
+    author: Arturo Blasco
+    subject: Desarrollo Web en Entornos Servidor
+    keywords: [2023-2024, DWES, PHP]
+    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
+    header: ${title} - ${subject} (ver: ${today}) 
+    footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
+    typora-root-url:${filename}/../
+    typora-copy-images-to:${filename}/../assets
+
 ---
 
 
 
-
+**Índice**
 
 [TOC]
 
@@ -101,17 +102,18 @@ Las sentencias se separan mediante ` ; `.
 >
 > Si nuestro código **sólo va a contener código PHP** y nada de html, como por ejemplo, cuando codifiquemos **clases o interfaces**, sólo pondremos la etiqueta de apertura, para así indicar que es una archivo de php puro.
 
-
-
-
-
 ## Generando código
 
 Tenemos tres posibilidades a la hora de generar contenido en nuestros documentos PHP:
 
-- `echo expresión;` --> utilizar dentro de un bloque de instrucciones y 
-- `<?= expresión ?>` --> para mostrar el valor de una variable dentro de un fragmento HTML.
+- `echo expresión;`
+- `<?= expresión ?>`
 - `print (expresión);`
+
+Las que vamos a utilizar son:
+
+- `echo` cuando lo hagamos dentro de un bloque de instrucciones y 
+- `<?=` cuando sólo vayamos a mostrar el valor de una variable dentro de un fragmento HTML.
 
 ```php+HTML
 <!DOCTYPE html>
@@ -249,7 +251,7 @@ Y recogemos los datos en `saluda.php`:
 ?>
 ```
 
-Se puede realizar todo en un único archivo (lo cual no es recomendable):
+Si lo quisiéramos realizar todo en un único archivo (lo cual no es recomendable), podemos hacerlo así:
 
 ```php+HTML
 <form action="" method="get">
@@ -324,10 +326,6 @@ Las condiciones anidadas mediante `if-else if-else`:
       }
 ?>
 ```
-
-
-
-
 
 ### switch
 
@@ -438,10 +436,6 @@ Mediante la instrucción `for`:
 Más adelante estudiaremos el bucle `foreach` para recorrer arrays.
 
 PHP, del mismo modo que Java y C, permite romper los bucles mediante la instrucción `break`. A su vez, `continue` permite saltar a la siguiente iteración.
-
-
-
-
 
 > **si puedes, evita break y continue**
 >
@@ -677,8 +671,6 @@ En el caso de convivir con otro tipo de parámetros, los parámetros que tienen 
    saluda("Marina", "Srta");
 ```
 
-
-
 ## parámetros variables
 
 Podemos tener funciones donde en la declaración no indiquemos la cantidad de datos de entrada.
@@ -704,6 +696,7 @@ Estas funciones no se pueden pasar como parámetro a otra función (como funcion
                  return $suma;
             }
       }
+
       echo sumaParametros(1, 5, 9); // 15
 ?>
 ```
@@ -725,6 +718,7 @@ Desde PHP 5.6, se puede utilizar el operador `...` (*variadics*) el cual "disfra
                   return $suma;
             }
       }
+
       echo sumaParametrosMejor(1, 5, 9); // 15
 ?>
 ```
@@ -853,38 +847,34 @@ En caso de conflicto, tienen prioridad las variables locales. Para evitar el con
 ?>
 ```
 
-
-
-
-
 > **funciones anónimas**
 >
 > PHP permite la definición y uso de funciones anónimas, es decir, funciones que no tienen nombre, y se utilizan principalmente para gestionar los *callbacks*. Este tipo de funciones se utiliza mucho en **Javascript** para gestionar los eventos y promesas.
 >
 > ```php
 > <?php
->    $anonima = function() {
->          echo "Hola";
->    };
->    $anonima();
+>       $anonima = function() {
+>             echo "Hola";
+>       };
+>       $anonima();
 > 
->    $anonimaConParametro = function($nombre) {
->          echo "Hola ".$nombre;
->    };
->    $anonimaConParametro("Aitor");
+>       $anonimaConParametro = function($nombre) {
+>             echo "Hola ".$nombre;
+>       };
+>       $anonimaConParametro("Aitor");
 > 
->    // Uso de variables externas a la función anónima --> `use`
->    $mensaje = "Hola";
->    $miClosure = function() use ($mensaje) {
->          echo $mensaje;
->    };
->    $miClosure();
+>       // Uso de variables externas a la función anónima --> `use`
+>       $mensaje = "Hola";
+>       $miClosure = function() use ($mensaje) {
+>             echo $mensaje;
+>       };
+>       $miClosure();
 > 
->    // Uso de parámetros
->    $holaPHP = function($arg) use ($mensaje) {
->          echo $mensaje." ".$arg;
->    };
->    $holaPHP("PHP");
+>       // Uso de parámetros
+>       $holaPHP = function($arg) use ($mensaje) {
+>             echo $mensaje." ".$arg;
+>       };
+>       $holaPHP("PHP");
 > ?>
 > ```
 >
@@ -1011,10 +1001,6 @@ Las más importantes son:
 - `substr`: devuelve una subcadena de la cadena original.
 - `str_replace`: reemplaza caracteres en una cadena.
 - `strtolower` y `strtoupper`: Transforman una cadena de caracteres en la misma cadena en minúsculas o mayúsculas respectivamente.
-
-
-
-
 
 ```php
 <?php
@@ -1336,7 +1322,6 @@ Finalmente, para realizar conversiones de datos o si queremos trabajar con tipos
 
 # referencias
 
-- apuntes profesor Aitor Medrano https://aitor-medrano.github.io
 - [Manual de PHP](https://www.php.net/manual/es/index.php)
 - [PHP en 2020](https://www.jesusamieiro.com/wp-content/uploads/2020/10/20201024-hacktoberday-PHP-en-2020.pdf), por Jesús Amieiro
 - [Apuntes de PHP](https://www.mclibre.org/consultar/php/) de Bartolomé Sintes, profesor del IES Abastos de Valencia

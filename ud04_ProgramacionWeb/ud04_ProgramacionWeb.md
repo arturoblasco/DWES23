@@ -1,20 +1,21 @@
 ---
-unit: unidad didáctica 4
-title: Programación Web
-language: ES
-author: Arturo Blasco
-subject: Desarrollo Web en Entorno Servidor
-keywords: [DWES, 2023, PHP]
-IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
-header: ${unit}: ${title} - ${subject} (versión: ${today})
-footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
-typora-root-url:${filename}/../
-typora-copy-images-to:${filename}/../assets
+    unit: unidad didáctica 4
+    title: Programación Web
+    language: ES
+    author: Arturo Blasco
+    subject: Desarrollo Web en Entornos Servidor
+    keywords: [2023-2024, DWES, PHP]
+    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
+    header: ${title} - ${subject} (ver: ${today}) 
+    footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
+    typora-root-url:${filename}/../
+    typora-copy-images-to:${filename}/../assets
+
 ---
 
 
 
-
+**Índice**
 
 [TOC]
 
@@ -28,19 +29,19 @@ typora-copy-images-to:${filename}/../assets
 
 4. Desarrolla aplicaciones Web embebidas en lenguajes de marcas analizando e incorporando funcionalidades según especificaciones.
 
-   a) *Se han identificado los mecanismos disponibles para el mantenimiento de la información que concierne a un cliente web concreto y se han señalado sus ventajas.*
+​		a) *Se han identificado los mecanismos disponibles para el mantenimiento de la información que concierne a un cliente web concreto y se han señalado sus ventajas.*
 
-   b) *Se han utilizado sesiones para mantener el estado de las aplicaciones Web.*
+​		b) *Se han utilizado sesiones para mantener el estado de las aplicaciones Web.*
 
-   c) *Se han utilizado cookies para almacenar información en el cliente Web y para recuperar su contenido.*
+​		c) *Se han utilizado cookies para almacenar información en el cliente Web y para recuperar su contenido.*
 
-   d) *Se han identificado y caracterizado los mecanismos disponibles para la autentificación de usuarios.*
+​		d) *Se han identificado y caracterizado los mecanismos disponibles para la autentificación de usuarios.*
 
-   e) *Se han escrito aplicaciones que integren mecanismos de autentificación de usuarios.*
+​		e) *Se han escrito aplicaciones que integren mecanismos de autentificación de usuarios.*
 
-   f) *Se han realizado adaptaciones a aplicaciones Web existentes como gestores de contenidos u otras.*
+​		f) *Se han realizado adaptaciones a aplicaciones Web existentes como gestores de contenidos u otras.*
 
-   g) *Se han utilizado herramientas y entornos para facilitar la programación, prueba y depuración del código.*
+​		g) *Se han utilizado herramientas y entornos para facilitar la programación, prueba y depuración del código.*
 
 # variables de servidor
 
@@ -66,13 +67,13 @@ Más información en https://www.php.net/manual/es/reserved.variables.server.php
 
 ```php
 <?php
-  echo $_SERVER["PHP_SELF"]."<br>"; // /u4/401server.php
-  echo $_SERVER["SERVER_SOFTWARE"]."<br>"; // Apache/2.4.46 (Win64) OpenSSL/1.1.1g PHP/7.4.9
-  echo $_SERVER["SERVER_NAME"]."<br>"; // localhost
+echo $_SERVER["PHP_SELF"]."<br>"; // /u4/401server.php
+echo $_SERVER["SERVER_SOFTWARE"]."<br>"; // Apache/2.4.46 (Win64) OpenSSL/1.1.1g PHP/7.4.9
+echo $_SERVER["SERVER_NAME"]."<br>"; // localhost
 
-  echo $_SERVER["REQUEST_METHOD"]."<br>"; // GET
-  echo $_SERVER["REQUEST_URI"]."<br>"; // /u4/401server.php?heroe=Batman
-  echo $_SERVER["QUERY_STRING"]."<br>"; // heroe=Batman
+echo $_SERVER["REQUEST_METHOD"]."<br>"; // GET
+echo $_SERVER["REQUEST_URI"]."<br>"; // /u4/401server.php?heroe=Batman
+echo $_SERVER["QUERY_STRING"]."<br>"; // heroe=Batman
 ```
 
 Otras propiedades relacionadas:
@@ -90,7 +91,7 @@ Apache crea una clave para cada cabecera HTTP, en mayúsculas y sustituyendo los
 
 ```php
 <?php
-  echo $_SERVER["HTTP_USER_AGENT"]."<br>"; // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+echo $_SERVER["HTTP_USER_AGENT"]."<br>"; // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
 ```
 
 # formularios
@@ -111,27 +112,27 @@ Así pues, para recoger los datos accederemos al array dependiendo del método d
 
 ```php
 <?php
-    $par = $_GET["parametro"]
-    $par = $_POST["parametro"]
+$par = $_GET["parametro"]
+$par = $_POST["parametro"]
 ```
 
 Para los siguientes apartados nos vamos a basar en el siguiente ejemplo:
 
 ```php
 <form action="formulario.php" method="GET">
-  <p><label for="nombre">Nombre del alumno:</label>
-     <input type="text" name="nombre" id="nombre" value="" />
-  </p>
+   <p><label for="nombre">Nombre del alumno:</label>
+      <input type="text" name="nombre" id="nombre" value="" />
+   </p>
 
-  <p><input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES" />
-     <label for="modulosDWES">Desarrollo web en entorno servidor</label>
-  </p>
+   <p><input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES" />
+      <label for="modulosDWES">Desarrollo web en entorno servidor</label>
+   </p>
 
-  <p><input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC" />
-     <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
-  </p>
+   <p><input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC" />
+      <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
+   </p>
 
-  <input type="submit" value="Enviar" name="enviar" />
+   <input type="submit" value="Enviar" name="enviar" />
 </form>
 ```
 
@@ -144,10 +145,10 @@ Respecto a la validación, es conveniente siempre hacer **validación doble**:
 
 ```php
 <?php
-    if (isset($_GET["parametro"])) {
-        $par = $_GET["parametro"];
-        // comprobar si $par tiene el formato adecuado, su valor, etc...
-    }
+if (isset($_GET["parametro"])) {
+    $par = $_GET["parametro"];
+    // comprobar si $par tiene el formato adecuado, su valor, etc...
+}
 ```
 
 > **librerías de validación**
@@ -181,11 +182,11 @@ De manera que luego al recoger los datos:
 
 ```php
 <?php
-    $lenguajes = $_GET["lenguajes"];
+$lenguajes = $_GET["lenguajes"];
 
-    foreach ($lenguajes as $lenguaje) {
-        echo "$lenguaje <br />";
-    }
+foreach ($lenguajes as $lenguaje) {
+    echo "$lenguaje <br />";
+}
 ```
 
 ## volviendo a rellenar un formulario
@@ -194,27 +195,24 @@ Un *sticky form* es un formulario que recuerda sus valores. Para ello, hemos de 
 
 ```php
 <?php
-  if (!empty($_POST['modulos']) && !empty($_POST['nombre'])) {
-     // Aquí se incluye el código a ejecutar cuando los datos son correctos
-  } else {
+if (!empty($_POST['modulos']) && !empty($_POST['nombre'])) {
+  // Aquí se incluye el código a ejecutar cuando los datos son correctos
+} else {
   // Generamos el formulario
   $nombre = $_POST['nombre'] ?? "";
   $modulos = $_POST['modulos'] ?? [];
   ?>
   <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-   <p>
-      <label for="nombre">Nombre del alumno:</label>
-      <input type="text" name="nombre" id="nombre" value="<?= $nombre ?>" /> 
+   <p><label for="nombre">Nombre del alumno:</label>
+    <input type="text" name="nombre" id="nombre" value="<?= $nombre ?>" /> 
    </p>
-   <p>
-      <input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES"
-      <?php if(in_array("DWES",$modulos)) echo 'checked="checked"'; ?> />
-      <label for="modulosDWES">Desarrollo web en entorno servidor</label>
+   <p><input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES"
+    <?php if(in_array("DWES",$modulos)) echo 'checked="checked"'; ?> />
+    <label for="modulosDWES">Desarrollo web en entorno servidor</label>
    </p>
-   <p>
-      <input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC"
-      <?php if(in_array("DWEC",$modulos)) echo 'checked="checked"'; ?> />
-      <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
+   <p><input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC"
+    <?php if(in_array("DWEC",$modulos)) echo 'checked="checked"'; ?> />
+    <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
    </p>
    <input type="submit" value="Enviar" name="enviar"/>
   </form>
@@ -248,15 +246,15 @@ Para cargar los archivos, accedemos al array `$_FILES`:
 
 ```php
 <?php
-    if (isset($_POST['btnSubir']) && $_POST['btnSubir'] == 'Subir') {
-        if (is_uploaded_file($_FILES['archivoEnviado']['tmp_name'])) {
-            // subido con éxito
-            $nombre = $_FILES['archivoEnviado']['name'];
-            move_uploaded_file($_FILES['archivoEnviado']['tmp_name'], "./uploads/{$nombre}");
+if (isset($_POST['btnSubir']) && $_POST['btnSubir'] == 'Subir') {
+    if (is_uploaded_file($_FILES['archivoEnviado']['tmp_name'])) {
+        // subido con éxito
+        $nombre = $_FILES['archivoEnviado']['name'];
+        move_uploaded_file($_FILES['archivoEnviado']['tmp_name'], "./uploads/{$nombre}");
 
-            echo "<p>Archivo $nombre subido con éxito</p>";
-        }
+        echo "<p>Archivo $nombre subido con éxito</p>";
     }
+}
 ```
 
 Cada archivo cargado en `$_FILES` tiene:
@@ -283,24 +281,24 @@ Es muy común configurar las cabeceras para evitar consultas a la caché o provo
 
 ```php
 <?php
-    header("Expires: Sun, 31 Jan 2021 23:59:59 GMT");
-    // tres horas
-    $now = time();
-    $horas3 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 60 * 60 * 3);
-    header("Expires: {$horas3}");
-    // un año
-    $now = time();
-    $anyo1 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 365 * 86440);
-    header("Expires: {$anyo1}");
-    // se marca como expirado (fecha en el pasado)
-    $pasado = gmstrftime("%a, %d %b %Y %H:%M:%S GMT");
-    header("Expires: {$pasado}");
-    // evitamos cache de navegador y/o proxy
-    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-    header("Cache-Control: no-store, no-cache, must-revalidate");
-    header("Cache-Control: post-check=0, pre-check=0", false);
-    header("Pragma: no-cache");
+header("Expires: Sun, 31 Jan 2021 23:59:59 GMT");
+// tres horas
+$now = time();
+$horas3 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 60 * 60 * 3);
+header("Expires: {$horas3}");
+// un año
+$now = time();
+$anyo1 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 365 * 86440);
+header("Expires: {$anyo1}");
+// se marca como expirado (fecha en el pasado)
+$pasado = gmstrftime("%a, %d %b %Y %H:%M:%S GMT");
+header("Expires: {$pasado}");
+// evitamos cache de navegador y/o proxy
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 ```
 
 # gestión de estado
@@ -328,11 +326,11 @@ Por ejemplo, mediante cookies podemos comprobar la cantidad de visitas diferente
 
 ```php
 <?php
-  $accesosPagina = 0;
-  if (isset($_COOKIE['accesos'])) { 
+$accesosPagina = 0;
+if (isset($_COOKIE['accesos'])) { 
     $accesosPagina = $_COOKIE['accesos']; // recuperamos una cookie
     setcookie('accesos', ++$accesosPagina); // le asignamos un valor
-  }
+}
 ?>
 ```
 
@@ -346,17 +344,17 @@ Para borrar una cookie se puede poner que expiren en el pasado:
 
 ```php
 <?php
-     setcookie(nombre, "", 1) // pasado
+setcookie(nombre, "", 1) // pasado
 ```
 
 O que caduquen dentro de un periodo de tiempo deteminado:
 
 ```php
 <?php
-     setcookie(nombre, valor, time() + 3600) // Caducan dentro de una hora
+setcookie(nombre, valor, time() + 3600) // Caducan dentro de una hora
 ```
 
-<img src="/assets/img01comunicacionCookies.png" style="zoom:30%;" />
+<img src="/assets/img01comunicacionCookies.png" style="zoom:40%;" />
 
 Se utilizan para:
 
@@ -372,39 +370,39 @@ La sesión añade la gestión del estado a HTTP, almacenando en este caso la inf
 
 La sesión comienza al ejecutar un script PHP. Se genera un nuevo ID y se cargan los datos del almacén:
 
-<img src="/assets/img01comunicacionCookies.png" style="zoom:30%;" />
+<img src="/assets/img01comunicacionCookies.png" style="zoom:40%;" />
 
 Las operaciones que podemos realizar con la sesión son:
 
 ```php
 <?php
-    session_start(); // carga la sesión
-    session_id() // devuelve el id
-    $_SESSION[clave] = valor; // inserción
-    session_destroy(); // destruye la sesión
-    unset($_SESSION[clave]; // borrado
+session_start(); // carga la sesión
+session_id() // devuelve el id
+$_SESSION[clave] = valor; // inserción
+session_destroy(); // destruye la sesión
+unset($_SESSION[clave]; // borrado
 ```
 
 Vamos a ver mediante un ejemplo como podemos insertar en un página datos en la sesión para posteriormente en otra página acceder a esos datos. Por ejemplo, en `sesion1.php` tendríamos
 
 ```php
 <?php
-    session_start(); // inicializamos
-    $_SESSION["ies"] = "IES Severo Ochoa"; // asignación
-    $instituto = $_SESSION["ies"]; // recuperación
-    echo "Estamos en el $instituto ";
-    ?>
-    <br />
-    <a href="sesion2.php">Y luego</a>
+session_start(); // inicializamos
+$_SESSION["ies"] = "IES Severo Ochoa"; // asignación
+$instituto = $_SESSION["ies"]; // recuperación
+echo "Estamos en el $instituto ";
+?>
+<br />
+<a href="sesion2.php">Y luego</a>
 ```
 
 Y posteriormente podemos acceder a la sesión en `sesion2.php`:
 
 ```php
 <?php
-    session_start();
-    $instituto = $_SESSION["ies"]; // recuperación
-    echo "Otra vez, en el $instituto ";
+session_start();
+$instituto = $_SESSION["ies"]; // recuperación
+echo "Otra vez, en el $instituto ";
 ?>
 ```
 
@@ -441,13 +439,11 @@ Vamos a ver en código cada paso del proceso. Comenzamos con el archivo `index.p
     <div><span class='error'><?php echo $error; ?></span></div>
     <div class='fila'>
         <label for='usuario'>Usuario:</label><br />
-        <input type='text' name='inputUsuario' id='usuario' maxlength="50" />
-        <br />
+        <input type='text' name='inputUsuario' id='usuario' maxlength="50" /><br />
     </div>
     <div class='fila'>
         <label for='password'>Contraseña:</label><br />
-        <input type='password' name='inputPassword' id='password' maxlength="50" />
-        <br />
+        <input type='password' name='inputPassword' id='password' maxlength="50" /><br />
     </div>
     <div class='fila'>
         <input type='submit' name='enviar' value='Enviar' />
@@ -460,62 +456,62 @@ Al hacer submit nos lleva a `login.php`, el cual hace de controlador:
 
 ```php
 <?php
-  // Comprobamos si ya se ha enviado el formulario
-  if (isset($_POST['enviar'])) {
+// Comprobamos si ya se ha enviado el formulario
+if (isset($_POST['enviar'])) {
     $usuario = $_POST['inputUsuario'];
     $password = $_POST['inputPassword'];
 
     // validamos que recibimos ambos parámetros
     if (empty($usuario) || empty($password)) {
-       $error = "Debes introducir un usuario y contraseña";
-       include "index.php";
+        $error = "Debes introducir un usuario y contraseña";
+        include "index.php";
     } else {
-       if ($usuario == "admin" && $password == "admin") {
-           // almacenamos el usuario en la sesión
-           session_start();
-           $_SESSION['usuario'] = $usuario;
-           // cargamos la página principal
-           include "main.php";
+        if ($usuario == "admin" && $password == "admin") {
+            // almacenamos el usuario en la sesión
+            session_start();
+            $_SESSION['usuario'] = $usuario;
+            // cargamos la página principal
+            include "main.php";
         } else {
-           // Si las credenciales no son válidas, se vuelven a pedir
-           $error = "Usuario o contraseña no válidos!";
-           include "index.php";
+            // Si las credenciales no son válidas, se vuelven a pedir
+            $error = "Usuario o contraseña no válidos!";
+            include "index.php";
         }
     }
-  }
+}
 ```
 
 Dependiendo del usuario que se haya logueado, vamos a ir a una vista o a otra. Por ejemplo, en `main.php` tendríamos:
 
 ```php
 <?php
-  // Recuperamos la información de la sesión
-  if (!isset($_SESSION)) {
-    session_start();
-  }
+    // Recuperamos la información de la sesión
+    if(!isset($_SESSION)) {
+        session_start();
+    }
 
-  // Y comprobamos que el usuario se haya autentificado
-  if (!isset($_SESSION['usuario'])) {
-    die("Error - debe <a href='index.php'>identificarse</a>.<br />");
-  }
+    // Y comprobamos que el usuario se haya autentificado
+    if (!isset($_SESSION['usuario'])) {
+       die("Error - debe <a href='index.php'>identificarse</a>.<br />");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listado de productos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de productos</title>
 </head>
 <body>
-  <h1>Bienvenido <?= $_SESSION['usuario'] ?></h1>
-  <p>Pulse <a href="logout.php">aquí</a> para salir</p>
-  <p>Volver al <a href="main.php">inicio</a></p>
-  <h2>Listado de productos</h2>
-  <ul>
-    <li>Producto 1</li>
-    <li>Producto 2</li>
-    <li>Producto 3</li>
-  </ul>
+    <h1>Bienvenido <?= $_SESSION['usuario'] ?></h1>
+    <p>Pulse <a href="logout.php">aquí</a> para salir</p>
+    <p>Volver al <a href="main.php">inicio</a></p>
+    <h2>Listado de productos</h2>
+    <ul>
+        <li>Producto 1</li>
+        <li>Producto 2</li>
+        <li>Producto 3</li>
+    </ul>
 </body>
 </html>
 ```
@@ -524,12 +520,12 @@ Finalmente, necesitamos la opción de cerrar la sesión que colocamos en `logout
 
 ```php
 <?php
-    // Recuperamos la información de la sesión
-    session_start();
+// Recuperamos la información de la sesión
+session_start();
 
-    // Y la destruimos
-    session_destroy();
-    header("Location: index.php");
+// Y la destruimos
+session_destroy();
+header("Location: index.php");
 ?>
 ```
 
@@ -539,6 +535,5 @@ Finalmente, necesitamos la opción de cerrar la sesión que colocamos en `logout
 
 # referencias
 
-- apuntes profesor Aitor Medrano https://aitor-medrano.github.io
 - [Cookies en PHP](https://www.php.net/manual/es/features.cookies.php)
 - [Manejo de sesiones en PHP](https://www.php.net/manual/es/book.session.php)
