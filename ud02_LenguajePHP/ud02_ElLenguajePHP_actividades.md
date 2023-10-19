@@ -1,21 +1,21 @@
 ---
-    unit: unidad didáctica 2
-    title: Actividades
-    language: ES
-    author: Arturo Blasco
-    subject: Desarrollo Web en Entornos Servidor
-    keywords: [2023-2024, DWES, PHP]
-    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
-    header: ${title} - ${subject} (ver: ${today}) 
-    footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
-    typora-root-url:${filename}/../
-    typora-copy-images-to:${filename}/../assets
+unit: unidad didáctica 2
+title: Actividades
+language: ES
+author: Arturo Blasco
+subject: Desarrollo Web en Entorno Servidor
+keywords: [DWES, 2023, PHP]
+IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
+header: ${unit}: ${title} - ${subject} (versión: ${today})
+footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
+typora-root-url:${filename}/../
+typora-copy-images-to:${filename}/../assets
 
 ---
 
 
 
-**Índice**
+
 
 [TOC]
 
@@ -46,8 +46,6 @@ Visualiza el [vídeo](https://youtu.be/DWEDUZgBZ8Y?si=2wF4cCrhmQfyEtAN&t=210) de
 
 ​				<img src="/assets/img00.png" style="zoom:50%;" />
 
-
-
 **Actividad 205**
 
 `205datosPersonales.html` y `205datosPersonales.php`: Es el mismo ejercicio que el anterior, pero separando la lógica. En el primer archivo crearemos el formulario para introducir los datos, y luego recogemos los datos y generamos la tabla en el segundo archivo.
@@ -60,6 +58,10 @@ Visualiza el [vídeo](https://youtu.be/DWEDUZgBZ8Y?si=2wF4cCrhmQfyEtAN&t=210) de
 - Entrada: perro / caminar / azul / rápidamente
 - Salida: ¿ Te gusta caminar con tu perro azul rápidamente ?
 - `206madlib2.html` y `206madlib2.php` Crea un madlib más extenso, leyendo más datos de entrada.
+
+
+
+
 
 
 **Actividad 207**
@@ -90,8 +92,6 @@ Visualiza el [vídeo](https://youtu.be/DWEDUZgBZ8Y?si=2wF4cCrhmQfyEtAN&t=210) de
 **Actividad 209**
 
 `209posnegcero.php`: A partir de un numero, muestra por pantalla si el número es `positivo`, `negativo` o `cero`.
-
-
 
 **Actividad 210**
 
@@ -125,7 +125,7 @@ Visualiza el [vídeo](https://youtu.be/DWEDUZgBZ8Y?si=2wF4cCrhmQfyEtAN&t=210) de
 
 `214ecuacion2g.php`: Crea un programa que resuelva una ecuación de 2º grado del tipo `ax² + bx + c = 0`. Ten en cuenta que puede tener 2, 1 o no tener solución dependiendo del valor del discriminante `b²-4ac`.
 
-![](/assets/img01.png)
+<img src="/assets/img01.png" style="zoom:80%;" />
 
 > **Nota**: Para calcular la raíz cuadrada deberás utilizar la función `sqrt()`.
 
@@ -187,6 +187,11 @@ Finalmente, en `225sumarDatos.php`: a partir de los datos de todas las cajas de 
 >  **A tener el cuenta**: Para guardar un dato oculto puedes utilizar un campo de formulario de tipo oculto: `<input type="hidden" name="cantidad" value="33" />`.
 
 
+
+
+
+
+
 **Actividad 226**
 
 `226formulario.html` y `226tabla.php`: A partir de un número de `filas` y `columnas`, crear una tabla con ese tamaño. Las celdas deben estar rellenadas con los valores de las coordenadas de cada celda.
@@ -217,8 +222,6 @@ Finalmente, en `225sumarDatos.php`: a partir de los datos de todas las cajas de 
 ```php
 $num = rand(0, 99)
 ```
-
-
 
 **Actividad 232**
 
@@ -251,6 +254,9 @@ Este ejercicio se basa en el juego de la [Bola 8 mágica](https://es.wikipedia.o
 **Actividad 236**
 
 `236alturas.php`: Mediante un array asociativo, almacena el nombre y la altura de 5 personas (`nombre => altura`). Posteriormente, recorre el array y muéstralo en una tabla HTML. Finalmente añade una última fila a la tabla con la altura media.
+
+
+
 
 
 **Actividad 237**
@@ -375,7 +381,11 @@ Todos los ejercicios se deben realizar creando nuevas funciones para encapsular 
 - Letras totales y cantidad de palabras
 - Una línea por cada palabra indicando su tamaño
 
+<<<<<<< HEAD:ud02/ud02_ElLenguajePHP_actividades.md
 >  ***Nota***: no se puede usar `str_word_count`
+=======
+> ***Nota***: no se puede usar `str_word_count`.
+>>>>>>> 8265de92c60e058dcce72b78f0360b63df7a99e7:ud02_LenguajePHP/ud02_ElLenguajePHP_actividades.md
 
 `253analizadorWC.php`: Investiga que hace la función `str_word_count`, y vuelve a hacer el ejercicio.
 
@@ -422,7 +432,10 @@ Los siguientes ejercicios se basan en la generación de números aleatorios.
 **Actividad 259**
 
 `259generador.php`: Crea una función que permite generar una letra aleatoria, mayúscula o minúscula.
+<<<<<<< HEAD:ud02/ud02_ElLenguajePHP_actividades.md
 
+=======
+>>>>>>> 8265de92c60e058dcce72b78f0360b63df7a99e7:ud02_LenguajePHP/ud02_ElLenguajePHP_actividades.md
 
 **Actividad 260**
 
@@ -433,9 +446,15 @@ Los siguientes ejercicios se basan en la generación de números aleatorios.
 
 `261quinielas.php`: Crea las siguientes funciones:
 
+<<<<<<< HEAD:ud02/ud02_ElLenguajePHP_actividades.md
 - `quinigol() : array` → Genera un array multidimensional con 6 resultados aleatorios con combinaciones [012M, 012M].
 - `quiniela() : array` → Genera un array con una combinación de quiniela generada de manera aleatoria: 14 resultados con 1X2 y el pleno al quince con [012M, 012M].
 - `tabla(array $quiniela) : string`→ transforma un array de una quiniela en una tabla HTML.
+=======
+- `quinigol() : array` → Genera un array multidimensional con 6 resultados aleatorios con combinaciones `[012M, 012M]`.
+- `quiniela() : array` → Genera un array con una combinación de quiniela generada de manera aleatoria: 14 resultados con 1X2 y el pleno al quince con `[012M, 012M]`.
+- `tabla(array $quiniela) : string` → transforma un array de una quiniela en una tabla HTML.
+>>>>>>> 8265de92c60e058dcce72b78f0360b63df7a99e7:ud02_LenguajePHP/ud02_ElLenguajePHP_actividades.md
 
 
 
