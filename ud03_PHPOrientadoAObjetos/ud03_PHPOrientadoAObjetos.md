@@ -217,34 +217,34 @@ Veámoslo mejor con un ejemplo. Imaginemos una clase `Punto` donde queramos alma
 
 ```php
 <?php
-class Punto {
-    protected float $x;
-    protected float $y;
-    protected float $z;
+    class Punto {
+        protected float $x;
+        protected float $y;
+        protected float $z;
 
-    public function __construct(
-        float $x = 0.0,
-        float $y = 0.0,
-        float $z = 0.0
-    ) {
-        $this->x = $x;
-        $this->y = $y;
-        $this->z = $z;
+        public function __construct(
+            float $x = 0.0,
+            float $y = 0.0,
+            float $z = 0.0
+        ) {
+            $this->x = $x;
+            $this->y = $y;
+            $this->z = $z;
+        }
     }
-}
 ```
 
 En PHP 8, quedaría del siguiente modo (mucho más corto, lo que facilita su legibilidad):
 
 ```php
 <?php
-class Punto {
-    public function __construct(
-        protected float $x = 0.0,
-        protected float $y = 0.0,
-        protected float $z = 0.0,
-    ) {}
-}
+    class Punto {
+        public function __construct(
+            protected float $x = 0.0,
+            protected float $y = 0.0,
+            protected float $z = 0.0,
+        ) {}
+    }
 ```
 
 > **el orden importa:**
@@ -253,101 +253,101 @@ class Punto {
 >
 > ```php
 > <?php
-> declare(strict_types=1);
+>     declare(strict_types=1);
 > 
-> class NombreClase {
->     // propiedades
+>     class NombreClase {
+>         	// propiedades
 > 
->     // constructor
+>        	 // constructor
 > 
->     // getters - setters
+>        	 // getters - setters
 > 
->     // resto de métodos
-> }
+>       	  // resto de métodos
+>     }
 > ?>
 > ```
 
 # clases estáticas
 
-Son aquellas que tienen propiedades y/o métodos estáticos (también se conocen como de *clase*, por que su valor se comparte entre todas las instancias de la misma clase).
+Son aquellas que tienen atributos (*o propiedades*) y/o métodos estáticos (también se conocen como de *clase*, porque su valor se comparte entre todas las instancias de la misma clase).
 
 Se declaran con `static` y se referencian con `::`.
 
-- Si queremos acceder a un método estático, se antepone el nombre de la clase: `Producto::nuevoProducto()`.
-- Si desde un método queremos acceder a una propiedad estática de la misma clase, se utiliza la referencia `self: self::$numProductos`.
+- Si queremos acceder a un **método estático**, se antepone el nombre de la clase como sigue: `Producto::nuevoProducto()`.
+- Si desde un método queremos acceder a un **atributo estático** de la misma clase, se utiliza la referencia `self` como sigue: `self::$numProductos`.
 
 ```php
 <?php
-class Producto {
-    const IVA = 0.23;
-    private static $numProductos = 0; 
+  class Producto {
+     const IVA = 0.23;
+     private static $numProductos = 0; 
 
-    public static function nuevoProducto() {
+     public static function nuevoProducto() {
         self::$numProductos++;
-    }
-}
+     }
+  }
 
-Producto::nuevoProducto();
-$impuesto = Producto::IVA;
+  Producto::nuevoProducto();
+  $impuesto = Producto::IVA;
 ```
 
-También podemos tener clases normales que tengan alguna propiedad estática:
+También podemos tener clases normales que tengan algun atributo estático:
 
 ```php
 <?php
-class Producto {
-    const IVA = 0.23;
-    private static $numProductos = 0; 
-    private $codigo;
+  class Producto {
+     const IVA = 0.23;
+     private static $numProductos = 0; 
+     private $codigo;
 
-    public function __construct(string $cod) {
-        self::$numProductos++;
-        $this->codigo = $cod;
-    }
+     public function __construct(string $cod) {
+       self::$numProductos++;
+       $this->codigo = $cod;
+     }
 
-    public function mostrarResumen() : string {
-        return "El producto ".$this->codigo." es el número ".self::$numProductos;
-    }
-}
+     public function mostrarResumen() : string {
+       return "El producto ".$this->codigo." es el número ".self::$numProductos;
+     }
+  }
 
-$prod1 = new Producto("PS5");
-$prod2 = new Producto("XBOX Series X");
-$prod3 = new Producto("Nintendo Switch");
-echo $prod3->mostrarResumen();
+ $prod1 = new Producto("PS5");
+ $prod2 = new Producto("XBOX Series X");
+ $prod3 = new Producto("Nintendo Switch");
+ echo $prod3->mostrarResumen();
 ```
 
 # introspección
 
 Al trabajar con clases y objetos, existen un conjunto de funciones ya definidas por el lenguaje que permiten obtener información sobre los objetos:
 
-- `instanceof`: permite comprobar si un objeto es de una determinada clase
-- `get_class`: devuelve el nombre de la clase
-- `get_declared_class`: devuelve un array con los nombres de las clases definidas
-- `class_alias`: crea un alias
-- `class_exists` / `method_exists` / `property_exists`: true si la clase / método / propiedad está definida
-- `get_class_methods` / `get_class_vars` / `get_object_vars`: Devuelve un array con los nombres de los métodos / propiedades de una clase / propiedades de un objeto que son accesibles desde dónde se hace la llamada.
+- `instanceof`: permite comprobar si un objeto es de una determinada clase.
+- `get_class`: devuelve el nombre de la clase.
+- `get_declared_class`: devuelve un array con los nombres de las clases definidas.
+- `class_alias`: crea un alias.
+- `class_exists` / `method_exists` / `property_exists`: true si la *clase/método /propiedad* está definida.
+- `get_class_methods` / `get_class_vars` / `get_object_vars`: devuelve un array con los nombres de los *métodos/atributos* de una clase/atributos de un objeto que son accesibles desde dónde se hace la llamada.
 
 Un ejemplo de estas funciones puede ser el siguiente:
 
 ```php
 <?php
-$p = new Producto("PS5");
-if ($p instanceof Producto) {
-    echo "Es un producto";
-    echo "La clase es ".get_class($p);
+    $p = new Producto("PS5");
+    if ($p instanceof Producto) {
+        echo "Es un producto";
+        echo "La clase es ".get_class($p);
 
-    class_alias("Producto", "Articulo");
-    $c = new Articulo("Nintendo Switch");
-    echo "Un articulo es un ".get_class($c);
+        class_alias("Producto", "Articulo");
+        $c = new Articulo("Nintendo Switch");
+        echo "Un articulo es un ".get_class($c);
 
-    print_r(get_class_methods("Producto"));
-    print_r(get_class_vars("Producto"));
-    print_r(get_object_vars($p));
+        print_r(get_class_methods("Producto"));
+        print_r(get_class_vars("Producto"));
+        print_r(get_object_vars($p));
 
-    if (method_exists($p, "mostrarResumen")) {
-        $p->mostrarResumen();
+        if (method_exists($p, "mostrarResumen")) {
+            $p->mostrarResumen();
+        }
     }
-}
 ```
 
 > **clonado**
