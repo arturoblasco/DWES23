@@ -29,7 +29,7 @@ Investiga la diferencia entre un paradigma orientado a objetos basado en clases 
 
 **Actividad 302**
 
-`301Empleado.php`: Crea una clase `Empleado` con su *nombre*, *apellidos* y *sueldo*. Encapsula las propiedades mediante *getters*/*setters* y añade métodos para:
+`302Empleado.php`: Crea una clase `Empleado` con su *nombre*, *apellidos* y *sueldo*. Encapsula las propiedades mediante *getters*/*setters* y añade métodos para:
 
 - Obtener su nombre completo → `getNombreCompleto(): string`
 
@@ -41,9 +41,9 @@ Investiga la diferencia entre un paradigma orientado a objetos basado en clases 
 
 `303EmpleadoTelefonos.php`: Copia la clase del ejercicio anterior y modifícala. Añade una propiedad privada que almacene un array de números de teléfonos. Añade los siguientes métodos:
 
-- `public function anyadirTelefono(int $telefono) : void` → Añade un teléfono al array
-- `public function listarTelefonos(): string` → Muestra los teléfonos separados por comas
-- `public function vaciarTelefonos(): void` → Elimina todos los teléfonos
+- `public function anyadirTelefono(int $telefono) : void` → Añade un teléfono al array.
+- `public function listarTelefonos(): string` → Muestra los teléfonos separados por comas.
+- `public function vaciarTelefonos(): void` → Elimina todos los teléfonos.
 
 
 
@@ -68,6 +68,8 @@ Investiga la diferencia entre un paradigma orientado a objetos basado en clases 
 
 
 
+
+
 **Actividad 307**
 
 `307EmpleadoStatic.php`: Copia la clase del ejercicio anterior y modifícala. Completa el siguiente método con una cadena HTML que muestre los datos de un empleado dentro de un párrafo y todos los teléfonos mediante una lista ordenada (para ello, deberás crear un getter para los teléfonos):
@@ -78,7 +80,7 @@ Investiga la diferencia entre un paradigma orientado a objetos basado en clases 
 
 **Actividad 308**
 
-![actividad 308](/assets/ejer08.png)
+<img src="/assets/ejer08.png" alt="actividad 308" style="zoom:60%;" />
 
 `308Persona.php`: Copia la clase del ejercicio anterior en `308Empleado.php` y modifícala.
 
@@ -150,7 +152,7 @@ Transforma `Persona` a una clase abstracta donde su método estático `toHtml(Pe
 
   - Para los `Gerente`s, su sueldo se incrementa porcentualmente en base a su edad: `salario + salario*edad/100`
 
-    ![Actividad 313](/assets/ejer13.png)
+    <img src="/assets/ejer13.png" alt="Actividad 313" style="zoom:70%;" />
 
 
 
@@ -216,7 +218,7 @@ Cada clase debe ir en un archivo php separado. Para facilitar su implementación
 
 **Actividad 321**
 
-![img](/assets/pro01.png)
+<img src="/assets/pro01.png" alt="img" style="zoom:80%;" />
 
 Crea una clase para almacenar soportes (`Soporte.php`). Esta clase será la clase padre de los diferentes soportes con los que trabaje nuestro videoclub (cintas de vídeo, videojuegos, etc...):
 
@@ -241,9 +243,10 @@ Tenet
 ```
 
 
+
 **Actividad 322**
 
-![img](/assets/pro02.png)
+<img src="/assets/pro02.png" alt="img" style="zoom:80%;" />
 
 Crea la clase `CintaVideo` la cual hereda de `Soporte`. Añade el atributo `duracion` y sobreescribe tanto el contructor como el método `muestraResumen` (desde `CintaVideo` deberás llamar al método `muestraResumen` del padre).
 
@@ -269,11 +272,11 @@ Duración: 107 minutos
 
 En el navegador:
 
-<img src="/assets/pro21.png" style="zoom: 90%;" />
+<img src="/assets/pro21.png" style="zoom: 70%;" />
 
 **Actividad 323**
 
-![img](/assets/pro03.png)
+<img src="/assets/pro03.png" alt="img" style="zoom:70%;" />
 
 Crea la clase `Dvd` la cual hereda de `Soporte`. Añade los atributos `idiomas` y `formatoPantalla`. A continuación sobreescribe tanto el contructor como el método `muestraResumen`.
 
@@ -300,7 +303,7 @@ Formato Pantalla:16:9
 
 En el navegador:
 
-<img src="/assets/pro22.png" style="zoom:90%;" />
+<img src="/assets/pro22.png" style="zoom:70%;" />
 
 **Actividad 324**
 
@@ -328,7 +331,7 @@ Para un jugador
 
 En el navegador:
 
-<img src="/assets/pro23.png" style="zoom:90%;" />
+<img src="/assets/pro23.png" style="zoom:80%;" />
 
 Llegados a este punto, nuestro modelo es similar al siguiente diagrama:
 
@@ -338,7 +341,7 @@ Llegados a este punto, nuestro modelo es similar al siguiente diagrama:
 
 **Actividad 325**
 
-![img](/assets/pro06.png)
+<img src="/assets/pro06.png" alt="img" style="zoom:80%;" />
 
 Crear la clase `Cliente`. El constructor recibirá el `nombre`, `numero` y `maxAlquilerConcurrente`, este último pudiendo ser opcional y tomando como valor por defecto 3. Tras ello, añade *getter/setter* únicamente a `numero`, y un *getter* a `numSoportesAlquilados` (este campo va a almacenar un contador del total de alquileres que ha realizado). El array de soportes alquilados contedrá clases que hereden de `Soporte`. Finalmente, añade el método `muestraResumen` que muestre el nombre y la cantidad de alquileres (tamaño del array `soportesAlquilados`).
 
@@ -472,9 +475,27 @@ Formato Pantalla:16:9
 Este cliente no tiene alquilado ningún elemento
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 En el navegador:
 
 ![](/assets/pro26.png)
+
+
 
 **Actividad 328**
 
@@ -654,6 +675,12 @@ A continuación vamos a crear un conjunto de excepciones de aplicación. Estas e
 - `CupoSuperadoException`.
 - `SoporteNoEncontradoException`.
 - `ClienteNoEncontradoException`.
+
+
+
+
+
+
 
 
 
