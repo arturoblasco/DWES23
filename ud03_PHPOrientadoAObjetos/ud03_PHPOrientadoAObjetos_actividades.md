@@ -152,9 +152,7 @@ Transforma `Persona` a una clase abstracta donde su método estático `toHtml(Pe
 
   - Para los `Gerente`s, su sueldo se incrementa porcentualmente en base a su edad: `salario + salario*edad/100`
 
-    <img src="/assets/ejer13.png" alt="Actividad 313" style="zoom:70%;" />
-
-
+    <img src="/assets/ejer13.png" alt="Actividad 313" style="zoom:60%;" />
 
 **Actividad 314**
 
@@ -223,21 +221,28 @@ Cada clase debe ir en un archivo php separado. Para facilitar su implementación
 Crea una clase para almacenar soportes (`Soporte.php`). Esta clase será la clase padre de los diferentes soportes con los que trabaje nuestro videoclub (cintas de vídeo, videojuegos, etc...):
 
 - Crea el constructor que inicialice sus propiedades. Fíjate que la clase no tiene métodos *setters*.
-- Definir una constante mediante un propiedad privada y estática denominada `IVA con un valor del 21%
+- Definir una constante mediante un propiedad privada y estática denominada `IVA` con un valor del 21%
 - Crear un archivo (`inicio.php`) para usar las clases y copia el siguiente fragmento:
 
 ```php
 <?php
-include "Soporte.php";
+    include ("Soporte.php");
 
-$soporte1 = new Soporte("Tenet", 22, 3); 
-echo "<strong>" . $soporte1->titulo . "</strong>"; 
-echo "<br>Precio: " . $soporte1->getPrecio() . " euros"; 
-echo "<br>Precio IVA incluido: " . $soporte1->getPrecioConIVA() . " euros";
-$soporte1->muestraResumen();
+    $soporte1 = new Soporte("Tenet", 22, 3); 
+    echo "<strong>" . $soporte1->titulo . "</strong>"; 
+    echo "<br>Precio: " . $soporte1->getPrecio() . " €"; 
+    echo "<br>Precio con IVA: " . $soporte1->getPrecioConIVA() . " €";
+
+    echo $soporte1->muestraResumen();
+```
+
+En el navegador:
+
+```sh
 Tenet
-Precio: 3 euros
-Precio IVA incluido: 3.48 euros
+Precio: 3 €
+Precio con IVA: 3.48 €
+
 Tenet
 3 € (IVA no incluido)
 ```
@@ -246,7 +251,7 @@ Tenet
 
 **Actividad 322**
 
-<img src="/assets/pro02.png" alt="img" style="zoom:80%;" />
+<img src="/assets/pro02.png" alt="img" style="zoom:70%;" />
 
 Crea la clase `CintaVideo` la cual hereda de `Soporte`. Añade el atributo `duracion` y sobreescribe tanto el contructor como el método `muestraResumen` (desde `CintaVideo` deberás llamar al método `muestraResumen` del padre).
 
@@ -254,25 +259,23 @@ Añade a `inicio.php` el código para probar la clase:
 
 ```php
 <?php
-include "CintaVideo.php";
+    include "CintaVideo.php";
 
-$miCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 107); 
-echo "<strong>" . $miCinta->titulo . "</strong>"; 
-echo "<br>Precio: " . $miCinta->getPrecio() . " euros"; 
-echo "<br>Precio IVA incluido: " . $miCinta->getPrecioConIva() . " euros";
-$miCinta->muestraResumen();
-Los cazafantasmas
-Precio: 3.5 euros
-Precio IVA incluido: 4.06 euros
-Película en VHS:
-Los cazafantasmas
-3.5 € (IVA no incluido)
-Duración: 107 minutos
+    $miCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 107); 
+    echo "<strong>" . $miCinta->titulo . "</strong>"; 
+    echo "<br>Precio: " . $miCinta->getPrecio() . " €"; 
+    echo "<br>Precio con IVA: " . $miCinta->getPrecioConIva() . " €";
+
+    echo $miCinta->muestraResumen();
 ```
+
+
 
 En el navegador:
 
 <img src="/assets/pro21.png" style="zoom: 70%;" />
+
+
 
 **Actividad 323**
 
@@ -288,22 +291,15 @@ include "Dvd.php";
 
 $miDvd = new Dvd("Origen", 24, 15, "es,en,fr", "16:9"); 
 echo "<strong>" . $miDvd->titulo . "</strong>"; 
-echo "<br>Precio: " . $miDvd->getPrecio() . " euros"; 
-echo "<br>Precio IVA incluido: " . $miDvd->getPrecioConIva() . " euros";
-$miDvd->muestraResumen();
-Origen
-Precio: 15 euros
-Precio IVA incluido: 17.4 euros
-Película en DVD:
-Origen
-15 € (IVA no incluido)
-Idiomas:es,en,fr
-Formato Pantalla:16:9
+echo "<br>Precio: " . $miDvd->getPrecio() . " €"; 
+echo "<br>Precio con IVA: " . $miDvd->getPrecioConIva() . " €";
+
+echo $miDvd->muestraResumen();
 ```
 
 En el navegador:
 
-<img src="/assets/pro22.png" style="zoom:70%;" />
+<img src="/assets/pro22.png" style="zoom:60%;" />
 
 **Actividad 324**
 
@@ -313,20 +309,14 @@ Añade a `inicio.php` el código para probar la clase:
 
 ```php
 <?php
-include "Juego.php";
+    include "Juego.php";
 
-$miJuego = new Juego("The Last of Us Part II", 26, 49.99, "PS4", 1, 1); 
-echo "<strong>" . $miJuego->titulo . "</strong>"; 
-echo "<br>Precio: " . $miJuego->getPrecio() . " euros"; 
-echo "<br>Precio IVA incluido: " . $miJuego->getPrecioConIva() . " euros";
-$miJuego->muestraResumen();
-The Last of Us Part II
-Precio: 49.99 euros
-Precio IVA incluido: 57.9884 euros
-Juego para: PS4
-The Last of Us Part II
-49.99 € (IVA no incluido)
-Para un jugador
+    $miJuego = new Juego("The Last of Us Part II", 26, 49.99, "PS4", 1, 1); 
+    echo "<strong>" . $miJuego->titulo . "</strong>"; 
+    echo "<br>Precio: " . $miJuego->getPrecio() . " €"; 
+    echo "<br>Precio con IVA: " . $miJuego->getPrecioConIva() . " €";
+
+    echo $miJuego->muestraResumen();
 ```
 
 En el navegador:
@@ -335,13 +325,13 @@ En el navegador:
 
 Llegados a este punto, nuestro modelo es similar al siguiente diagrama:
 
-<img src="/assets/pro05.png" alt="img" style="zoom:67%;" />
+<img src="/assets/pro05.png" alt="img" style="zoom:60%;" />
 
 
 
 **Actividad 325**
 
-<img src="/assets/pro06.png" alt="img" style="zoom:80%;" />
+<img src="/assets/pro06.png" alt="img" style="zoom:70%;" />
 
 Crear la clase `Cliente`. El constructor recibirá el `nombre`, `numero` y `maxAlquilerConcurrente`, este último pudiendo ser opcional y tomando como valor por defecto 3. Tras ello, añade *getter/setter* únicamente a `numero`, y un *getter* a `numSoportesAlquilados` (este campo va a almacenar un contador del total de alquileres que ha realizado). El array de soportes alquilados contedrá clases que hereden de `Soporte`. Finalmente, añade el método `muestraResumen` que muestre el nombre y la cantidad de alquileres (tamaño del array `soportesAlquilados`).
 
@@ -406,94 +396,17 @@ $cliente1->alquilar($soporte4);
 $cliente1->listaAlquileres();
 //este cliente no tiene alquileres
 $cliente2->devolver(2);
-El identificador del cliente 1 es: 23
-El identificador del cliente 2 es: 33
-Alquilado soporte a: Bruce Wayne
-
-Película en VHS:
-Los cazafantasmas
-3.5 € (IVA no incluido)
-Duración: 107 minutos
-
-
-Alquilado soporte a: Bruce Wayne
-
-
-Juego para: PS4
-The Last of Us Part II
-49.99 € (IVA no incluido)
-Para un jugador
-
-
-Alquilado soporte a: Bruce Wayne
-
-
-Película en DVD:
-Origen
-15 € (IVA no incluido)
-Idiomas:es,en,fr
-Formato Pantalla:16:9
-
-
-El cliente ya tiene alquilado el soporte Los cazafantasmas
-
-
-Este cliente tiene 3 elementos alquilados. No puede alquilar más en este videoclub hasta que no devuelva algo
-
-
-No se ha podido encontrar el soporte en los alquileres de este cliente
-
-
-No se ha podido encontrar el soporte en los alquileres de este cliente
-
-
-Este cliente tiene 3 elementos alquilados. No puede alquilar más en este videoclub hasta que no devuelva algo
-
-
-El cliente tiene 3 soportes alquilados
-
-
-Película en VHS:
-Los cazafantasmas
-3.5 € (IVA no incluido)
-Duración: 107 minutos
-
-
-Juego para: PS4
-The Last of Us Part II
-49.99 € (IVA no incluido)
-Para un jugador
-
-
-Película en DVD:
-Origen
-15 € (IVA no incluido)
-Idiomas:es,en,fr
-Formato Pantalla:16:9
-
-
-Este cliente no tiene alquilado ningún elemento
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 En el navegador:
 
 ![](/assets/pro26.png)
+
+
+
+
+
+
 
 
 
@@ -544,83 +457,6 @@ $vc->alquilaSocioProducto(1,6);
 
 //listo los socios 
 $vc->listarSocios();
-Incluido soporte 0
-Incluido soporte 1
-Incluido soporte 2
-Incluido soporte 3
-Incluido soporte 4
-Incluido soporte 5
-Incluido soporte 6
-
-Listado de los 7 productos disponibles:
-1.- Juego para: PS4
-God of War
-19.99 € (IVA no incluido)
-Para un jugador
-2.- Juego para: PS4
-The Last of Us Part II
-49.99 € (IVA no incluido)
-Para un jugador
-3.- Película en DVD:
-Torrente
-4.5 € (IVA no incluido)
-Idiomas:es
-Formato Pantalla:16:9
-4.- Película en DVD:
-Origen
-4.5 € (IVA no incluido)
-Idiomas:es,en,fr
-Formato Pantalla:16:9
-5.- Película en DVD:
-El Imperio Contraataca
-3 € (IVA no incluido)
-Idiomas:es,en
-Formato Pantalla:16:9
-6.- Película en VHS:
-Los cazafantasmas
-3.5 € (IVA no incluido)
-Duración: 107 minutos
-7.- Película en VHS:
-El nombre de la Rosa
-1.5 € (IVA no incluido)
-Duración: 140 minutos
-
-
-Incluido socio 0
-Incluido socio 1
-
-
-Alquilado soporte a: Pablo Picasso
-
-
-Película en DVD:
-Torrente
-4.5 € (IVA no incluido)
-Idiomas:es
-Formato Pantalla:16:9
-
-
- Alquilado soporte a: Pablo Picasso
-
-
-Película en DVD:
-Origen
-4.5 € (IVA no incluido)
-Idiomas:es,en,fr
-Formato Pantalla:16:9
-
-
-El cliente ya tiene alquilado el soporte Torrente
-
-
-Este cliente tiene 2 elementos alquilados. No puede alquilar más en este videoclub hasta que no devuelva algo
-
-
-Listado de 2 socios del videoclub:
-1.- Cliente 0: Amancio Ortega
-Alquileres actuales: 0
-2.- Cliente 1: Pablo Picasso
-Alquileres actuales: 2
 ```
 
 En el navegador:
