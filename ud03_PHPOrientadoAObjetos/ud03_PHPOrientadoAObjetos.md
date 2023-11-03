@@ -754,7 +754,7 @@ Los más destacables son:
 
 # espacio de nombres
 
-Desde PHP 5.3 y también conocidos como *Namespaces*, permiten organizar las clases/interfaces, funciones y/o constantes de forma similar a los paquetes en Java.
+Desde PHP 5.3 y también conocidos como *Namespaces*, permiten organizar las clases/interfaces, funciones y/o constantes (de forma similar a los paquetes en Java) en un ámbito restringido; evitando colisiones o conflictos de nombre con otros elementos que se pueden crear más adelante (o con algunas librerías que utilices).
 
 > **recomendación**:
 >
@@ -795,14 +795,31 @@ Realmente hay tres tipos de acceso:
 
   include_once("Producto.php");
 
-  echo IVA; // sin cualificar
-  echo Utilidades\IVA; // acceso cualificado. Daría error, no existe \Dwes\Ejemplos\Utilidades\IVA
-  echo \Dwes\Ejemplos\IVA; // totalmente cualificado
+  // sin cualificar
+  echo IVA; 
 
-  $p1 = new Producto(); // lo busca en el mismo namespace y encuentra \Dwes\Ejemplos\Producto
-  $p2 = new Model\Producto(); // daría error, no existe el namespace Model. Está buscando \Dwes\Ejemplos\Model\Producto
-  $p3 = new \Dwes\Ejemplos\Producto(); // \Dwes\Ejemplos\Producto
+  // acceso cualificado. 
+  // Daría error, no existe \Dwes\Ejemplos\Utilidades\IVA
+  echo Utilidades\IVA; 
+
+  // totalmente cualificado
+  echo \Dwes\Ejemplos\IVA; 
+
+  $p1 = new Producto(); 
+  // lo busca en el mismo namespace y 
+  // encuentra \Dwes\Ejemplos\Producto
+
+  $p2 = new Model\Producto(); 
+  // daría error, no existe el namespace Model. 
+  // Está buscando \Dwes\Ejemplos\Model\Producto
+
+  $p3 = new \Dwes\Ejemplos\Producto(); 
+  // \Dwes\Ejemplos\Producto
 ```
+
+> **[video](https://www.youtube.com/watch?v=zhSmZyMXYLk&list=PLZ2ovOgdI-kUSqWuyoGJMZL6xldXw6hIg&index=32)**
+
+### use
 
 Para evitar la referencia cualificada podemos declarar el uso mediante `use` (similar a hacer `import` en Java). Se hace en la cabecera, tras el namespace:
 
@@ -811,24 +828,26 @@ Los tipos posibles son:
 - `use const nombreCualificadoConstante`
 - `use function nombreCualificadoFuncion`
 - `use nombreCualificadoClase`
-- `use nombreCualificadoClase as NuevoNombre` // para renombrar elementos
+- `use nombreCualificadoClase as NuevoNombre`    // para renombrar elementos
 
 Por ejemplo, si queremos utilizar la clase `\Dwes\Ejemplos\Producto` desde un recurso que se encuentra en la raíz, por ejemplo en `inicio.php`, haríamos:
 
 ```php
 <?php
-include_once("Dwes\Ejemplo\Producto.php");
+    include_once("Dwes\Ejemplo\Producto.php");
 
-use const Dwes\Ejemplos\IVA;
-use \Dwes\Ejemplos\Producto;
+    use const Dwes\Ejemplos\IVA;
+    use \Dwes\Ejemplos\Producto;
 
-echo IVA;
-$p1 = new Producto();
+    echo IVA;
+    $p1 = new Producto();
 ```
 
 > **to use or not to use**
 >
 > En resumen, `use` permite acceder sin cualificar a recursos que están en otro *namespace*. Si estamos en el mismo espacio de nombre, no necesitamos `use`.
+
+> **[video](https://www.youtube.com/watch?v=lP1hbkNA2uc&list=PLZ2ovOgdI-kUSqWuyoGJMZL6xldXw6hIg&index=34)**
 
 ## organización
 
@@ -884,13 +903,17 @@ Como hemos colocado todos nuestros recursos dentro de `app`, ahora nuestro `auto
 >
 > ```php
 > <?php
->     spl_autoload_register( function( $nombreClase ) {
+>        spl_autoload_register( function( $nombreClase ) {
 >          $ruta = "app\\".$nombreClase.'.php';
 >          $ruta = str_replace("\\", "/", $ruta); // Sustituimos las barras
 >          include_once $ruta';
->     } );
+>          } );
 > ?>
 > ```
+
+> **video**
+>
+> Aquí encontramos un pequeño video en el que https://www.youtube.com/watch?v=lP1hbkNA2uc
 
 # gestión de errores
 
@@ -1146,3 +1169,4 @@ También podéis consultar la documentación de estas excepciones en https://www
 
 - [Manual de PHP](https://www.php.net/manual/es/index.php)
 - [Manual de OO en PHP - www.desarrolloweb.com](https://desarrolloweb.com/manuales/manual-php.html#manual68)
+- videos [Curso PHP 8 desde cero (Actulizado)](https://www.youtube.com/watch?v=_rEj-RE8cLs&list=PLZ2ovOgdI-kUSqWuyoGJMZL6xldXw6hIg): 
