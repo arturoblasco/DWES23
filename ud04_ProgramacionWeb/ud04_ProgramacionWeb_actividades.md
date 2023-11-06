@@ -22,13 +22,15 @@ typora-copy-images-to:${filename}/../assets
 
 **Actividad 401**
 
-`401server.php`: igual que el ejemplo visto en los apuntes, muestra los valores de $_SERVER al ejecutar un script en tu ordenador.
+`401server.php`: igual que el ejemplo visto en los apuntes, 
 
-Prueba a pasarle parámetros por GET (y a no pasarle ninguno).
+- muestra los valores de $_SERVER al ejecutar un script en tu ordenador.
+
+- Prueba a pasarle parámetros por GET (y a no pasarle ninguno).
 
 Prepara un formulario (`401post.html`) que haga un envío por POST y compruébalo de nuevo.
 
-Crea una página (`401enlace.html`) que tenga un enlace a `401server.php` y comprueba el valor de `HTTP_REFERER`.
+- Crea una página (`401enlace.html`) que tenga un enlace a `401server.php` y comprueba el valor de `HTTP_REFERER`.
 
 # formularios
 
@@ -39,12 +41,14 @@ Crea una página (`401enlace.html`) que tenga un enlace a `401server.php` y comp
 - Nombre y apellidos.
 - Email.
 - URL página personal.
-- Sexo (radio).
+- Sexo (*radio*).
 - Número de convivientes en el domicilio.
-- Aficiones (checkboxes) – poner mínimo 4 valores.
-- Menú favorito (lista selección múltiple) – poner mínimo 4 valores.
+- Aficiones (*checkboxes*) – poner mínimo 4 valores.
+- Menú favorito (*lista selección múltiple*) – poner mínimo 4 valores.
 
 Muestra los valores cargados en una tabla-resumen.
+
+
 
 **Actividad 403**
 
@@ -53,12 +57,14 @@ Muestra los valores cargados en una tabla-resumen.
 > **Nota**: Investiga el uso de la función `filter_var`.
 
 
-​	**Actividad 404**
+
+**Actividad 404**
 
 `404subida.html` y `404subida.php`: Crea un formulario que permita subir un archivo al servidor. Además del fichero, debe pedir en el mismo formulario dos campos numéricos que soliciten la anchura y la altura. Comprueba que tanto el fichero como los datos llegan correctamente.
 
 
-​	**Actividad 405**
+
+**Actividad 405**
 
 `405subidaImagen.php`: Modifica el ejercicio anterior para que únicamente permita subir imágenes (comprueba la propiedad `type` del archivo subido). Si el usuario selecciona otro tipo de archivos, se le debe informar del error y permitir que suba un nuevo archivo.
 
@@ -70,9 +76,13 @@ En el caso de subir el tipo correcto, visualizar la imagen con el tamaño de anc
 
 `406contadorVisitas.php`: Mediante el uso de cookies, informa al usuario de si es su primera visita, o si no lo es, muestre su valor (valor de un contador). Además, debes permitir que el usuario reinicialice su contador de visitas.
 
+
+
 **Actividad 407**
 
 `407fondo.php`: Mediante el uso de cookies, crea una página con un desplegable con varios colores, de manera que el usuario pueda cambiar el color de fondo de la página (atributo `bgcolor`). Al cerrar la página, ésta debe recordar, al menos durante 24h, el color elegido y la próxima vez que se cargue la pagina, lo haga con el último color seleccionado.
+
+
 
 **Actividad 408**
 
@@ -82,6 +92,8 @@ En el caso de subir el tipo correcto, visualizar la imagen con el tamaño de anc
 
 - volver a la página anterior mediante un enlace
 - y mediante otro enlace, vaciar la sesión y volver a la página anterior.
+
+
 
 **Actividad 409**
 
@@ -101,21 +113,31 @@ En los siguientes ejercicios vamos a montar una estructura de inicio de sesión 
 
 `410index.php`: formulario de inicio de sesión
 
+
+
 **Actividad 411**
 
 `411login.php`: hace de controlador, por lo que debe comprobar los datos recibidos (solo permite la entrada de `usuario / usuario` y si todo es correcto, ceder el control a la vista del siguiente ejercicio. No contiene código HTML.
+
+
 
 **Actividad 412**
 
 `412peliculas.php`: vista que muestra como título "Listado de Películas", y una lista desordenada con tres películas.
 
+
+
 **Actividad 413**
 
 `413logout.php`: vacía la sesión y nos lleva de nuevo al formulario de inicio de sesión. No contiene código HTML
 
+
+
 **Actividad 414**
 
 `414series.php`: Añade un nueva vista similar a `412peliculas.php` que muestra un "Listado de Series" con una lista desordenada con tres series. Tanto `412pelicuas.php` como la vista recien creadas, deben tener un pequeño menú (sencillo, mediante enlaces) que permita pasar de un listado a otro. Comprueba que si se accede directamente a cualquiera de las vistas sin tener un usuario logueado via URL del navegador, no se muestra el listado.
+
+
 
 **Actividad 415**
 
@@ -134,6 +156,8 @@ Para el Videoclub, vamos a crear una página `index.php` con un formulario que c
 - Si el usuario es correcto, en `main.php` mostrar un mensaje de bienvenida con el nombre del usuario, junto a un enlace para cerrar la sesión, que lo llevaría de nuevo al login.
 - Si el usuario es incorrecto, debe volver a cargar el formulario dando información al usuario de acceso incorrecto.
 
+
+
 **Actividad 421**
 
 Si el usuario es administrador, se cargarán en la sesión los datos de soportes y clientes del videoclub que teníamos en nuestras pruebas. En la siguiente unidad los obtendremos de la base de datos. En `mainAdmin.php`, además de la bienvenida, debe mostrar:
@@ -141,15 +165,25 @@ Si el usuario es administrador, se cargarán en la sesión los datos de soportes
 - Listado de clientes
 - Listado de soportes
 
+
+
 **Actividad 422**
 
 Vamos a modificar la clase `Cliente` para almacenar el `user` y la `password` de cada cliente. Tras codificar los cambios, modificar el listado de clientes de `mainAdmin.php` para añadir al listado el usuario.
+
+
 
 **Actividad 423**
 
 Si el usuario que accede no es administrador y coincide con alguno de los clientes que tenemos cargados tras el login, debe cargar `mainCliente.php` donde se mostrará un listado de los alquileres del cliente. Para ello, modificaremos la clase `Cliente` para ofrecer el método `getAlquileres() : array`, el cual llamaremos y luego recorreremos para mostrar el listado solicitado.
 
-<img src="/assets/act01esquemaNavegacion.png" style="zoom:67%;" />
+<img src="/assets/act01esquemaNavegacion.png" style="zoom:70%;" />
+
+
+
+
+
+
 
 
 

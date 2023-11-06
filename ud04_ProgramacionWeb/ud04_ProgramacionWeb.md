@@ -29,19 +29,19 @@
 
 4. Desarrolla aplicaciones Web embebidas en lenguajes de marcas analizando e incorporando funcionalidades según especificaciones.
 
-​		a) *Se han identificado los mecanismos disponibles para el mantenimiento de la información que concierne a un cliente web concreto y se han señalado sus ventajas.*
+   a) *Se han identificado los mecanismos disponibles para el mantenimiento de la información que concierne a un cliente web concreto y se han señalado sus ventajas.*
 
-​		b) *Se han utilizado sesiones para mantener el estado de las aplicaciones Web.*
+   b) *Se han utilizado sesiones para mantener el estado de las aplicaciones Web.*
 
-​		c) *Se han utilizado cookies para almacenar información en el cliente Web y para recuperar su contenido.*
+   c) *Se han utilizado cookies para almacenar información en el cliente Web y para recuperar su contenido.*
 
-​		d) *Se han identificado y caracterizado los mecanismos disponibles para la autentificación de usuarios.*
+   d) *Se han identificado y caracterizado los mecanismos disponibles para la autentificación de usuarios.*
 
-​		e) *Se han escrito aplicaciones que integren mecanismos de autentificación de usuarios.*
+   e) *Se han escrito aplicaciones que integren mecanismos de autentificación de usuarios.*
 
-​		f) *Se han realizado adaptaciones a aplicaciones Web existentes como gestores de contenidos u otras.*
+   f) *Se han realizado adaptaciones a aplicaciones Web existentes como gestores de contenidos u otras.*
 
-​		g) *Se han utilizado herramientas y entornos para facilitar la programación, prueba y depuración del código.*
+   g) *Se han utilizado herramientas y entornos para facilitar la programación, prueba y depuración del código.*
 
 # variables de servidor
 
@@ -56,33 +56,37 @@ PHP almacena la información del servidor y de las peticiones HTTP en seis array
 
 Si nos centramos en el array `$_SERVER` podemos consultar las siguientes propiedades:
 
-- `PHP_SELF`: nombre del script ejecutado, relativo al document root (p.ej: `/tienda/carrito.php`).
-- `SERVER_SOFTWARE`: (*p.ej: Apache*).
-- `SERVER_NAME`: dominio, alias DNS (*p.ej: `www.elche.es*`).
+- `PHP_SELF`: nombre del script ejecutado, relativo al document root (p.e.: `/tienda/carrito.php`).
+- `SERVER_SOFTWARE`: (p.e.: `Apache`).
+- `SERVER_NAME`: dominio, alias DNS (p.e.: `www.elche.es`).
 - `REQUEST_METHOD`: GET.
 - `REQUEST_URI`: URI, sin el dominio.
-- `QUERY_STRING`: todo lo que va después de ? en la URL (*p.ej: heroe=Batman&nombre=Bruce*).
+- `QUERY_STRING`: todo lo que va después de `?` en la URL (p.e.: `heroe=Batman&nombre=Bruce`).
 
-Más información en https://www.php.net/manual/es/reserved.variables.server.php
+Más información en https://www.php.net/manual/es/reserved.variables.server.php.
 
 ```php
 <?php
-echo $_SERVER["PHP_SELF"]."<br>"; // /u4/401server.php
-echo $_SERVER["SERVER_SOFTWARE"]."<br>"; // Apache/2.4.46 (Win64) OpenSSL/1.1.1g PHP/7.4.9
-echo $_SERVER["SERVER_NAME"]."<br>"; // localhost
+    echo $_SERVER["PHP_SELF"]."<br>"; // /u4/401server.php
+    echo $_SERVER["SERVER_SOFTWARE"]."<br>"; // Apache/2.4.46 (Win64) OpenSSL/1.1.1g PHP/7.4.9
+    echo $_SERVER["SERVER_NAME"]."<br>"; // localhost
 
-echo $_SERVER["REQUEST_METHOD"]."<br>"; // GET
-echo $_SERVER["REQUEST_URI"]."<br>"; // /u4/401server.php?heroe=Batman
-echo $_SERVER["QUERY_STRING"]."<br>"; // heroe=Batman
+    echo $_SERVER["REQUEST_METHOD"]."<br>"; // GET
+    echo $_SERVER["REQUEST_URI"]."<br>"; // /u4/401server.php?hero=Batman
+    echo $_SERVER["QUERY_STRING"]."<br>"; // hero=Batman
 ```
 
 Otras propiedades relacionadas:
 
-- `PATH_INFO`: ruta extra tras la petición. Si la URL es `http://www.php.com/php/pathInfo.php/algo/cosa?foo=bar`, entonces `$_SERVER['PATH_INFO']` será `/algo/cosa`.
+- `PATH_INFO`: ruta extra tras la petición (p.e.: si la URL es `http://www.php.com/php/pathInfo.php/algo/cosa?foo=bar`, entonces `$_SERVER['PATH_INFO']` será `/algo/cosa`).
 - `REMOTE_HOST`: hostname que hizo la petición.
 - `REMOTE_ADDR`: IP del cliente.
-- `AUTH_TYPE`: tipo de autenticación (*p.ej: Basic*).
+- `AUTH_TYPE`: tipo de autenticación (p.ej: `Basic`).
 - `REMOTE_USER`: nombre del usuario autenticado.
+
+
+
+
 
 Apache crea una clave para cada cabecera HTTP, en mayúsculas y sustituyendo los guiones por subrayados:
 
@@ -91,48 +95,48 @@ Apache crea una clave para cada cabecera HTTP, en mayúsculas y sustituyendo los
 
 ```php
 <?php
-echo $_SERVER["HTTP_USER_AGENT"]."<br>"; // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+    echo $_SERVER["HTTP_USER_AGENT"]."<br>"; // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
 ```
 
 # formularios
 
 A la hora de enviar un formulario, debemos tener claro cuando usar GET o POST:
 
-- GET: los parámetros se pasan en la URL
-  - <2048 caracteres, sólo ASCII
-  - Permite almacenar la dirección completa (marcador / historial)
-  - Idempotente: dos llamadas con los mismos datos siempre debe dar el mismo resultado
-  - El navegador puede cachear las llamadas
-- POST: parámetros ocultos (no encriptados)
+- GET: los parámetros se pasan en la URL.
+  - <2048 caracteres, sólo ASCII.
+  - Permite almacenar la dirección completa (marcador / historial).
+  - Idempotente: dos llamadas con los mismos datos siempre debe dar el mismo resultado.
+  - El navegador puede cachear las llamadas.
+- POST: parámetros ocultos (no encriptados).
   - Sin límite de datos, permite datos binarios.
-  - No se pueden cachear
-  - No idempotente → actualizar la BBDD
+  - No se pueden cachear.
+  - No idempotente → actualizar la BBDD.
 
 Así pues, para recoger los datos accederemos al array dependiendo del método del formulario que nos ha invocado:
 
 ```php
 <?php
-$par = $_GET["parametro"]
-$par = $_POST["parametro"]
+    $par = $_GET["parametro"]
+    $par = $_POST["parametro"]
 ```
 
 Para los siguientes apartados nos vamos a basar en el siguiente ejemplo:
 
 ```php
 <form action="formulario.php" method="GET">
-   <p><label for="nombre">Nombre del alumno:</label>
-      <input type="text" name="nombre" id="nombre" value="" />
-   </p>
-
-   <p><input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES" />
-      <label for="modulosDWES">Desarrollo web en entorno servidor</label>
-   </p>
-
-   <p><input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC" />
-      <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
-   </p>
-
-   <input type="submit" value="Enviar" name="enviar" />
+  <p>
+    <label for="nombre">Nombre del alumno:</label>
+    <input type="text" name="nombre" id="nombre" value="" />
+  </p>
+  <p>
+    <input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES" />
+    <label for="modulosDWES">Desarrollo web en entorno servidor</label>
+  </p>
+  <p>
+    <input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC" />
+    <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
+  </p>
+  <input type="submit" value="Enviar" name="enviar" />
 </form>
 ```
 
@@ -140,15 +144,15 @@ Para los siguientes apartados nos vamos a basar en el siguiente ejemplo:
 
 Respecto a la validación, es conveniente siempre hacer **validación doble**:
 
-- En el cliente mediante JS
+- En el cliente mediante JS.
 - En servidor, antes de llamar a negocio, es conveniente volver a validar los datos.
 
 ```php
 <?php
-if (isset($_GET["parametro"])) {
-    $par = $_GET["parametro"];
-    // comprobar si $par tiene el formato adecuado, su valor, etc...
-}
+    if (isset($_GET["parametro"])) {
+        $par = $_GET["parametro"];
+        // comprobar si $par tiene el formato adecuado, su valor, etc...
+    }
 ```
 
 > **librerías de validación**
@@ -172,50 +176,55 @@ Para recoger los datos, el nombre del elemento debe ser un array.
     <option value="python">Python</option>
 </select>
 
-<input type="checkbox" name="lenguajes[]" value="c" /> C<br />
-<input type="checkbox" name="lenguajes[]" value="java" /> Java<br />
-<input type="checkbox" name="lenguajes[]" value="php" /> Php<br />
-<input type="checkbox" name="lenguajes[]" value="python" /> Python<br />
+<input type="checkbox" name="lenguajes[]" value="c" />C<br />
+<input type="checkbox" name="lenguajes[]" value="java" />Java<br />
+<input type="checkbox" name="lenguajes[]" value="php" />Php<br />
+<input type="checkbox" name="lenguajes[]" value="python" />Python<br />
 ```
 
 De manera que luego al recoger los datos:
 
 ```php
 <?php
-$lenguajes = $_GET["lenguajes"];
+    $lenguajes = $_GET["lenguajes"];
 
-foreach ($lenguajes as $lenguaje) {
-    echo "$lenguaje <br />";
-}
+    foreach ($lenguajes as $lenguaje) {
+        echo "$lenguaje <br />";
+    }
 ```
 
 ## volviendo a rellenar un formulario
 
-Un *sticky form* es un formulario que recuerda sus valores. Para ello, hemos de rellenar los atributos `value `de los elementos HTML con la información que contenían:
+Un *sticky form* es un formulario que recuerda sus valores. Para ello, hemos de rellenar los atributos `value ` de los elementos HTML con la información que contenían:
 
 ```php
 <?php
-if (!empty($_POST['modulos']) && !empty($_POST['nombre'])) {
-  // Aquí se incluye el código a ejecutar cuando los datos son correctos
-} else {
-  // Generamos el formulario
-  $nombre = $_POST['nombre'] ?? "";
-  $modulos = $_POST['modulos'] ?? [];
-  ?>
-  <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-   <p><label for="nombre">Nombre del alumno:</label>
-    <input type="text" name="nombre" id="nombre" value="<?= $nombre ?>" /> 
-   </p>
-   <p><input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES"
-    <?php if(in_array("DWES",$modulos)) echo 'checked="checked"'; ?> />
-    <label for="modulosDWES">Desarrollo web en entorno servidor</label>
-   </p>
-   <p><input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC"
-    <?php if(in_array("DWEC",$modulos)) echo 'checked="checked"'; ?> />
-    <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
-   </p>
-   <input type="submit" value="Enviar" name="enviar"/>
-  </form>
+  if (!empty($_POST['modulos']) && !empty($_POST['nombre'])) {
+    // Aquí se incluye el código a ejecutar cuando los datos son correctos
+  } else {
+    // Generamos el formulario
+    $nombre = $_POST['nombre'] ?? "";
+    $modulos = $_POST['modulos'] ?? [];
+?>
+    
+<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+  <p>
+   <label for="nombre">Nombre del alumno:</label>
+   <input type="text" name="nombre" id="nombre" value="<?= $nombre ?>" /> 
+  </p>
+  <p>
+   <input type="checkbox" name="modulos[]" id="modulosDWES" value="DWES"
+   <?php if(in_array("DWES",$modulos)) echo 'checked="checked"'; ?> />
+   <label for="modulosDWES">Desarrollo web en entorno servidor</label>
+  </p>
+  <p>
+   <input type="checkbox" name="modulos[]" id="modulosDWEC" value="DWEC"
+   <?php if(in_array("DWEC",$modulos)) echo 'checked="checked"'; ?> />
+   <label for="modulosDWEC">Desarrollo web en entorno cliente</label>
+  </p>
+  <input type="submit" value="Enviar" name="enviar"/>
+</form>
+       
 <?php } ?>
 ```
 
@@ -233,36 +242,40 @@ Se almacenan en el servidor en el array `$_FILES` con el nombre del campo del ti
 
 Configuración en `php.ini`:
 
-- `file_uploads`: on / off
-- `upload_max_filesize`: 2M
-- `upload_tmp_dir`: directorio temporal. No es necesario configurarlo, cogerá el predeterminado del sistema
+- `file_uploads`: on / off.
+- `upload_max_filesize`: 2M.
+- `upload_tmp_dir`: directorio temporal. No es necesario configurarlo, cogerá el predeterminado del sistema.
 - `post_max_size`: tamaño máximo de los datos POST. Debe ser mayor a upload_max_filesize.
 - `max_file_uploads`: número máximo de archivos que se pueden cargar a la vez.
-- `max_input_time`: tiempo máximo empleado en la carga (GET/POST y upload → normalmente se configura en 60)
-- `memory_limit`: 128M
-- max_execution_time: tiempo de ejecución de un script (no tiene en cuenta el upload)
+- `max_input_time`: tiempo máximo empleado en la carga (GET/POST y upload → normalmente se configura en 60).
+- `memory_limit`: 128M.
+- `max_execution_time`: tiempo de ejecución de un script (no tiene en cuenta el upload).
+
+
+
+
 
 Para cargar los archivos, accedemos al array `$_FILES`:
 
 ```php
 <?php
-if (isset($_POST['btnSubir']) && $_POST['btnSubir'] == 'Subir') {
-    if (is_uploaded_file($_FILES['archivoEnviado']['tmp_name'])) {
+  if (isset($_POST['btnSubir']) && $_POST['btnSubir'] == 'Subir') {
+     if (is_uploaded_file($_FILES['archivoEnviado']['tmp_name'])) {
         // subido con éxito
         $nombre = $_FILES['archivoEnviado']['name'];
         move_uploaded_file($_FILES['archivoEnviado']['tmp_name'], "./uploads/{$nombre}");
 
         echo "<p>Archivo $nombre subido con éxito</p>";
-    }
-}
+     }
+  }
 ```
 
 Cada archivo cargado en `$_FILES` tiene:
 
-- `name`: nombre
-- `tmp_name`: ruta temporal
-- `size`: tamaño en bytes
-- `type`: tipo MIME
+- `name`: nombre.
+- `tmp_name`: ruta temporal.
+- `size`: tamaño en bytes.
+- `type`: tipo MIME.
 - `error`: si hay error, contiene un mensaje. Si ok → 0.
 
 # cabeceras de respuesta
@@ -281,24 +294,24 @@ Es muy común configurar las cabeceras para evitar consultas a la caché o provo
 
 ```php
 <?php
-header("Expires: Sun, 31 Jan 2021 23:59:59 GMT");
-// tres horas
-$now = time();
-$horas3 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 60 * 60 * 3);
-header("Expires: {$horas3}");
-// un año
-$now = time();
-$anyo1 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 365 * 86440);
-header("Expires: {$anyo1}");
-// se marca como expirado (fecha en el pasado)
-$pasado = gmstrftime("%a, %d %b %Y %H:%M:%S GMT");
-header("Expires: {$pasado}");
-// evitamos cache de navegador y/o proxy
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+  header("Expires: Sun, 31 Jan 2021 23:59:59 GMT");
+  // tres horas
+  $now = time();
+  $horas3 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 60 * 60 * 3);
+  header("Expires: {$horas3}");
+  // un año
+  $now = time();
+  $anyo1 = gmstrftime("%a, %d %b %Y %H:%M:%S GMT", $now + 365 * 86440);
+  header("Expires: {$anyo1}");
+  // se marca como expirado (fecha en el pasado)
+  $pasado = gmstrftime("%a, %d %b %Y %H:%M:%S GMT");
+  header("Expires: {$pasado}");
+  // evitamos cache de navegador y/o proxy
+  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+  header("Cache-Control: no-store, no-cache, must-revalidate");
+  header("Cache-Control: post-check=0, pre-check=0", false);
+  header("Pragma: no-cache");
 ```
 
 # gestión de estado
@@ -315,8 +328,8 @@ En PHP, para crear una cookie se utiliza la función `setcookie`:
 
 ```php
 <?php
-setcookie(nombre [, valor [, expira [, ruta [, dominio [, seguro [, httponly ]]]]]]);
-setcookie(nombre [, valor = "" [, opciones = [] ]] )
+  setcookie(nombre [, valor [, expira [, ruta [, dominio [, seguro [, httponly ]]]]]]);
+  setcookie(nombre [, valor = "" [, opciones = [] ]] )
 ?>
 ```
 
@@ -326,11 +339,11 @@ Por ejemplo, mediante cookies podemos comprobar la cantidad de visitas diferente
 
 ```php
 <?php
-$accesosPagina = 0;
-if (isset($_COOKIE['accesos'])) { 
-    $accesosPagina = $_COOKIE['accesos']; // recuperamos una cookie
-    setcookie('accesos', ++$accesosPagina); // le asignamos un valor
-}
+  $accesosPagina = 0;
+  if (isset($_COOKIE['accesos'])) { 
+     $accesosPagina = $_COOKIE['accesos']; // recuperamos una cookie
+     setcookie('accesos', ++$accesosPagina); // le asignamos un valor
+  }
 ?>
 ```
 
@@ -344,17 +357,23 @@ Para borrar una cookie se puede poner que expiren en el pasado:
 
 ```php
 <?php
-setcookie(nombre, "", 1) // pasado
+	setcookie(nombre, "", 1) // pasado
 ```
+
+
+
+
+
+
 
 O que caduquen dentro de un periodo de tiempo deteminado:
 
 ```php
 <?php
-setcookie(nombre, valor, time() + 3600) // Caducan dentro de una hora
+	setcookie(nombre, valor, time() + 3600) // Caducan dentro de una hora
 ```
 
-<img src="/assets/img01comunicacionCookies.png" style="zoom:40%;" />
+<img src="/assets/img01comunicacionCookies.png" style="zoom:30%;" />
 
 Se utilizan para:
 
@@ -370,39 +389,41 @@ La sesión añade la gestión del estado a HTTP, almacenando en este caso la inf
 
 La sesión comienza al ejecutar un script PHP. Se genera un nuevo ID y se cargan los datos del almacén:
 
-<img src="/assets/img01comunicacionCookies.png" style="zoom:40%;" />
+<img src="/assets/img01comunicacionCookies.png" style="zoom:30%;" />
+
+
 
 Las operaciones que podemos realizar con la sesión son:
 
 ```php
 <?php
-session_start(); // carga la sesión
-session_id() // devuelve el id
-$_SESSION[clave] = valor; // inserción
-session_destroy(); // destruye la sesión
-unset($_SESSION[clave]; // borrado
+    session_start(); // carga la sesión
+    session_id() // devuelve el id
+    $_SESSION[clave] = valor; // inserción
+    session_destroy(); // destruye la sesión
+    unset($_SESSION[clave]; // borrado
 ```
 
 Vamos a ver mediante un ejemplo como podemos insertar en un página datos en la sesión para posteriormente en otra página acceder a esos datos. Por ejemplo, en `sesion1.php` tendríamos
 
 ```php
 <?php
-session_start(); // inicializamos
-$_SESSION["ies"] = "IES Severo Ochoa"; // asignación
-$instituto = $_SESSION["ies"]; // recuperación
-echo "Estamos en el $instituto ";
-?>
-<br />
-<a href="sesion2.php">Y luego</a>
+    session_start(); // inicializamos
+    $_SESSION["ies"] = "IES Severo Ochoa"; // asignación
+    $instituto = $_SESSION["ies"]; // recuperación
+    echo "Estamos en el $instituto ";
+    ?>
+    <br />
+    <a href="sesion2.php">Y luego</a>
 ```
 
 Y posteriormente podemos acceder a la sesión en `sesion2.php`:
 
 ```php
 <?php
-session_start();
-$instituto = $_SESSION["ies"]; // recuperación
-echo "Otra vez, en el $instituto ";
+    session_start();
+    $instituto = $_SESSION["ies"]; // recuperación
+    echo "Otra vez, en el $instituto ";
 ?>
 ```
 
@@ -520,12 +541,12 @@ Finalmente, necesitamos la opción de cerrar la sesión que colocamos en `logout
 
 ```php
 <?php
-// Recuperamos la información de la sesión
-session_start();
+    // Recuperamos la información de la sesión
+    session_start();
 
-// Y la destruimos
-session_destroy();
-header("Location: index.php");
+    // Y la destruimos
+    session_destroy();
+    header("Location: index.php");
 ?>
 ```
 
