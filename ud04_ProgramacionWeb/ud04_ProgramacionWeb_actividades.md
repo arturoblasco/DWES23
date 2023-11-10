@@ -22,13 +22,10 @@ typora-copy-images-to:${filename}/../assets
 
 **Actividad 401**
 
-`401server.php`: igual que el ejemplo visto en los apuntes, 
-
-- muestra los valores de $_SERVER al ejecutar un script en tu ordenador.
-
-- Prueba a pasarle parámetros por GET (y a no pasarle ninguno).
-
-Prepara un formulario (`401post.html`) que haga un envío por POST y compruébalo de nuevo.
+- `401server.php`: igual que el ejemplo visto en los apuntes muestra los valores de `$_SERVER` al ejecutar un script en tu ordenador.
+- Prueba a pasarle parámetros (p.e. *nombre* y *apellidos*) por GET desde `401get.html`.
+- En otro ejemplo `401getNada.html` no le pases ningún parámetro.
+- Prepara un formulario (`401post.html`) que haga un envío por POST (p.e. *nombre* y *apellidos*) y compruébalo de nuevo.
 
 - Crea una página (`401enlace.html`) que tenga un enlace a `401server.php` y comprueba el valor de `HTTP_REFERER`.
 
@@ -52,7 +49,9 @@ Muestra los valores cargados en una tabla-resumen.
 
 **Actividad 403**
 
-`403validacion.php`: A partir del formulario anterior, introduce validaciones en HTML mediante el atributo `required` de los campos (uso los tipos adecuados para cada campo), y en comprueba los tipos de los datos y que cumplen los valores esperados (por ejemplo, en los checkboxes que los valores recogidos forman parte de todos los posibles). Puedes probar a pasarle datos erroneos via URL y comprobar su comportamiento.
+`403validacion.php`: a partir del formulario anterior, introduce validaciones en HTML mediante el atributo `required` de los campos (usa también los tipos adecuados para cada campo), y comprueba los tipos de los datos y que cumplen los valores esperados (por ejemplo, en los checkboxes que los valores recogidos forman parte de todos los posibles). 
+
+Prueba a pasarle datos erroneos via URL y comprobar su comportamiento.
 
 > **Nota**: Investiga el uso de la función `filter_var`.
 
@@ -60,13 +59,13 @@ Muestra los valores cargados en una tabla-resumen.
 
 **Actividad 404**
 
-`404subida.html` y `404subida.php`: Crea un formulario que permita subir un archivo al servidor. Además del fichero, debe pedir en el mismo formulario dos campos numéricos que soliciten la anchura y la altura. Comprueba que tanto el fichero como los datos llegan correctamente.
+`404subida.html` y `404subida.php`: crea un formulario que permita subir un archivo al servidor. Además del fichero, debe pedir en el mismo formulario dos campos numéricos que soliciten la *anchura* y la *altura*. Comprueba que tanto el fichero como los datos llegan correctamente.
 
 
 
 **Actividad 405**
 
-`405subidaImagen.php`: Modifica el ejercicio anterior para que únicamente permita subir imágenes (comprueba la propiedad `type` del archivo subido). Si el usuario selecciona otro tipo de archivos, se le debe informar del error y permitir que suba un nuevo archivo.
+`405subidaImagen.php`: modifica el ejercicio anterior para que únicamente permita subir imágenes (comprueba la propiedad `type` del archivo subido). Si el usuario selecciona otro tipo de archivos, se le debe informar del error y permitir que suba un nuevo archivo.
 
 En el caso de subir el tipo correcto, visualizar la imagen con el tamaño de anchura y altura recibido como parámetro.
 
