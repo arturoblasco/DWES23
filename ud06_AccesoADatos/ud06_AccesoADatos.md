@@ -204,7 +204,7 @@ Veamos cómo conectarnos con una base de datos a través del código PHP:
     // ▒▒▒▒▒▒▒▒ pruebas.php ▒▒▒▒▒▒▒▒
 
     // "SERVIDOR", "USUARIO", "CONTRASEÑA", "BASE DE DATOS"
-    $conexion = mysqli_connect("d939ebf6a741","tuUsuario","1234","pruebas");
+    $conexion = mysqli_connect("d939ebf6a741","tuUsuario","tuContraseña","tuBaseDeDatos");
 
     // COMPROBAMOS LA CONEXIÓN
     if(mysqli_connect_errno()) {
@@ -238,7 +238,7 @@ Vamos a recuperar esos datos para ver de qué forma se hace con PHP.
 <?php
    // ▒▒▒▒▒▒▒▒ pruebas.php ▒▒▒▒▒▒▒▒
 
-   $conexion = mysqli_connect("d939ebf6a741", "lupa", "1234", "pruebas");
+   $conexion = mysqli_connect("d939ebf6a741", "usuario", "1234", "pruebadb");
 
    // COMPROBAMOS LA CONEXIÓN
    if (mysqli_connect_errno()) {
@@ -247,16 +247,16 @@ Vamos a recuperar esos datos para ver de qué forma se hace con PHP.
    }
 
    // CONSULTA A LA BASE DE DATOS
-   $consulta = "SELECT * FROM `Person`";
-   $listaUsuarios = mysqli_query($conexion, $consulta);
+   $consulta = "SELECT * FROM `Productos`";
+   $listaProductos = mysqli_query($conexion, $consulta);
 
    // COMPROBAMOS SI EL SERVIDOR NOS HA DEVUELTO RESULTADOS
-   if($listaUsuarios) {
+   if($listaProductos) {
        // RECORREMOS CADA RESULTADO QUE NOS DEVUELVE EL SERVIDOR
-       foreach ($listaUsuarios as $usuario) {
-       		echo "
-                  $usuario[id]
-                  $usuario[name]
+       foreach ($listaProductos as $elemento) {
+       		echo "$elemento[id] - 
+       			  $elemento[descripcion] - 
+       			  $elemento[stock]
                    <br>
        		";
        }
@@ -264,15 +264,19 @@ Vamos a recuperar esos datos para ver de qué forma se hace con PHP.
 ?>
 ```
 
-Si todo ha salido bien, por pantalla verás el siguiente listado
+Si todo ha salido bien, por pantalla verás el siguiente listado:
 
 ```processing
 ▒▒▒▒▒▒▒▒ http://localhost/pruebas.php ▒▒▒▒▒▒▒▒
 
-1 William
-2 Marc
-3 John
-4 Antonio Moreno
+1 leche 25
+2 pan 12
+3 galletas 5
+4 gominolas 120
+5 monster 2
+6 kit kat 17
+7 patatas fritas 7
+8 donetes 5
 ```
 
 # PHP Data Objects :: PDO
@@ -294,7 +298,7 @@ Además, con PDO podemos usar las excepciones con `try`/`catch` para gestionar l
 
 ```php
 <?php
-   $dsn = 'mysql:dbname=pruebadb; host=127.0.0.1'; // 127.0.01 por ID contenedor mysql
+   $dsn = 'mysql:dbname=pruebadb; host=127.0.0.1'; // 127.0.01 por ID contenedor mysql:8.0
    $usuario = 'usuario';
    $contrasenya = '1234';
 
@@ -326,7 +330,7 @@ De la misma manera que creamos nuestro archivo de funciones `funciones-php` y al
 <?php
 
     // ▒▒▒▒▒▒▒▒ conexion.php ▒▒▒▒▒▒▒▒
-    const DSN = "mysql:host=localhost; dbname=pruebadb"; // localhost por ID contenedor
+    const DSN = "mysql:host=localhost; dbname=pruebadb"; // localhost por ID contenedor mysql:8.0
     const USUARIO = "usuario";
     const PASSWORD = "1234";
 
@@ -371,7 +375,7 @@ Una vez tenemos la plantilla de nuestra consulta, debemos seguir con la preparac
         $conexion = new PDO(DSN, USUARIO, PASSWORD);
         $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM producto WHERE stock = ?";
+        $sql = "DELETE FROM productos WHERE stock = ?";
         $sentencia = $conexion -> prepare($sql);
 
         $isOk = $sentencia -> execute([$cantidad]);
@@ -402,7 +406,7 @@ Muy parecido a utilizar parámetros pero esta vez la variable está dentro de la
         $conexion = new PDO(DSN, USUARIO, PASSWORD);
         $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM producto WHERE stock = :cant";
+        $sql = "DELETE FROM productos WHERE stock = :cant";
 
         $sentencia = $conexion -> prepare($sql);
         $sentencia -> bindParam(":cant", $cantidad);
@@ -427,7 +431,7 @@ Utilizaremos `bindValue()` cuando tengamos que insertar datos sólo una vez. En 
 ```php
 <?php
     // se asignan nombre a los parametros
-    $sql = "DELETE FROM producto WHERE stock = :cant";
+    $sql = "DELETE FROM productos WHERE stock = :cant";
     $sentencia = $conexion -> prepare($sql);
 
     // bindValue enlaza por VALOR
