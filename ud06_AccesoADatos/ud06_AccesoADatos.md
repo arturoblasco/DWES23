@@ -298,7 +298,7 @@ Además, con PDO podemos usar las excepciones con `try`/`catch` para gestionar l
 
 ```php
 <?php
-   $dsn = 'mysql:dbname=pruebadb; host=127.0.0.1'; // 127.0.01 por ID contenedor mysql:8.0
+   $dsn = 'mysql:dbname=pruebadb; host=127.0.0.1'; // 127.0.01 -> ID contenedor mysql:8.0
    $usuario = 'usuario';
    $contrasenya = '1234';
 
@@ -330,7 +330,7 @@ De la misma manera que creamos nuestro archivo de funciones `funciones-php` y al
 <?php
 
     // ▒▒▒▒▒▒▒▒ conexion.php ▒▒▒▒▒▒▒▒
-    const DSN = "mysql:host=localhost; dbname=pruebadb"; // localhost por ID contenedor mysql:8.0
+    const DSN = "mysql:host=localhost; dbname=pruebadb"; // localhost -> ID contenedor mysql:8.0
     const USUARIO = "usuario";
     const PASSWORD = "1234";
 
