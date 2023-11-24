@@ -150,9 +150,9 @@ Las sentencias SQL también las podemos usar dentro de nuestro código php; de t
 
 # phpMyAdmin
 
-Este software funciona bajo Apache y PHP y es una interfaz web para gestionar las bases de datos que tengamos disponibles en nuestro servidor local. Muchos *hostings* ofrecen esta herramienta por defecto para poder gestionar las BBDD que tengamos configuradas bajo nuestra cuenta.
+<img src="/assets/img04_06-bbdd-phpMyAdmin-logo.png" alt="phpMyAdmin" style="zoom:22%; float:right;" />Este software funciona bajo Apache y PHP y es una interfaz web para gestionar las bases de datos que tengamos disponibles en nuestro servidor local. Muchos *hostings* ofrecen esta herramienta por defecto para poder gestionar las BBDD que tengamos configuradas bajo nuestra cuenta.
 
-<img src="/assets/img04_06-bbdd-phpMyAdmin-logo.png" style="zoom:25%;" />
+
 
 ## Creando una base de datos dentro de phpMyAdmin
 
@@ -247,13 +247,13 @@ Vamos a recuperar esos datos para ver de qué forma se hace con PHP.
    }
 
    // CONSULTA A LA BASE DE DATOS
-   $consulta = "SELECT * FROM `Productos`";
-   $listaProductos = mysqli_query($conexion, $consulta);
+   $consulta = "SELECT * FROM `productos`";
+   $listaproductos = mysqli_query($conexion, $consulta);
 
    // COMPROBAMOS SI EL SERVIDOR NOS HA DEVUELTO RESULTADOS
-   if($listaProductos) {
+   if($listaproductos) {
        // RECORREMOS CADA RESULTADO QUE NOS DEVUELVE EL SERVIDOR
-       foreach ($listaProductos as $elemento) {
+       foreach ($listaproductos as $elemento) {
        		echo "$elemento[id] - 
        			  $elemento[descripcion] - 
        			  $elemento[stock]
@@ -312,15 +312,15 @@ Además, con PDO podemos usar las excepciones con `try`/`catch` para gestionar l
 
 Los pasos a seguir han sigo:
 
-1. Creamos la conexión con la base de datos a través del constructor PDO pasándole la información de la base de datos. 
+1º ) Creamos la conexión con la base de datos a través del constructor PDO pasándole la información de la base de datos. 
 
-2. Establecemos los parámetros para manejar las excepciones, en este caso hemos utilizado:
+2º ) Establecemos los parámetros para manejar las excepciones, en este caso hemos utilizado:
 
 - `PDO::ATTR_ERRMODE` indicándole a PHP que queremos un reporte de errores.
 
 - `PDO::ERRMODE_EXCEPTION` con este atributo obligamos a que lance excepciones, además de ser la opción más humana y legible que hay a la hora de controlar errores.
 
-3. Cualquier error que se lance a través de PDO, el sistema lanzará una **PDOException**.
+3ª ) Cualquier error que se lance a través de PDO, el sistema lanzará una **PDOException**.
 
 ## fichero de configuración de la BD
 
@@ -356,9 +356,11 @@ Cada interrogante es un parámetro que estableceremos después unas cuantas lín
 
 Una vez tenemos la plantilla de nuestra consulta, debemos seguir con la preparación junto con 3 métodos más de PHP para su completa ejecución:
 
-- `prepare`: prepara la sentencia antes de ser ejecutada.
-- `bind`: el tipo de unión (*bind*) de dato. Puede ser mediante  `? `  o  `:parametro ` .
-- `execute`: se ejecuta la consulta uniendo la plantilla con las variables o parámetros que hemos establecido.
+1º ) `prepare`: prepara la sentencia antes de ser ejecutada.
+
+2º ) `bind`: el tipo de unión (*bind*) de dato. Puede ser mediante  `? `  o  `:parametro ` .
+
+3º ) `execute`: se ejecuta la consulta uniendo la plantilla con las variables o parámetros que hemos establecido.
 
 ## ejemplo parámetros
 
@@ -381,7 +383,7 @@ Una vez tenemos la plantilla de nuestra consulta, debemos seguir con la preparac
         $isOk = $sentencia -> execute([$cantidad]);
         $cantidadAfectada = $sentencia -> rowCount();
 
-        echo $cantidadAfectada . " fila/s afectada/s.";
+        echo $cantidadAfectada . " fila(s) afectada(s).";
         
     } catch (PDOException $e) {
         echo $e -> getMessage();
@@ -415,7 +417,7 @@ Muy parecido a utilizar parámetros pero esta vez la variable está dentro de la
 
         $cantidadAfectada = $sentencia -> rowCount();
 
-        echo $cantidadAfectada . " fila/s afectada/s.";
+        echo $cantidadAfectada . " fila(s) afectada(s).";
         
     } catch (PDOException $e) {
         echo $e -> getMessage();
@@ -494,12 +496,9 @@ Pero debemos elegir el tipo de dato que queremos recibir entre los 3 que hay dis
 
 <img src="/assets/img07_06-pdo-listado-fetch.png" style="zoom: 50%;" />
 
-
-
 ```php
 <?php
     //  ▒▒▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒▒▒
-
     include "config/database.inc.php";
 
     $conexion = null;
@@ -508,16 +507,16 @@ Pero debemos elegir el tipo de dato que queremos recibir entre los 3 que hay dis
         $conexion = new PDO(DSN, USUARIO, PASSWORD);
         $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "select * from tienda";
+        $sql = "select * from productos";
 
         $sentencia = $conexion -> prepare($sql);
         $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
         $sentencia -> execute();
 
         while($fila = $sentencia -> fetch()){
-            echo "Codigo:" . $fila["cod"] . "<br />";
-            echo "Nombre:" . $fila["nombre"] . "<br />";
-            echo "Teléfono:" . $fila["tlf"] . "<br />";
+            echo "Id:" . $fila["id"] . "<br />";
+            echo "Descripción:" . $fila["descripcion"] . "<br />";
+            echo "Stock:" . $fila["stock"] . "<br /><br />";
         }
 
     }catch(PDOException $e) {
@@ -527,24 +526,38 @@ Pero debemos elegir el tipo de dato que queremos recibir entre los 3 que hay dis
     $conexion = null;
 ```
 
-Recuperando datos con una matriz como resultado de nuestra consulta
+Recuperando datos con una **matriz** como resultado de nuestra consulta:
 
 ```php
 <?php
     //  ▒▒▒▒▒▒▒▒ consulta con array asociativo ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
 
-    $sql="SELECT * FROM tienda";
+    $conexion = null;
 
-    $sentencia = $conexion -> prepare($sql);
-    $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
-    $sentencia -> execute();
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $sql="SELECT * FROM productos";
 
-    $tiendas = $sentencia -> fetchAll();
+        $sentencia = $conexion -> prepare($sql);
+        $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia -> execute();
+		// recuperado en la matriz $productos
+        $productos = $sentencia -> fetchAll();
 
-    foreach($tiendasas$tienda) {
-        echo"Codigo:" . $tienda["cod"] . "<br />";
-        echo"Nombre:" . $tienda["nombre"] . "<br />";
+        foreach($productos as $elemento) {
+            echo"Id:" . $elemento["id"] . "<br />";
+            echo"Descripción:" . $elemento["descripcion"] . "<br />";
+            echo"Stock:" . $elemento["stock"] . "<br /><br />";        
+        }
+
+    }catch(PDOException $e) {
+        echo $e -> getMessage();
     }
+
+    $conexion = null;
 ```
 
  Pero si lo que queremos es leer datos con forma de objeto utilizando `PDO::FETCH_OBJ`, debemos crear un objeto con propiedades públicas con el mismo nombre que las columnas de la tabla que vayamos a consultar.
@@ -552,18 +565,31 @@ Recuperando datos con una matriz como resultado de nuestra consulta
 ```php
 <?php
     //  ▒▒▒▒▒▒▒▒ consulta con formato de objeto ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
 
-    $sql="SELECT * FROM tienda";
+    $conexion = null;
 
-    $sentencia = $conexion -> prepare($sql);
-    $sentencia -> setFetchMode(PDO::FETCH_OBJ);
-    $sentencia -> execute();
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $sql="SELECT * FROM productos";
 
-    while($t = $sentencia -> fetch()) {
-        echo"Codigo:" . $t -> cod . "<br />";
-        echo"Nombre:" . $t -> nombre . "<br />";
-        echo"Teléfono:" . $t -> tlf . "<br />";
+        $sentencia = $conexion -> prepare($sql);
+        $sentencia -> setFetchMode(PDO::FETCH_OBJ);
+        $sentencia -> execute();
+
+        while($p = $sentencia -> fetch()) {
+            echo"Id:" . $p -> id . "<br />";
+            echo"Descripción:" . $p -> descripcion . "<br />";
+            echo"Stock:" . $p -> stock . "<br />";
+        }
+        
+    }catch(PDOException $e) {
+        echo $e -> getMessage();
     }
+
+    $conexion = null;
 ```
 
 ## consultas con modelos
@@ -576,41 +602,40 @@ Así pues, si por lo que sea cambiamos la estructura de la tabla **DEBEMOS CAMBI
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ clase Tienda ▒▒▒▒▒▒▒▒
+    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
+    class Producto {
+        private int $id;
+        private string $descripcion;
+        private ? int $stock;
 
-    classTienda {
-        private int $cod;
-        private string $nombre;
-        private ? string $tlf;
-
-        public function getCodigo() : int {
-            return $this -> cod;
+        public function getId() : int {
+            return $this -> id;
         }
 
-        public function getNombre() : string {
-            return $this -> nombre;
+        public function getDescripcion() : string {
+            return $this -> descripcion;
         }
 
-        public function getTelefono() : ?string {
-            return $this -> tlf;
+        public function getStock() : ?int {
+            return $this -> stock;
         }
     }
+?>
 <?php
-    //  ▒▒▒▒▒▒▒▒ Consultando a través de la clase Tienda ▒▒▒▒▒▒▒▒
-
-    $sql = "SELECT * FROM tienda";
+    //  ▒▒▒▒▒▒▒▒ Consultando a través de la clase Producto ▒▒▒▒▒▒▒▒
+    $sql = "SELECT * FROM productos";
     $sentencia = $conexion -> prepare($sql);
 
     // Aquí 'Tienda' es el nombre de nuestra clase
-    $sentencia -> setFetchMode(PDO::FETCH_CLASS, "Tienda");
+    $sentencia -> setFetchMode(PDO::FETCH_CLASS, "Producto");
     $sentencia -> execute();
 
-    while($t = $sentencia -> fetch()) {
-        echo "Codigo: " . $t -> getCodigo() . "<br />";
-        echo "Nombre: " . $t -> getNombre() . "<br />";
-        echo "Teléfono: " . $t -> getTelefono() . "<br />";
+    while($p = $sentencia -> fetch()) {
+        echo "Id: " . $p -> getId() . "<br />";
+        echo "Descripcion: " . $p -> getDescripcion() . "<br />";
+        echo "Stock: " . $p -> getStock() . "<br /><br />";
 
-        var_dump($t);
+        //var_dump($p);
     }
 ```
 
@@ -618,15 +643,48 @@ Pero ¿qué pasa si nuestras clases tienen constructor? pues que debemos indicar
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ Consulta para una clase con constructor ▒▒▒▒▒▒▒▒
+    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
+    class Producto {
+        public function __construct (public int $id=1, 
+                            public string $descripcion="x", 
+                            public int $stock=1 ){  }
 
-    $sql = "SELECT * FROM tienda";
+        public function getId() : int {
+            return $this -> id;
+        }
+        public function getDescripcion() : string {
+            return $this -> descripcion;
+        }
+        public function getStock() : int {
+            return $this -> stock;
+        }
+    }
+?>   
+<?php
+    //  ▒▒▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
+    $conexion = null;
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM productos";
 
-    $sentencia = $conexion -> prepare($sql);
-    $sentencia -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Tienda::class);
-    $sentencia -> execute();
+        $sentencia = $conexion -> prepare($sql);
+        $sentencia -> setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Producto");
 
-    $tiendas = $sentencia -> fetchAll();
+        $sentencia -> execute();
+
+        //$productos = $sentencia -> fetchAll();
+        while($p = $sentencia -> fetch()) {
+            echo"Id:" . $p -> id . "<br />";
+            echo"Descripción:" . $p -> descripcion . "<br />";
+            echo"Stock:" . $p -> stock . "<br /><br />";
+        }
+    }catch(PDOException $e) {
+        echo $e -> getMessage();
+    }
+
+    $conexion = null;
 ```
 
 ## consultas con LIKE
@@ -635,18 +693,54 @@ Para utilizar el comodín LIKE u otros comodines, debemos asociarlo al dato y NU
 
 ```php
 <?php
+    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
+    class Producto {
+        public function __construct (public int $id=1, 
+                            public string $descripcion="x", 
+                            public int $stock=1 ){  }
+
+        public function getId() : int {
+            return $this -> id;
+        }
+        public function getDescripcion() : string {
+            return $this -> descripcion;
+        }
+        public function getStock() : int {
+            return $this -> stock;
+        }
+    }
+?>
+<?php
+    $busqueda1 = $_POST["cadenaDescripcion"];
+	$busqueda2 = $_POST["numStock"];
+    
     //  ▒▒▒▒▒▒▒▒ Utilizando comodines :: LIKE ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
 
-    $sql = "SELECT * FROM tienda where nombre like :nombre or tlf like :tlf";
+    $conexion = null;
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM productos where descripcion like :desc and stock = :stk";
 
-    $sentencia = $conexion -> prepare($sql);
-    $sentencia -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Tienda::class);
+        $sentencia = $conexion -> prepare($sql);
+        $sentencia -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Producto::class);
 
-    $cadBuscar = "%" . $busqueda . "%";
+    	$cadBuscar1 = "%" . $busqueda . "%";
+        
+		$sentencia -> execute(["desc" => $cadBuscar1,"stk" => $cadBuscar2]);
 
-    $sentencia -> execute(["nombre" => $cadBuscar,"tlf" => $cadBuscar]);
+        while($p = $sentencia -> fetch()) {
+            echo"Id:" . $p -> id . "<br />";
+            echo"Descripción:" . $p -> descripcion . "<br />";
+            echo"Stock:" . $p -> stock . "<br /><br />";
+        }        
 
-    $result = $sentencia -> fetchAll();
+    }catch(PDOException $e) {
+        echo $e -> getMessage();
+    }
+
+    $conexion = null;
 ```
 
 Tenéis una lista de ejemplos muy completa en la [documentación oficial](https://phpdelusions.net/pdo/objects).
@@ -659,26 +753,41 @@ Para manejar un sistema completo de login y password con contraseñas cifradas, 
 
 Necesitamos pues:
 
-- `password_hash()` para almacenar la contraseña en la base de datos a la hora de hacer el INSERT.
-  - `PASSWORD_DEFAULT` almacenamos la contraseña usando el método de encriptación bcrypt.
-  - `PASSWORD_BCRYPT` almacenamos la contraseña usando el algoritmo CRYPT_BLOWFISH compatible con crypt().
-- `password_verify()` para verificar el usuario y la contraseña.
+1º ) `password_hash()` para almacenar la contraseña en la base de datos a la hora de hacer el INSERT.
+
+- `PASSWORD_DEFAULT` almacenamos la contraseña usando el método de encriptación *bcrypt*.
+- `PASSWORD_BCRYPT` almacenamos la contraseña usando el algoritmo CRYPT_BLOWFISH compatible con crypt().
+
+2º ) `password_verify()` para verificar el usuario y la contraseña.
+
+Ejemplo:
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ Almacenando usuario y password en BD ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
 
-    $usu = $_POST["usuario"];
-    $pas = $_POST["password"];
+    $conexion = null;
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "INSERT INTO usuarios(usuario, password) VALUES (:usuario, :password)";
+        $usu = $_POST["usuario"];
+        $pas = $_POST["password"];    
 
-    $sentencia = $conexion -> prepare($sql);
+        $sql = "INSERT INTO usuarios (usuario, password) VALUES (:usuario, :password)";
 
-    $isOk = $sentencia -> execute([
-        "usuario" => $usu,
-        "password" => password_hash($pas,PASSWORD_DEFAULT)
-    ]);
+        $sentencia = $conexion -> prepare($sql);
+        $isOk = $sentencia -> execute([
+            "usuario" => $usu,
+            "password" => password_hash($pas,PASSWORD_DEFAULT)
+            ]);
+        $idGenerado = $conexion -> lastInsertId();
+
+    } catch (PDOException $e) {
+        echo $e -> getMessage();
+    }
+
+    $conexion = null;  
 ```
 
 Ahora que tenemos el usuario codificado y guardado en la base de datos, vamos a recuperarlo para poder loguearlo correctamente.
@@ -705,15 +814,15 @@ Ahora que tenemos el usuario codificado y guardado en la base de datos, vamos a 
 
 ## acceso a ficheros
 
-Gracias a la funcion fopen() desde PHP podemos abrir archivos que se encuentren en nuestros servidor o una URL.
+Gracias a la funcion `fopen()` desde PHP podemos abrir archivos que se encuentren en nuestros servidor o una URL.
 
-A esta función hay que pasarle 2 parámetros; el nombre del archivo que queremos abrir y el modo en el que se abrirá
+A esta función hay que pasarle 2 parámetros; el **nombre del archivo** que queremos abrir **y** el **modo** en el que se abrirá:
 
 ```php
 $fp = fopen("miarchivo.txt", "r");
 ```
 
-Muchas veces no podemos abrir el archivo porque éste no se encuentra o no tenemos acceso a él, por eso es recomendable comprobar que podemos hacerlo.
+Muchas veces no podemos abrir el archivo porque éste no se encuentra o no tenemos acceso a él, por eso es recomendable comprobar que podemos hacerlo:
 
 ```php
 if (!$fp = fopen("miarchivo.txt", "r")){
@@ -768,7 +877,7 @@ fclose($fp);
 
 ## información de un fichero
 
-Con PHP y su método stat() podemos obtener información sobre los archivos que le indiquemos. Este método devuelve hasta un total de 12 elementos con ifnormación acerca de nuestro archivo.
+Con PHP y su método `stat()` podemos obtener información sobre los archivos que le indiquemos. Este método devuelve hasta un total de 12 elementos con información acerca de nuestro archivo.
 
 ```processing
 0   dev         número de dispositivo
@@ -811,9 +920,7 @@ Echa un vistazo a [las funciones de directorios](https://www.php.net/manual/es/b
 
 ## archivos PDF
 
-<img src="/assets/img09_06-pdf.png" style="zoom:25%;" />
-
-Con PHP podemos manejar todo tipo de archivos como ya hemos visto pero, ¿qué pasa si queremos generar ficheros PDF con datos sacados de una base de datos?
+<img src="/assets/img09_06-pdf.png" alt="logo PDF" style="zoom:25%; float:right;" />Con PHP podemos manejar todo tipo de archivos como ya hemos visto pero, ¿qué pasa si queremos generar ficheros PDF con datos sacados de una base de datos?
 
 Gracias a una clase escrita en PHP, podemos generar archivos PDF sin necesidad de instalar librerías adicionales en nuestro servidor.
 

@@ -13,7 +13,7 @@
 -- Estructura de la taula `productos`
 --
 
-CREATE TABLE `Productos` (
+CREATE TABLE `productos` (
   `id` int NOT NULL,
   `descripcion` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `stock` int NOT NULL
@@ -23,7 +23,7 @@ CREATE TABLE `Productos` (
 -- Bolcament de dades per a la taula `productos`
 --
 
-INSERT INTO `Productos` (`id`, `descripcion`, `stock`) VALUES
+INSERT INTO `productos` (`id`, `descripcion`, `stock`) VALUES
 (1, 'leche', 25),
 (2, 'pan', 12),
 (3, 'galletas', 5),
@@ -32,3 +32,25 @@ INSERT INTO `Productos` (`id`, `descripcion`, `stock`) VALUES
 (6, 'kit kat', 17),
 (7, 'patatas fritas', 7),
 (8, 'donetes', 5);
+
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `productos`
+--
+ALTER TABLE `productos`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+COMMIT;
