@@ -762,8 +762,20 @@ Necesitamos pues:
 
 Ejemplo:
 
+```html
+    <form action="loginCrear.php" method="post">
+        <label for="usuario">usuario: </label>
+        <input type="text" name="usuario">
+        <label for="password">password: </label>
+        <input type="password" name="password"> 
+        
+        <input type="submit" name="enviar" value="enviar">
+    </form>
+```
+
 ```php
 <?php
+    //  ▒▒▒▒▒▒▒▒ loginCrear.php ▒▒▒▒▒▒▒▒
     include "config/database.inc.php";
 
     $conexion = null;
@@ -773,15 +785,21 @@ Ejemplo:
 
         $usu = $_POST["usuario"];
         $pas = $_POST["password"];    
+		$fechaActual = date("Y-m-d H:i:s"); 
+        $cre = $fechaActual; 
+        $acc = $fechaActual;  
 
-        $sql = "INSERT INTO usuarios (usuario, password) VALUES (:usuario, :password)";
+        $sql = "INSERT INTO usuarios (usuario, password, created, access) 
+                                      VALUES (:usu, :pas, :cre, :acc)";
 
         $sentencia = $conexion -> prepare($sql);
         $isOk = $sentencia -> execute([
-            "usuario" => $usu,
-            "password" => password_hash($pas,PASSWORD_DEFAULT)
+            "usu" => $usu,
+            "pas" => password_hash($pas,PASSWORD_DEFAULT),
+            "cre" => $cre,
+            "acc" => $acc
             ]);
-        $idGenerado = $conexion -> lastInsertId();
+        //$idGenerado = $conexion -> lastInsertId();
 
     } catch (PDOException $e) {
         echo $e -> getMessage();
@@ -795,24 +813,32 @@ Ahora que tenemos el usuario codificado y guardado en la base de datos, vamos a 
 ```php
 <?php
     //  ▒▒▒▒▒▒▒▒ Recuperando usuario y password en BD ▒▒▒▒▒▒▒▒
+    include "config/database.inc.php";
+    $conexion = null;
+    try{
+        $conexion = new PDO(DSN, USUARIO, PASSWORD);
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $usu = $_POST["login"] ?? "";
+        $usu = $_POST["usuario"] ?? "";
+        $sql = "select * from usuarios where usuario = ?";
 
-    $sql = "select * from usuarios where usuario = ?";
+        $sentencia = $conexion -> prepare($sql);
+        $sentencia -> execute([$usu]);
 
-    $sentencia = $conexion -> prepare($sql);
-    $sentencia -> execute([$usu]);
+        $usuario = $sentencia -> fetch();
 
-    $usuario = $sentencia -> fetch();
-
-    if($usuario && password_verify($_POST['pass'], $usuario['password'])) {
-        echo"OK!";
-    } else {
-        echo"KO";
+        if($usuario && password_verify($_POST['password'], $usuario['password'])) {
+            echo"OK!";
+        } else {
+            echo"KO";
+        }
+    } catch (PDOException $e){
+        echo $e->getMessage();
     }
+    $conexion = null;
 ```
 
-## acceso a ficheros
+# acceso a ficheros
 
 Gracias a la funcion `fopen()` desde PHP podemos abrir archivos que se encuentren en nuestros servidor o una URL.
 
@@ -822,7 +848,7 @@ A esta función hay que pasarle 2 parámetros; el **nombre del archivo** que que
 $fp = fopen("miarchivo.txt", "r");
 ```
 
-Muchas veces no podemos abrir el archivo porque éste no se encuentra o no tenemos acceso a él, por eso es recomendable comprobar que podemos hacerlo:
+Muchas veces no podemos abrir el archivo porque éste no se encuentra o no tenemos acceso a él; por eso es recomendable comprobar que podemos hacerlo:
 
 ```php
 if (!$fp = fopen("miarchivo.txt", "r")){
@@ -850,24 +876,24 @@ Para poder **leer** un archivo necesitamos usar la función `fread()` de PHP:
 
 ```php
 //  ▒▒▒▒▒▒▒▒ Abriendo un archivo y leyendo su contenido ▒▒▒▒▒▒▒▒
-
 $file = "miarchivo.txt";
 $fp = fopen($file, "r");
 
+// $contents guardará el contenido
 // filesize() nos devuelve el tamaño del archivo en cuestión
 $contents = fread($fp, filesize($file));
+print $contents;
 
 // Cerramos la conexión con el archivo
-fclose();
+fclose($fp)
 ```
 
 Si lo que queremos es **escribir** en un archivo, deberemos hacer uso de la función`fwrite()` :
 
 ```php
 //  ▒▒▒▒▒▒▒▒ Escribiendo en un archivo ▒▒▒▒▒▒▒▒
-
 $file = "miarchivo.txt";
-$texto = "Hola que tal";
+$texto = "Hola qué tal";
 
 $fp = fopen($file, "w");
 
@@ -920,38 +946,36 @@ Echa un vistazo a [las funciones de directorios](https://www.php.net/manual/es/b
 
 ## archivos PDF
 
-<img src="/assets/img09_06-pdf.png" alt="logo PDF" style="zoom:25%; float:right;" />Con PHP podemos manejar todo tipo de archivos como ya hemos visto pero, ¿qué pasa si queremos generar ficheros PDF con datos sacados de una base de datos?
+<img src="/assets/img09_06-pdf.png" alt="logo PDF" style="zoom:22%; float:right;" />Con PHP podemos manejar todo tipo de archivos como ya hemos visto pero, ¿qué pasa si queremos generar ficheros PDF con datos sacados de una base de datos?
 
 Gracias a una clase escrita en PHP, podemos generar archivos PDF sin necesidad de instalar librerías adicionales en nuestro servidor.
 
-Para ello, como tenemos composer dentro de nuestra imagen de Docker, usaremos composer para instalar esta dependencia.
+Para ello, como tenemos composer dentro de nuestra imagen de Docker, usaremos **composer** para instalar esta dependencia.
 
-Acuérdate que debemes haber hecho `composer init` para empezar un proyecto con composer, de lo contrario no podrás añadir ningún paquete.
+Acuérdate que debemos haber hecho `composer init` para empezar un proyecto con composer, de lo contrario no podrás añadir ningún paquete.
 
-Veamos un ejemplo de Hello World convertido a PDF:
+Veamos un ejemplo de `Hello World` convertido a PDF:
 
 ```php
 <?php
+    ob_end_clean();
+    require('fpdf/fpdf.php');
 
-ob_end_clean();
-require('fpdf/fpdf.php');
+    // Instanciamos la clase
+    // P = Portrait | mm = unidades en milímetros | A4 = formato
+    $pdf = new FPDF('P','mm','A4');
 
-// Instanciamos la clase
-// P = Portrait | mm = unidades en milímetros | A4 = formato
-$pdf = new FPDF('P','mm','A4');
+    // Añadimos una página
+    $pdf->AddPage();
 
-// Añadimos una página
-$pdf->AddPage();
+    // Establecemos la fuente y el tamaño de letra
+    $pdf->SetFont('Arial', 'B', 18);
 
-// Establecemos la fuente y el tamaño de letra
-$pdf->SetFont('Arial', 'B', 18);
+    // Imprimimos una celda con el texto que nosotros queramos
+    $pdf->Cell(60,20,'Hello World!');
 
-// Imprimimos una celda con el texto que nosotros queramos
-$pdf->Cell(60,20,'Hello World!');
-
-// Terminamos el PDF
-$pdf->Output();
-
+    // Terminamos el PDF
+    $pdf->Output();
 ?>
 ```
 
