@@ -53,7 +53,7 @@ RA6. Desarrolla aplicaciones de acceso a almacenes de datos, aplicando medidas p
 
 **XAMPP**: simplemente nos descargaríamos el programa y lo activaríamos. Para descargar XAMPP [pulsa aquí](https://www.apachefriends.org/es/download.html).
 
-**Docker**: utilizando el software de contenedores nos descargaremos [esta imagen de docker](http://localhost:51236/UD06_ES/resources/plantilla-APCM.zip) y lanzamos:
+**Docker**: utilizando el software de contenedores nos descargaremos la **imagen docker de esta unidad didáctica del curso** y lanzamos:
 
 ```bash
 docker-compose up -d
