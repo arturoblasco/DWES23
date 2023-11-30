@@ -59,7 +59,7 @@ RA6. Desarrolla aplicaciones de acceso a almacenes de datos, aplicando medidas p
 docker-compose up -d
 ```
 
-Si todo ha salido bien y el contenedor está en marcha, podremos visitar la página de phpMyAdmin de la siguiente manera
+Si todo ha salido bien y el contenedor está en marcha, podremos visitar la página de *phpMyAdmin* de la siguiente manera:
 
 ```bash
 http://localhost:8000
@@ -73,6 +73,10 @@ Para acceder debemos utilizar las siguientes credenciales que vienen configurada
 usuario: root
 contraseña: 1234
 ```
+
+> **Recuerda**
+>
+> Podemos utilizar también el docker *Portainer* para gestionar (lanzar, parar, acceder) a los contenedores generados en la imagen anterior.
 
 # estructura de una base de datos
 
@@ -201,7 +205,7 @@ Veamos cómo conectarnos con una base de datos a través del código PHP:
 
 ```php
 <?php
-    // ▒▒▒▒▒▒▒▒ pruebas.php ▒▒▒▒▒▒▒▒
+    // ▒▒▒▒▒▒▒ pruebas.php ▒▒▒▒▒▒▒
 
     // "SERVIDOR", "USUARIO", "CONTRASEÑA", "BASE DE DATOS"
     $conexion = mysqli_connect("d939ebf6a741","tuUsuario","tuContraseña","tuBaseDeDatos");
@@ -292,12 +296,13 @@ De igual manera que pasaba con los objetos en PHP nativos, en la interfaz de MyS
 
 > **en docker**
 >
-> Recordar cambiar *localhost* por ID del contenedor mysql:8.0.
+> Recordar cambiar *localhost* por ID del contenedor *mysql:8.0*.
 
 Además, con PDO podemos usar las excepciones con `try`/`catch` para gestionar los errores que se produzcan en nuestra aplicación. Para ello, como hacíamos antes, debemos encapsular el código entre bloques try / catch:
 
 ```php
 <?php
+   // dsn (Nombre del Origen de Datos, DSN)
    $dsn = 'mysql:dbname=pruebadb; host=127.0.0.1'; // 127.0.01 -> ID contenedor mysql:8.0
    $usuario = 'usuario';
    $contrasenya = '1234';
@@ -334,9 +339,9 @@ De la misma manera que creamos nuestro archivo de funciones `funciones-php` y al
     const USUARIO = "usuario";
     const PASSWORD = "1234";
 
-    /* ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-	 * ▒▒▒▒▒▒▒▒ NO SUBAS ESTE ARCHIVO A git ▒▒▒▒▒▒▒▒
-	 * ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ */
+    /* ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	 * ▒▒▒▒▒▒ NO SUBAS ESTE ARCHIVO A git ▒▒▒▒▒▒
+	 * ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ */
 ```
 
 > **OJO**  Este archivo contiene información **muy sensible** así que no es recomendable que subas este archivo a git.
@@ -366,7 +371,7 @@ Una vez tenemos la plantilla de nuestra consulta, debemos seguir con la preparac
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ Borrando con parámetros ▒▒▒▒▒▒▒▒
+    // ▒▒▒▒▒▒ Borrando con parámetros ▒▒▒▒▒▒
     include "config/database.inc.php";
 
     $conexion = null;
@@ -432,23 +437,24 @@ Utilizaremos `bindValue()` cuando tengamos que insertar datos sólo una vez. En 
 
 ```php
 <?php
-    // se asignan nombre a los parametros
-    $sql = "DELETE FROM productos WHERE stock = :cant";
-    $sentencia = $conexion -> prepare($sql);
+   // ▒▒▒ FALTA CONEXIÓN A BD ▒▒▒▒
+   // se asignan nombre a los parametros
+   $sql = "DELETE FROM productos WHERE stock = :cant";
+   $sentencia = $conexion -> prepare($sql);
 
-    // bindValue enlaza por VALOR
-    $cantidad = 0;
-    $sentencia -> bindValue(":cant", $cantidad);
-    $cantidad = 1;
-    // se eliminan con cant = 0
-    $isOk = $sentencia->execute();
+  // bindValue enlaza por VALOR
+  $cantidad = 0;
+  $sentencia -> bindValue(":cant", $cantidad);
+  $cantidad = 1;
+  // se eliminan con cant = 0
+  $isOk = $sentencia->execute();
 
-    // bindParam enlaza por REFERENCIA
-    $cantidad = 0;
-    $sentencia -> bindParam(":cant", $cantidad);
-    $cantidad = 1;
-    // se eliminan con cant = 1
-    $isOk = $sentencia -> execute();
+  // bindParam enlaza por REFERENCIA
+  $cantidad = 0;
+  $sentencia -> bindParam(":cant", $cantidad);
+  $cantidad = 1;
+  // se eliminan con cant = 1
+  $isOk = $sentencia -> execute();
 ```
 
 Para más información y uso de las variables PDO [consulta el manual de PHP](https://www.php.net/manual/es/pdo.constants.php).
@@ -459,29 +465,29 @@ A la hora de insertar registros en una base de datos, debemos tener en cuenta qu
 
 ```php
 <?php
-    include "config/database.inc.php";
+  include "config/database.inc.php";
 
-    try{
-        $descripcion = $_GET["descripcion"] ?? "PRODUCTO X";
-        $stock = $_GET["stock"] ?? 0;
+  try{
+    $descripcion = $_GET["descripcion"] ?? "PRODUCTO X";
+    $stock = $_GET["stock"] ?? 0;
 
-        $conexion = null;
+    $conexion = null;
 
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-        $sql="insert into productos (descripcion, stock) values (:desc, :stock)";
+    $sql="insert into productos (descripcion, stock) values (:desc, :stock)";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> bindParam(":desc", $descripcion);
-        $sentencia -> bindParam(":stock", $stock);
+    $sentencia = $conexion -> prepare($sql);
+    $sentencia -> bindParam(":desc", $descripcion);
+    $sentencia -> bindParam(":stock", $stock);
 
-        $isOk = $sentencia -> execute();
-        $idGenerado = $conexion -> lastInsertId();
+    $isOk = $sentencia -> execute();
+    $idGenerado = $conexion -> lastInsertId();
         
-    } catch(PDOException $e){
-        echo $e->getMessage();
-    }
+  } catch(PDOException $e){
+    echo $e->getMessage();
+  }
 ```
 
 ## consultando registros
@@ -494,102 +500,102 @@ Pero debemos elegir el tipo de dato que queremos recibir entre los 3 que hay dis
 - `PDO::FETCH_NUM` : array indexado cuyos keys son números.
 - `PDO::FETCH_BOTH` : valor por defecto. Devuelve un array indexado cuyos keys son tanto el nombre de las columnas como números.
 
-<img src="/assets/img07_06-pdo-listado-fetch.png" style="zoom: 50%;" />
+<img src="/assets/img07_06-pdo-listado-fetch.png" style="zoom: 40%;" />
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
+  //  ▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒
+  include "config/database.inc.php";
 
-    $conexion = null;
+  $conexion = null;
 
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  try{
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "select * from productos";
+    $sql = "select * from productos";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
-        $sentencia -> execute();
+    $sentencia = $conexion -> prepare($sql);
+    $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
+    $sentencia -> execute();
 
-        while($fila = $sentencia -> fetch()){
-            echo "Id:" . $fila["id"] . "<br />";
-            echo "Descripción:" . $fila["descripcion"] . "<br />";
-            echo "Stock:" . $fila["stock"] . "<br /><br />";
-        }
-
-    }catch(PDOException $e) {
-        echo $e -> getMessage();
+    while($fila = $sentencia -> fetch()){
+      echo "Id:" . $fila["id"] . "<br />";
+      echo "Descripción:" . $fila["descripcion"] . "<br />";
+      echo "Stock:" . $fila["stock"] . "<br /><br />";
     }
 
-    $conexion = null;
+  }catch(PDOException $e) {
+    echo $e -> getMessage();
+  }
+
+  $conexion = null;
 ```
 
 Recuperando datos con una **matriz** como resultado de nuestra consulta:
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ consulta con array asociativo ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
+  // ▒▒▒▒▒▒ consulta con array asociativo ▒▒▒▒▒▒
+  include "config/database.inc.php";
 
-    $conexion = null;
+  $conexion = null;
 
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  try{
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $sql="SELECT * FROM productos";
+    $sql="SELECT * FROM productos";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
-        $sentencia -> execute();
-		// recuperado en la matriz $productos
-        $productos = $sentencia -> fetchAll();
+    $sentencia = $conexion -> prepare($sql);
+    $sentencia -> setFetchMode(PDO::FETCH_ASSOC);
+    $sentencia -> execute();
+    // recuperado en la matriz $productos
+    $productos = $sentencia -> fetchAll();
 
-        foreach($productos as $elemento) {
-            echo"Id:" . $elemento["id"] . "<br />";
-            echo"Descripción:" . $elemento["descripcion"] . "<br />";
-            echo"Stock:" . $elemento["stock"] . "<br /><br />";        
-        }
-
-    }catch(PDOException $e) {
-        echo $e -> getMessage();
+    foreach($productos as $elemento) {
+      echo"Id:" . $elemento["id"] . "<br />";
+      echo"Descripción:" . $elemento["descripcion"] . "<br />";
+      echo"Stock:" . $elemento["stock"] . "<br /><br />";        
     }
 
-    $conexion = null;
+  }catch(PDOException $e) {
+      echo $e -> getMessage();
+  }
+
+  $conexion = null;
 ```
 
  Pero si lo que queremos es leer datos con forma de objeto utilizando `PDO::FETCH_OBJ`, debemos crear un objeto con propiedades públicas con el mismo nombre que las columnas de la tabla que vayamos a consultar.
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ consulta con formato de objeto ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
+  // ▒▒▒▒▒▒▒ consulta con formato de objeto ▒▒▒▒▒▒▒
+  include "config/database.inc.php";
 
-    $conexion = null;
+  $conexion = null;
 
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  try{
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $sql="SELECT * FROM productos";
+    $sql = "SELECT * FROM productos";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> setFetchMode(PDO::FETCH_OBJ);
-        $sentencia -> execute();
+    $sentencia = $conexion -> prepare($sql);
+    $sentencia -> setFetchMode(PDO::FETCH_OBJ);
+    $sentencia -> execute();
 
-        while($p = $sentencia -> fetch()) {
-            echo"Id:" . $p -> id . "<br />";
-            echo"Descripción:" . $p -> descripcion . "<br />";
-            echo"Stock:" . $p -> stock . "<br />";
-        }
-        
-    }catch(PDOException $e) {
-        echo $e -> getMessage();
+    while($p = $sentencia -> fetch()) {
+        echo"Id:" . $p -> id . "<br />";
+        echo"Descripción:" . $p -> descripcion . "<br />";
+        echo"Stock:" . $p -> stock . "<br />";
     }
+        
+  }catch(PDOException $e) {
+    echo $e -> getMessage();
+  }
 
-    $conexion = null;
+  $conexion = null;
 ```
 
 ## consultas con modelos
@@ -602,89 +608,89 @@ Así pues, si por lo que sea cambiamos la estructura de la tabla **DEBEMOS CAMBI
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
-    class Producto {
-        private int $id;
-        private string $descripcion;
-        private ? int $stock;
+  // ▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒
+  class Producto {
+    private int $id;
+    private string $descripcion;
+    private ? int $stock;
 
-        public function getId() : int {
-            return $this -> id;
-        }
-
-        public function getDescripcion() : string {
-            return $this -> descripcion;
-        }
-
-        public function getStock() : ?int {
-            return $this -> stock;
-        }
+    public function getId() : int {
+      return $this -> id;
     }
+
+    public function getDescripcion() : string {
+      return $this -> descripcion;
+    }
+
+    public function getStock() : ?int {
+      return $this -> stock;
+    }
+  }
 ?>
 <?php
-    //  ▒▒▒▒▒▒▒▒ Consultando a través de la clase Producto ▒▒▒▒▒▒▒▒
-    $sql = "SELECT * FROM productos";
-    $sentencia = $conexion -> prepare($sql);
+  // ▒▒▒▒▒▒ Consultando a través de la clase Producto ▒▒▒▒▒▒
+  $sql = "SELECT * FROM productos";
+  $sentencia = $conexion -> prepare($sql);
 
-    // Aquí 'Tienda' es el nombre de nuestra clase
-    $sentencia -> setFetchMode(PDO::FETCH_CLASS, "Producto");
-    $sentencia -> execute();
+  // Aquí 'Tienda' es el nombre de nuestra clase
+  $sentencia -> setFetchMode(PDO::FETCH_CLASS, "Producto");
+  $sentencia -> execute();
 
-    while($p = $sentencia -> fetch()) {
-        echo "Id: " . $p -> getId() . "<br />";
-        echo "Descripcion: " . $p -> getDescripcion() . "<br />";
-        echo "Stock: " . $p -> getStock() . "<br /><br />";
+  while($p = $sentencia -> fetch()) {
+    echo "Id: " . $p -> getId() . "<br />";
+    echo "Descripcion: " . $p -> getDescripcion() . "<br />";
+    echo "Stock: " . $p -> getStock() . "<br /><br />";
 
-        //var_dump($p);
-    }
+    //var_dump($p);
+  }
 ```
 
 Pero ¿qué pasa si nuestras clases tienen constructor? pues que debemos indicarle, al método FECTH, que rellene las propiedades después de llamar al constructor y para ello hacemos uso de `PDO::FETCH_PROPS_LATE`.
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
-    class Producto {
-        public function __construct (public int $id=1, 
-                            public string $descripcion="x", 
-                            public int $stock=1 ){  }
+  // ▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒
+  class Producto {
+    public function __construct (public int $id=1, 
+                          public string $descripcion="x", 
+                          public int $stock=1 ){  }
 
-        public function getId() : int {
-            return $this -> id;
-        }
-        public function getDescripcion() : string {
-            return $this -> descripcion;
-        }
-        public function getStock() : int {
-            return $this -> stock;
-        }
+    public function getId() : int {
+       return $this -> id;
     }
+    public function getDescripcion() : string {
+       return $this -> descripcion;
+    }
+    public function getStock() : int {
+       return $this -> stock;
+    }
+  }
 ?>   
 <?php
-    //  ▒▒▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
-    $conexion = null;
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM productos";
+  // ▒▒▒▒▒▒ consulta con array asociativo.php ▒▒▒▒▒▒
+  include "config/database.inc.php";
+  $conexion = null;
+  try{
+     $conexion = new PDO(DSN, USUARIO, PASSWORD);
+     $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+     $sql = "SELECT * FROM productos";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Producto");
+     $sentencia = $conexion -> prepare($sql);
+     $sentencia -> setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Producto");
 
-        $sentencia -> execute();
+     $sentencia -> execute();
 
-        //$productos = $sentencia -> fetchAll();
-        while($p = $sentencia -> fetch()) {
-            echo"Id:" . $p -> id . "<br />";
-            echo"Descripción:" . $p -> descripcion . "<br />";
-            echo"Stock:" . $p -> stock . "<br /><br />";
-        }
-    }catch(PDOException $e) {
-        echo $e -> getMessage();
-    }
+     //$productos = $sentencia -> fetchAll();
+     while($p = $sentencia -> fetch()) {
+        echo"Id:" . $p -> id . "<br />";
+        echo"Descripción:" . $p -> descripcion . "<br />";
+        echo"Stock:" . $p -> stock . "<br /><br />";
+     }
+  }catch(PDOException $e) {
+     echo $e -> getMessage();
+  }
 
-    $conexion = null;
+  $conexion = null;
 ```
 
 ## consultas con LIKE
@@ -693,54 +699,54 @@ Para utilizar el comodín LIKE u otros comodines, debemos asociarlo al dato y NU
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒▒▒
-    class Producto {
-        public function __construct (public int $id=1, 
-                            public string $descripcion="x", 
-                            public int $stock=1 ){  }
+  // ▒▒▒▒▒▒ clase Producto ▒▒▒▒▒▒
+  class Producto {
+     public function __construct (public int $id=1, 
+                         public string $descripcion="x", 
+                         public int $stock=1 ){  }
 
-        public function getId() : int {
-            return $this -> id;
-        }
-        public function getDescripcion() : string {
-            return $this -> descripcion;
-        }
-        public function getStock() : int {
-            return $this -> stock;
-        }
-    }
+     public function getId() : int {
+         return $this -> id;
+     }
+     public function getDescripcion() : string {
+         return $this -> descripcion;
+     }
+     public function getStock() : int {
+         return $this -> stock;
+     }
+  }
 ?>
 <?php
-    $busqueda1 = $_POST["cadenaDescripcion"];
-	$busqueda2 = $_POST["numStock"];
+  $busqueda1 = $_POST["cadenaDescripcion"];
+  $busqueda2 = $_POST["numStock"];
     
-    //  ▒▒▒▒▒▒▒▒ Utilizando comodines :: LIKE ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
+  // ▒▒▒▒▒▒ Utilizando comodines :: LIKE ▒▒▒▒▒▒
+  include "config/database.inc.php";
 
-    $conexion = null;
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM productos where descripcion like :desc and stock = :stk";
+  $conexion = null;
+  try{
+     $conexion = new PDO(DSN, USUARIO, PASSWORD);
+     $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+     $sql = "SELECT * FROM productos where descripcion like :desc and stock = :stk";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Producto::class);
+     $sentencia = $conexion -> prepare($sql);
+     $sentencia -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Producto::class);
 
-    	$cadBuscar1 = "%" . $busqueda . "%";
+     $cadBuscar1 = "%" . $busqueda . "%";
         
-		$sentencia -> execute(["desc" => $cadBuscar1,"stk" => $cadBuscar2]);
+	 $sentencia -> execute(["desc" => $cadBuscar1,"stk" => $cadBuscar2]);
 
-        while($p = $sentencia -> fetch()) {
-            echo"Id:" . $p -> id . "<br />";
-            echo"Descripción:" . $p -> descripcion . "<br />";
-            echo"Stock:" . $p -> stock . "<br /><br />";
-        }        
+     while($p = $sentencia -> fetch()) {
+         echo"Id:" . $p -> id . "<br />";
+         echo"Descripción:" . $p -> descripcion . "<br />";
+         echo"Stock:" . $p -> stock . "<br /><br />";
+     }        
 
-    }catch(PDOException $e) {
-        echo $e -> getMessage();
-    }
+  }catch(PDOException $e) {
+     echo $e -> getMessage();
+  }
 
-    $conexion = null;
+  $conexion = null;
 ```
 
 Tenéis una lista de ejemplos muy completa en la [documentación oficial](https://phpdelusions.net/pdo/objects).
@@ -763,79 +769,79 @@ Necesitamos pues:
 Ejemplo:
 
 ```html
-    <form action="loginCrear.php" method="post">
-        <label for="usuario">usuario: </label>
-        <input type="text" name="usuario">
-        <label for="password">password: </label>
-        <input type="password" name="password"> 
-        
-        <input type="submit" name="enviar" value="enviar">
-    </form>
+<form action="loginCrear.php" method="post">
+    <label for="usuario">usuario: </label>
+    <input type="text" name="usuario">
+    <label for="password">password: </label>
+    <input type="password" name="password"> 
+
+    <input type="submit" name="enviar" value="enviar">
+</form>
 ```
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ loginCrear.php ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
+  // ▒▒▒▒▒▒ loginCrear.php ▒▒▒▒▒▒
+  include "config/database.inc.php";
 
-    $conexion = null;
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $conexion = null;
+  try{
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $usu = $_POST["usuario"];
-        $pas = $_POST["password"];    
-		$fechaActual = date("Y-m-d H:i:s"); 
-        $cre = $fechaActual; 
-        $acc = $fechaActual;  
+    $usu = $_POST["usuario"];
+    $pas = $_POST["password"];    
+    $fechaActual = date("Y-m-d H:i:s"); 
+    $cre = $fechaActual; 
+    $acc = $fechaActual;  
 
-        $sql = "INSERT INTO usuarios (usuario, password, created, access) 
+    $sql = "INSERT INTO usuarios (usuario, password, created, access) 
                                       VALUES (:usu, :pas, :cre, :acc)";
 
-        $sentencia = $conexion -> prepare($sql);
-        $isOk = $sentencia -> execute([
+    $sentencia = $conexion -> prepare($sql);
+    $isOk = $sentencia -> execute([
             "usu" => $usu,
             "pas" => password_hash($pas,PASSWORD_DEFAULT),
             "cre" => $cre,
             "acc" => $acc
             ]);
-        //$idGenerado = $conexion -> lastInsertId();
+    //$idGenerado = $conexion -> lastInsertId();
 
-    } catch (PDOException $e) {
-        echo $e -> getMessage();
-    }
+  } catch (PDOException $e) {
+    echo $e -> getMessage();
+  }
 
-    $conexion = null;  
+  $conexion = null;  
 ```
 
 Ahora que tenemos el usuario codificado y guardado en la base de datos, vamos a recuperarlo para poder loguearlo correctamente.
 
 ```php
 <?php
-    //  ▒▒▒▒▒▒▒▒ Recuperando usuario y password en BD ▒▒▒▒▒▒▒▒
-    include "config/database.inc.php";
-    $conexion = null;
-    try{
-        $conexion = new PDO(DSN, USUARIO, PASSWORD);
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  // ▒▒▒▒▒▒ Recuperando usuario y password en BD ▒▒▒▒▒▒
+  include "config/database.inc.php";
+  $conexion = null;
+  try{
+    $conexion = new PDO(DSN, USUARIO, PASSWORD);
+    $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $usu = $_POST["usuario"] ?? "";
-        $sql = "select * from usuarios where usuario = ?";
+    $usu = $_POST["usuario"] ?? "";
+    $sql = "select * from usuarios where usuario = ?";
 
-        $sentencia = $conexion -> prepare($sql);
-        $sentencia -> execute([$usu]);
+    $sentencia = $conexion -> prepare($sql);
+    $sentencia -> execute([$usu]);
 
-        $usuario = $sentencia -> fetch();
+    $usuario = $sentencia -> fetch();
 
-        if($usuario && password_verify($_POST['password'], $usuario['password'])) {
-            echo"OK!";
-        } else {
-            echo"KO";
-        }
-    } catch (PDOException $e){
-        echo $e->getMessage();
+    if($usuario && password_verify($_POST['password'], $usuario['password'])) {
+        echo"OK!";
+    } else {
+        echo"KO";
     }
-    $conexion = null;
+  } catch (PDOException $e){
+    echo $e->getMessage();
+ }
+ $conexion = null;
 ```
 
 # acceso a ficheros
@@ -875,7 +881,7 @@ if (!$fp = fopen("miarchivo.txt", "r")){
 Para poder **leer** un archivo necesitamos usar la función `fread()` de PHP:
 
 ```php
-//  ▒▒▒▒▒▒▒▒ Abriendo un archivo y leyendo su contenido ▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒ Abriendo un archivo y leyendo su contenido ▒▒▒▒▒▒
 $file = "miarchivo.txt";
 $fp = fopen($file, "r");
 
@@ -891,7 +897,7 @@ fclose($fp)
 Si lo que queremos es **escribir** en un archivo, deberemos hacer uso de la función`fwrite()` :
 
 ```php
-//  ▒▒▒▒▒▒▒▒ Escribiendo en un archivo ▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒ Escribiendo en un archivo ▒▒▒▒▒▒
 $file = "miarchivo.txt";
 $texto = "Hola qué tal";
 
@@ -925,7 +931,7 @@ Unos ejemplos...
 
 ```php
 <?php
-  //  ▒▒▒▒▒▒▒▒ Información del archivo ▒▒▒▒▒▒▒▒
+  // ▒▒▒▒▒▒ Información del archivo ▒▒▒▒▒▒
 
   $file = "miarchivo.txt";
   $texto = "Todos somos muy ignorantes, lo que ocurre es que no todos ignoramos las mismas cosas.";
