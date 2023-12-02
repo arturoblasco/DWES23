@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 7
-   title: Framework Laravel - Instalación y preparación
+   title: Framework Laravel
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
@@ -23,7 +23,7 @@
 
 # duración y criterios de evaluación
 
-**Duración estimada**: 20 sesiones
+**Duración estimada**: ∞ sesiones.
 
 ------
 

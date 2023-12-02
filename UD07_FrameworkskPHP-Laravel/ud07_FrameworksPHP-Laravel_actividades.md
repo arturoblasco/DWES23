@@ -1,10 +1,10 @@
 ---
-   unit: unidad didáctica 6
-   title: Actividades
+   unit: unidad didáctica 7
+   title: actividades
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
-   keywords: [DWES, 2023, PHP]
+   keywords: [DWES, 2023, PHP, Laravel]
    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
    header: ${unit}: ${title} - ${subject} (versión: ${today})
    footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
