@@ -336,7 +336,6 @@ En Blade (plantillas de Laravel) siempre que iniciemos un bloque de estructura d
 
 ```php
 <?php
-
   $equipo = ['María', 'Alfredo', 'William', 'Verónica'];
 
   @foreach ($equipo as $nombre)
@@ -365,7 +364,11 @@ Por defecto, los controladores se guardan en una carpeta específica situada en 
 
 Para crear un controlador nuevo debemos hacer uso de nuestro querido autómata artisan donde le diremos que cree un controlador con el nombre que nosotros queramos.
 
-Abrimos la consola y nos situamos en la raíz de nuestro proyecto
+Abrimos la consola y nos situamos en la raíz de nuestro proyecto:
+
+> **ABC**
+>
+> sudo docker-compose exec myapp php artisan make:controller PagesController
 
 ```sh
 php artisan make:controller PagesController
@@ -436,30 +439,36 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
 
 Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro css, deberemos de seguir estos pasos:
 
-1) Hay que comprobar la versión de npm y node:
+1. Hay que comprobar la versión de npm y node:
 
    ```sh
    npm -v
    node -v
    ```
 
-2) Si la versión de nodejs es inferior a la versión 14 (a la hora de crear este documento) **antes de seguir habremos de reinstalarlo**. Para ello habrá que ir al [anexo II - reinstalación de node](# anexo II - reinstalación de node) en este mismo documento.
+2. Si la versión de nodejs es inferior a la versión 14 (a la hora de crear este documento) **antes de seguir habremos de reinstalarlo**. Para ello habrá que ir al [anexo II - reinstalación de node](# anexo II - reinstalación de node) en este mismo documento.
 
    > **no continuar si la versión de node es inferior a 14**.
 
-3) Si nuestra versión de nodejs es correcta (o hemos procedido a reinstalar node en el punto 2), instalaremos en desarrollo estas tres dependencias:
+3. Si nuestra versión de nodejs es correcta (o hemos procedido a reinstalar node en el punto 2), lo primero será desinstalar bootstrap:
+
+   ```sh
+   npm uninstall bootstrap
+   ```
+
+4. Instalaremos en desarrollo estas tres dependencias:
 
    ```sh
    npm install -D tailwindcss postcss autoprefixer
    ```
 
-4) Generamos ahora el fichero `tailwindcss.config.js`que aparecerá en la raíz del proyecto:
+5. Generamos ahora el fichero `tailwindcss.config.js`que aparecerá en la raíz del proyecto:
 
    ```sh
-   npx tailwindcss init
+   npx tailwindcss init -p
    ```
 
-5) Editar el fichero del proyecto Laravel `tailwindcss.config.js` que se ha generado en el directorio raíz del proyecto y donde indicaremos dónde vamos a utilizarlo:
+6. Editar el fichero del proyecto Laravel `tailwindcss.config.js` que se ha generado en el directorio raíz del proyecto y donde indicaremos dónde vamos a utilizarlo:
 
    ```php
    /** @type {import('tailwindcss').Config} */
@@ -467,7 +476,7 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
      content: [
        "./resources/**/*.blade.php",
        "./resources/**/*.js",
-       "./resources/**/*.vue"
+       "./resources/**/*.vue",
      ],
      theme: {
        extend: {},
@@ -476,7 +485,7 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    }
    ```
 
-6) Ahora, en el fichero /resources/css/`app.css` agregar las siguientes líneas:
+7. Ahora, en el fichero /resources/css/`app.css` agregar las siguientes líneas:
 
    ```css
    @tailwind base;
@@ -484,7 +493,7 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    @tailwind utilities;
    ```
 
-7) Desde el terminal (y siempre dentro de nuestro proyecto), vamos a ejecutar:
+8. Desde el terminal (y siempre dentro de nuestro proyecto), vamos a ejecutar:
 
    ```sh
    npm run dev
@@ -492,7 +501,7 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
 
    <img src="/assets/ud07_laravel_002.png" style="zoom:50%;" />
 
-8) En el fichero /resources/views/layouts/`app.blade.php` hay que indicarle que va a utilizar el fichero /resources/css/`app.css`, para ello hay que añadirlo en:
+9. En el fichero /resources/views/layouts/`app.blade.php` hay que indicarle que va a utilizar el fichero /resources/css/`app.css`, para ello hay que añadirlo en:
 
    ```php+HTML
    @vite('resources/css/app.css')
