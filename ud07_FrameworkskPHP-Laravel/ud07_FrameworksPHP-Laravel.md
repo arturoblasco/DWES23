@@ -499,6 +499,14 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    npm run dev
    ```
 
+   Si no funciona, prueba:
+
+   ```sh
+   npm run dev -- --host
+   ```
+
+   
+
    <img src="/assets/ud07_laravel_002.png" style="zoom:50%;" />
 
 9. En el fichero /resources/views/layouts/`app.blade.php` hay que indicarle que va a utilizar el fichero /resources/css/`app.css`, para ello hay que añadirlo en:
