@@ -447,7 +447,23 @@ La idea de ésto es dejar el archivo `web.php` tan limpio como podamos para que,
 
 > **recuerda** 
 >
-> sólo movemos la lógica, mientras que las cláusulas como `where` y `name` las seguimos dejando en el archivo de rutas web.php
+> sólo movemos la lógica, mientras que las cláusulas como `where` y `name` las seguimos dejando en el archivo de rutas `web.php`.
+
+## convenciones
+
+Laravel tiene una convención a la hora de nombrar los métodos de tus controllers conocida como Resource Controllers.
+
+Esta convención ayuda bastante para tener todo mejor organizado:
+
+| verbo HTTP |         URI         | acción  | ruta             |
+| :--------: | :-----------------: | ------- | ---------------- |
+|    GET     |      /clientes      | index   | clientes.index   |
+|    POST    |      /clientes      | store   | clientes.store   |
+|   DELETE   | /clientes/{cliente} | destroy | clientes.destroy |
+
+En este enlace a la documentación de Laravel vemos las acciones que son controladas (o manejadas) por el controlador [enlace](https://laravel.com/docs/10.x/controllers#actions-handled-by-resource-controller).
+
+
 
 Veamos cómo quedaría un refactor del archivo de rutas utilizando un Controller como el que acabamos de crear.
 
@@ -501,6 +517,20 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
 ```
 
 Podemos observar todo esto en el  [ejemplo 05](# ejemplo 05. controlador RegisterController y su formulario).
+
+# tipos de Request
+
+## En HTTP y API’s
+
+En HTTP existen diferentes tipos de Request o tipos de Petición: GET, POST, PUT, PATCH y DELETE. 
+
+- `GET` es el más simple; cuando visitas un sitio web por default es un GET, y el método solo se utiliza para recuperar datos pero nunca debe enviar datos. 
+- `POST` se utiliza cuando mandas datos a un servidor; esto incluye información que llenas en un formulario o buscador.
+- `PUT` es utilizado para actualizar un elemento; pero si no existe crea uno nuevo; PUT es un reemplazo total de un registro.
+- `PATCH` es utilizado para actualizar parcialmente un elemento o recurso. 
+- `DELETE` se utiliza para eliminar un recurso o elemento.
+
+Podemos observar todo esto en el  [ejemplo 06](# ejemplo 06. petición post).
 
 # anexo I - instalación de Tailwind CSS
 
@@ -571,8 +601,6 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    ```sh
    npm run dev -- --host
    ```
-
-   
 
    <img src="/assets/ud07_laravel_002.png" style="zoom:50%;" />
 
@@ -905,7 +933,7 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
 @section('contenido')
   <div class="md:flex md:justify-center md:gap-10 md:items-center">
     <div class="md:w-6/12 p-5">
-      <img src="{{asset('img/registrar.jpg')}}" alt="imagen registro usuario">
+      <img src="{{asset('img/dwes_registrar.png')}}" alt="imagen registro usuario">
     </div>
 
     <div class="md:w-4/12 bg-white p-6 rounded-lg shadow-xl">
@@ -986,6 +1014,71 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
   </div>
 @endsection
 ````
+
+## ejemplo 06. petición post
+
+Vamos a crear ahora el enlace registrarse. Para ello accedemos a `web.php` e introducimos la linea con el método POST:
+
+```php
+Route::get('/crear-cuenta', [RegisterController::class, 'index']) -> name('resgister');
+Route::post('/crear-cuenta' [RegisterController::class, 'store'])
+```
+
+> **No** ponemos un alias en esta ruta porque va a tomar también el alias del anterior ruta.
+
+Al  mismo tiempo, en nuestro controlador `RegisterController.php` agregamos la función `store` :
+
+```php	
+public function store() {
+        dd('formulario...');
+}
+```
+
+Para terminar este punto, en el fichero .blade `register.blade.php` vamos a modificar la etiqueta form para que redireccione al action correspondiente con el método en qüestión. Fíjate que en action ponemos la función route y el nombre de la ruta:
+
+```php 
+...
+<form action="{{route('register')}}" method="POST">   
+...
+```
+
+Si recargamos la página y accionamos el enlace vemos que nos muestra el siguiente error:
+
+<img src="/assets/ud07_laravel_005_error419.png" style="zoom:100%;" />
+
+¿Qué es página expirada?
+
+Laravel es un framework enfocado a la seguridad (en este caso, se asegura que no suframos ataques del tipo XSRF o Cross Site Request Forgery). Así que Laravel tiene consideraciones de seguridad.
+
+Para evitar estos ataques usaremos la directiva `@csrf` justo después de la linea de la etiqueta <form>.
+
+```php+HTML
+...
+<form action="{{route('register')}}" method="POST">   
+    @csrf
+...
+```
+
+Si pulsamos F12 para ver el código se mostrará un campo oculto con un token para validar la cadena y evitar este tipo de ataques:
+
+<img src="/assets/ud07_laravel_006_error419.png" style="zoom:70%;" />
+
+Modificamos la función `store` para pasarle la clase Request:
+
+````php
+public function store(Request $request) {
+    dd(request);
+    // dd(request->get('email'));
+}
+````
+
+Si accedemos a localhost/register:
+
+<img src="/assets/ud07_laravel_007_formulario.png" style="zoom:70%;" />
+
+
+
+
 
 
 
