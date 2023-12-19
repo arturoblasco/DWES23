@@ -532,6 +532,350 @@ En HTTP existen diferentes tipos de Request o tipos de Petición: GET, POST, PUT
 
 Podemos observar todo esto en el  [ejemplo 06](# ejemplo 06. petición post).
 
+# validación de formularios
+
+Para validar los campos de un formulario podemos utilizar las reglas de validación; éstas se colocarán en la función `store` del controlador (en este ejemplo `RegisterController.php`):
+
+```php
+public function store(Request $request) {
+        //dd($request);
+        //dd($request->get('email'));
+
+    	//validación
+        $this->validate($request, [
+            'name' => ['required', 'min:5'],
+            'username'  => ['required', 'unique:users', 'min:3', 'max:20'],
+            'email' => ['required', 'unique:users','email','max:60'],
+            'password' => ['required','confirmed','min:6']
+        ]);
+```
+
+> **por qué en `unique` se refiere a una tabla `users` que todavía no la hemos creado?**
+>
+> Más adelante lo veremos, pero se puede obersar en la carpeta `database/migrations` que tenemos una migración de la tabla `users`. Laravel crea automáticamente estas tablas.
+
+Todas las reglas de validación de Laravel podemos observarlas en la documentación oficial, en este [enlace](https://laravel.com/docs/10.x/validation#available-validation-rules).
+
+Podemos observar que, en apariencias, no hace nada (o no muestra nada). Para mostrar un mensaje de error colocaremos la directiva `@error`...`@enderrror` en nuestro formulario (en el ejemplo `register.blade.php`) justo después del `<input>` en cuestión. 
+
+Siguiendo en el ejemplo:
+
+```php+HTML
+<input 
+        id="name"
+        name="name"
+        type="text"
+        placeholder="tu nombre"
+        class="border p-3 w-full rounded-lg"
+    >
+@error('name')
+    <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">
+        el nombre es obligatorio
+    </p>
+@enderror
+```
+
+## mostrar errores de forma dinámica
+
+Poniendo este párrafo solo mostraría si el nombre es obligatorio; pero podemos tener más validaciones (en el mismo input) que chequear. Este tipo de errores con texto estático **no es la mejor opción**. Laravel ya tiene una serie de mensajes para dicho caso.  Deberemos imprimir un mensaje con el mensaje de error `$message`:
+
+```php+HTML
+@error('username')
+<p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">
+    {{ $message }}
+</p>
+@enderror
+```
+
+## mensajes en castellano
+
+Los mensajes de errores están en inglés, ¿cómo podemos **mostrarlos en castellano**? Existen paquetes en Laravel en castellano, por ejemplo [MarcoGomesr/laravel-validation-en-espanol](https://github.com/MarcoGomesr/laravel-validation-en-espanol). 
+
+Descomprimes el directorio `es` en una carpeta en `resources` llamada `lang` (deberás de crearla).
+
+Para terminar el cambio accede al fichero `config/app.php` y en la linea 86 cambiar el idioma a español:
+
+```php
+  'locale' => 'es',
+```
+
+## customizar el campo de error
+
+Si queremos pintar de color rojo el campo en el que aparece el error, podemos poner en la clase del input un `@error` que diga que si existe un error en (por ejemplo) el campo username coloree el borde del campo en rojo:
+
+```php
+<input 
+    id="username"
+    name="username"
+    type="text"
+    placeholder="tu nombre de usuario"
+    class="border p-3 w-full rounded-lg
+             @error('username') border-red-500 @enderror"
+>
+```
+
+## mantener el valor en el campo después de un error
+
+Muchas veces es frustrante volver a un formulario después de un error y observar que los valores de todos los campos se han borrado y que necesitas volver a introducirlos. Para evitar este caso podemos poner en los `input` el atributo `value` y pasarle `"{{ old('username') }}"`:
+
+```php
+<input 
+    id="username"
+    name="username"
+    type="text"
+    placeholder="tu nombre de usuario"
+    class="border p-3 w-full rounded-lg
+             @error('username') border-red-500 @enderror"
+    value= "{{old('username')}}"
+>
+```
+
+> A partir de ahora, como tarea, puedes validar tu mismo todos los campos del formulario.
+
+Entre la validación de Laravel también podrá verse la validación de HTML5. Si quieres deshabilitar esta última puedes introducir el atributo `novalidate` en la etiqueta `<form ... novalidate>`.
+
+## confirmar password en otro campo
+
+Para confirmar el password notamos que habíamos puesto al campo de confirmación de password esta etiqueta:
+
+```php+HTML
+<div>
+    <label for="password_confirmation" class="mb-2 block uppercase text-gray-500 font-bold">
+        Repetir password
+    </label>
+    <input 
+        id="password_confirmation"
+        name="password_confirmation"
+        type="password"
+        placeholder="repite la contraseña"
+        class="border p-3 w-full rounded-lg"
+    />
+</div>
+```
+
+Una convención en Laravel para comprobar si dos campos son iguales es asignarle al segundo el prefijo `_confirmatio`.`password_confirmation`(y **debe nombrarse así**) junto con la validación `confirmed` que hemos puesto para el campo `pasword` en el controlador va a verificar que el campo `passwor` y `password_confirmation` sean iguales.
+
+# migraciones y la base de datos
+
+Si has seguido los ejemplos anteriores correctamente habrás comprobado que cuando ponemos un correo e intentamos acceder muestra el siguiente error:
+
+<img src="./assets/ud07_laravel_008_errorAccesoTabla.png" style="zoom:40%;" />
+
+Nos indica que está revisando el valor de `email` en la tabla de usuarios y esta no existe. Para completar el formulario habrá que crear dicha tabla `users`. Para esto debemos realizar nuestra primera migración.
+
+## qué son migraciones
+
+Las Migraciones se les conoce como el control de versiones de tu base de datos; de esta forma se puede crear la base de datos y compartir el diseño con el equipo de trabajo.
+
+Si deseas agregar nuevas tablas o columnas a una tabla existente, puedes hacerlo con una nueva migración; si el resultado no fue el deseado, puedes revertir esa migración.
+
+Lanzar desde comandos:
+
+```php
+// ejecuta las migraciones
+sudo docker-compose exec myapp php artisan migrate
+
+// en caso de querer deshacer el cambio:    
+sudo docker-compose exec myapp php artisan migrate:rollback
+// regresar las últimas 5 (por ejemplo) migraciones  
+sudo docker-compose exec myapp php artisan migrate:rollback --step=5
+
+// otros comandos para crear migración    
+sail artisan make:migration agregar_imagen_user
+// o
+sail php artisan make:migration agregar_imagen_user
+```
+
+Las migraciones se van a ir colocando, siempre, en la carpeta del proyecto `database/migrations`:
+
+<img src="/assets/ud07_migraciones01.png" style="zoom:50%;" />
+
+Laravel tiene unas migraciones por defecto, sobre todo para la creación de usuarios.
+
+> **Consideraciones previas**
+>
+> Recuerda tener el fichero `.env` configurado para acceder a tu bd en qüestión y con usuario y contraseña adecuados:
+>
+> <img src="/assets/ud07_migraciones02.png" style="zoom:70%;" />
+
+Abrimos el terminal, dentro del proyecto:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate
+```
+
+<img src="/assets/ud07_migraciones03.png" style="zoom:50%;" />
+
+Si, después de ejecutar, accedemos a nuestra base de datos (por ejemplo desde phpMyadmin):
+
+<img src="/assets/ud07_migraciones04.png" style="zoom:70%;" />
+
+### rollback de la migración
+
+Si, quisiéramos echar para atrás en la migración:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate:rollback
+```
+
+<img src="/assets/ud07_migraciones05.png" style="zoom:50%;" />
+
+Vemos que las tablas dejan de existir (solo queda la tabla migraciones) en nuestra bd:
+
+<img src="/assets/ud07_migraciones06.png" style="zoom:60%;" />
+
+
+
+## siguiendo el ejemplo de crear usuario en la app
+
+Como vemos, si intentamos crear un usuario en nuestro ejemplo de inserción de usuarios, se obtiene un error en el que nos indica que falta el campo `username` en la tabla `users`. Esto es debido a que, cuando se ha ejecutado, por primera vez, la migración este campo no existía. Para que la app funcione deberemos de migrar este campo.
+
+Ejecutamos (el nombre lleva una convención de Laravel):
+
+```sh
+sudo docker-compose exec myapp php artisan make:migration add_username_to_users_table
+```
+
+Si accedemos al fichero generado en la carpeta `migrations` insertaremos el código que se muestra a continuación:
+
+<img src="/assets/ud07_migraciones07.png" style="zoom:60%;" />
+
+Para que los cambios surjan efecto, volvemos a ejecutar `migrate`:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate
+```
+
+> Aunque se indique el campo `username` como string se creará en la base de datos como varchar.
+
+Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formulario.
+
+# modelos
+
+## ORM Eloquent
+
+Laravel incluye su propio **ORM** (Object Relacional Mapper) que hace muy sencillo interactuar con tu base de datos.
+
+En **Eloquent** cada tabla tiene su propio modelo; ese modelo interactúa únicamente con esa tabla y tiene las funciones necesarias para crear registros, obtenerlos, actualizarlos y eliminarlas.
+
+```sh
+sudo docker-compose exec myapp php artisan make:model Cliente
+```
+
+Laravel tiene el modelo `users` creado por defecto.
+
+## convenciones en Laravel
+
+### en Modelos
+
+Cuando creas el Modelo Cliente, Eloquent asume que la tabla se va a llamar **clientes**.
+
+Si el Modelo se llama Producto; Eloquent espera una tabla llamada **productos**.
+
+Puede ser un problema llamar tu modelo Proveedor, porque Eloquent espera la tabla llamada **provedors**, pero se puede reescribir en el modelo.
+
+## crear registros con Eloquent ORM
+
+Para **insertar una fila** en nuestra tabla `users`, debemos insertar el siguiente código en nuestro controlador `RegisterController.php`:
+
+<img src="/assets/ud07_insertar01.png" style="zoom:60%;" />
+
+A tener en cuenta:
+
+1. cuando introducimos `User`arriba del código se va a importar `use App\Models\User;`
+
+2. el método `create` corresponde a un `insert into ...`
+
+3. podemos utilizar un helper (en Laravel encontramos una gran variedad) relacionado con los string; por ejemplo para que no introduzcamos espacios no deseados en el campo username.
+
+4. vemos que, para *hashear* el password y que no se vea la cadena literal, podemos utilizar la clase `Hash::make(cadena)`. Si no importa directamente `use Illuminate\Support\Facades\Hash` le damos *botón derecho*-**import class**.
+
+   > **cuidado**
+   >
+   > Si no modificamos nada más, el campo `username` obtendrá un error. Esto es debido a que este campo lo hemos introducido nosotros después de la primera migración; y Laravel tiene un sistema de seguridad por el que no permite creaciones de campo tan fácilmente (así prevee posibles ataques de inserción de código en nuestra base de datos).
+
+5. Para ello, además del código anterior, modificaremos el modelo `User.php` que se encuentra en la carpeta `app/Models` como medida de seguridad:
+
+<img src="/assets/ud07_insertar02.png" style="zoom:70%;" />
+
+4. Probamos insertar un usuario en la app:
+
+<img src="/assets/ud07_insertar03.png" style="zoom:60%;" />
+
+​	Y vemos que se ha insertado en la base de datos:
+
+<img src="/assets/ud07_insertar04.png" style="zoom:60%;" />
+
+### cambiar el campo 'username' a único
+
+Echar para atrás la última migración:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate:rollback
+```
+
+<img src="/assets/ud07_migraciones08.png" style="zoom:60%;" />
+
+Hacer cambios en el fichero `...add_username_to_users_table.php`:
+
+<img src="/assets/ud07_migraciones09.png" style="zoom:70%;" />
+
+Volver a migrar:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate
+```
+
+Ahora podemos hacer un cambio en `RegisterController.php`, que convierte la cadena a una URL (minúscula y los espacios los substituye por un guión medio):
+
+<img src="/assets/ud07_insertar05.png" style="zoom:70%;" />
+
+Insertamos un valor en `username`con mayúsculas y espacios:
+
+<img src="/assets/ud07_insertar06.png" style="zoom:60%;" />
+
+<img src="/assets/ud07_insertar07.png" style="zoom:60%;" />
+
+Para que no aparezca un mensaje de error al introducir dos usuarios con el `username` iguales, lo que podemos hacer es modificar el Request (cuando es nuestra última opción):
+
+<img src="/assets/ud07_insertar08.png" style="zoom:70%;" />
+
+## redireccionar al usuario al Muro una vez su cuenta es creada
+
+1. Crear un controlador de nombre `PostController`:
+
+```sh
+sudo docker-compose exec myapp php artisan make:controller PostController
+```
+
+2. Crear un controlador de nombre `LoginController`:
+
+```sh
+sudo docker-compose exec myapp php artisan make:controller LoginController
+```
+
+<img src="/assets/ud07_insertar11.png" style="zoom:70%;" />
+
+<img src="/assets/ud07_insertar09.png" style="zoom:70%;" />
+
+<img src="/assets/ud07_insertar10.png" style="zoom:70%;" />
+
+## autenticar un usuario que ha creado su cuenta
+
+
+
+<img src="/assets/ud07_insertar12.png" style="zoom:70%;" />
+
+
+
+<img src="/assets/ud07_insertar13.png" style="zoom:70%;" />
+
+
+
+
+
+
+
 # anexo I - instalación de Tailwind CSS
 
 Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro css, deberemos de seguir estos pasos:
@@ -991,6 +1335,7 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
         </div>
 
         <div>
+          <!-- password_confirmation para validar posteriormente password -->
           <label for="password_confirmation" class="mb-2 block uppercase text-gray-500 font-bold">
               Repetir password
           </label>
