@@ -29,6 +29,22 @@
 
 **Resultado de aprendizaje y criterios de evaluación**:
 
+4. Desarrolla aplicaciones Web embebidas en lenguajes de marcas analizando e incorporando funcionalidades según especificaciones.
+
+   a) *Se han identificado los mecanismos disponibles para el mantenimiento de la información que concierne a un cliente web concreto y se han señalado sus ventajas.*
+
+   b) *Se han utilizado sesiones para mantener el estado de las aplicaciones Web.*
+
+   c) *Se han utilizado cookies para almacenar información en el cliente Web y para recuperar su contenido.*
+
+   d) *Se han identificado y caracterizado los mecanismos disponibles para la autentificación de usuarios.*
+
+   e) *Se han escrito aplicaciones que integren mecanismos de autentificación de usuarios.*
+
+   f) *Se han realizado adaptaciones a aplicaciones Web existentes como gestores de contenidos u otras.*
+
+   g) *Se han utilizado herramientas y entornos para facilitar la programación, prueba y depuración del código.*
+
 ---
 
 # consideraciones previas

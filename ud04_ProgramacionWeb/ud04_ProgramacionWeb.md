@@ -4,7 +4,7 @@
     language: ES
     author: Arturo Blasco
     subject: Desarrollo Web en Entornos Servidor
-    keywords: [2023-2024, DWES, PHP]
+    keywords: [2023, DWES, PHP]
     IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
     header: ${title} - ${subject} (ver: ${today}) 
     footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
