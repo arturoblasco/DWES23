@@ -1259,12 +1259,14 @@ Añadir al fichero `web.php` la entrada:
 
 ## ejemplo 05. controlador RegisterController y su formulario
 
-En vez de usar *closures* o *callbacks* en el fichero `web.php` vamos a crear controladores en nuestro ejemplo y trasladar la lógica de negocio a estos últimos. Así, y siguiendo con los ejemplos anteriores, vamos a crear un controlador para gestionar el registro en nuestra APP (vamos a ordenar nuestros ficheros y colocaremos `RegisterConroller` dentro de la carpeta `Auth` y añadimos doble diagonal inversa `\\`).
+En vez de usar *closures* (o *callbacks*) en el fichero `web.php` vamos a crear controladores en nuestro ejemplo y trasladar la lógica de negocio a estos últimos. Así, y siguiendo con los ejemplos anteriores, vamos a crear un controlador para gestionar el registro en nuestra APP (vamos a ordenar nuestros ficheros y colocaremos `RegisterConroller` dentro de la carpeta `Auth` y añadimos doble diagonal inversa `\\`).
 
 Abrimos el CLI artisan (nuevo terminal en VS Code o `Ctrl`+`) en la carpeta de nuestro proyecto y ejecutamos:
 
 ````sh
-sudo docker-compose exec myapp php artisan make:controller Auth\\RegisterController
+php artisan make:controller Auth\\RegisterController
+# ó 
+# sudo docker-compose exec myapp php artisan make:controller Auth\\RegisterController
 ````
 
 En `web.php` modificar la ruta de *Crear cuenta* (quitar el *callback* y añadir el controlador y su método). Se recomienda como convención el nombre del método `index`:
@@ -1407,7 +1409,7 @@ Si recargamos la página y accionamos el enlace vemos que nos muestra el siguien
 
 <img src="/assets/ud07_laravel_005_error419.png" style="zoom:100%;" />
 
-¿Qué es página expirada?
+**¿Qué es página expirada?**
 
 Laravel es un framework enfocado a la seguridad (en este caso, se asegura que no suframos ataques del tipo XSRF o Cross Site Request Forgery). Así que Laravel tiene consideraciones de seguridad.
 
