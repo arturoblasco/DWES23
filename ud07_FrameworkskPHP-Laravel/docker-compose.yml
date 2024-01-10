@@ -22,7 +22,7 @@ services:
       - DB_USERNAME=dwes
       - DB_DATABASE=dwes
     volumes:
-      - './my-project:/app'
+      - './projecte1:/app'
     depends_on:
       - mariadb
   phpmyadmin:

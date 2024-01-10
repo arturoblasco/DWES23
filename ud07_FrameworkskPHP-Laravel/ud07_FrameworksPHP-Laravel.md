@@ -125,12 +125,12 @@ sudo docker-compose exec myapp php artisan make:controller RegisterController
 
 # instalar docker bitnami/Laravel
 
-1. Lo primero de todo es crear una carpeta con el nombre del proyecto que vayamos a crear y nos metemos en ella.
+1. Lo primero de todo es crear una carpeta con el nombre del proyecto y accedemos ella.
 
-   Por ejemplo, creamos el proyecto myapp-laravel dentro de nuestra carpeta de proyectos del módulo:
+   Por ejemplo, creamos el proyecto *prularavel* dentro de nuestra carpeta de proyectos:
 
    ```sh
-   $ mkdir ~/dwes/proyectos/myapp-laravel
+   $ mkdir ~/dwes/proyectos/prularavel
    ```
 
 2. Accedemos dentro de la carpeta de este nuevo proyecto.
@@ -155,11 +155,11 @@ sudo docker-compose exec myapp php artisan make:controller RegisterController
 
 5. Si utilizamos el contenedor `Portainer` para la gestión de nuestros contenedores, podremos observar que estarán en marcha nuestros dos contenedores (pertenecientes al servidor web y servidor de bases de datos):
 
-<img src="/assets/ud07_laravel_001.png" style="zoom:95%;" />
+<img src="/assets/ud07_laravel_001.png" style="zoom:75%;" />
 
 > Si por alguna extraña razón estás en Windows y no te funciona una de las 2 imágenes, puede ser debido a la instalación de composer dentro de la imagen de Laravel.
 >
-> <img src="/assets/ud07_img02_error-laravel.png" style="zoom:60%;" />
+> <img src="/assets/ud07_img02_error-laravel.png" style="zoom:50%;" />
 >
 > Para solucionarlo, nos vamos a la carpeta del proyecto que se te habrá creado por defecto al hacer docker-compose; en este caso, y si no has modificado el archivo .yml, la carpeta del proyecto sera `my-proyect` y dentro de ella eliminamos la carpeta vendor.
 >
@@ -174,15 +174,19 @@ Recomendable instalar los siguientes plugins para Visual Studio Code.
 Referentes a PHP:
 
 - *PHP Intelephense*
-- PHP IntelliSense
+- *PHP IntelliSense*
 - *PHP Namespace Resolver*
 
 Referentes a Laravel:
 
 - Laravel Blade Snippets
 - *Laravel Snippets*
-- Laravel goto view
+- *Laravel goto view*
 - *Laravel Extra Intellisense*
+
+Referentes a API:
+
+- *Thunder Client*
 
 Referentes a CSS:
 
@@ -196,9 +200,19 @@ Referentes a CSS:
 
 # carpetas en Laravel
 
-Al crear un nuevo proyecto con este framework, Laravel crea una serie de carpetas por defecto. Esta estructura de carpetas es la recomendada para utilizar Laravel.
+<img src="./assets/ud07_laravel002.png" alt="phpMyAdmin" style="zoom:35%; float:right;" />Al crear un nuevo proyecto con este framework, Laravel crea una serie de carpetas por defecto. Esta estructura de carpetas es la recomendada para utilizar Laravel.
 
-<img src="./assets/ud07_laravel002.png" style="zoom:50%;" />
+
+
+
+
+
+
+
+
+
+
+
 
 ## app/Http/Controllers
 
@@ -221,7 +235,15 @@ Esta es nuestra carpeta de recursos donde guardaremos los siguientes archivos, q
 - `lang` Archivos relacionados con el idioma del sitio (variables & strings).
 - `views` Archivos de nuestras vistas, lo que las rutas cargan (comúnmente: lo que se ve en pantalla).
 
-Podemos observar todo esto en el  [ejemplo 01](# ejemplo 01. Hola mundo).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 01](# ejemplo 01. Hola mundo).
+
+
+
+
+
+
+
+
 
 ## routes
 
@@ -239,7 +261,7 @@ Podemos observar en el archivo `composer.json` las dependencias instaladas.
 
 ##  .env
 
-Aunque `.env` no es una carpeta, sino un archivo, también merece especial atención por ser un fichero de configuración de nuestro proyecto. Por ejemplo la conexión a base de datos:
+Aunque `.env` no es una carpeta, sino un archivo, también merece especial atención por ser un fichero de configuración de nuestro proyecto. Por ejemplo, en nuestro caso, la conexión a base de datos sería:
 
 ```sh
 # ...
@@ -272,7 +294,7 @@ En el ejemplo de arriba vamos a cargar la vista llamada *welcome* que hace refer
 
 > **closure *VS* controlador**
 >
-> Se puede definir en el segundo parámetro un closure o un controlador (vermos más adelante este caso).
+> Se puede definir en el segundo parámetro un closure o un controlador (veremos más adelante este caso).
 >
 > Por ejemplo:
 >
@@ -297,6 +319,12 @@ Para ello, basta con utilizar la palabra `name` al final de la estructura de la 
 
 Después veremos que es muy útil ya que a la hora de refactorizar o hacer un cambio, si tenemos enlaces o menús de navegación que apuntan a esta ruta, sólo tendríamos que cambiar el parámetro dentro del get() y no tener que ir archivo por archivo.
 
+
+
+
+
+### forma corta para una vista
+
 Laravel nos proporciona una manera más cómoda a la hora de cargar una vista si no queremos parámetros ni condiciones. Tan sólo definiremos la siguiente línea que hace referencia la ruta datos en la URL y va a cargar el archivo `usuarios.php` de nuestra carpeta views como le hemos indicado en el segundo parámetro.
 
 ```php
@@ -307,7 +335,7 @@ Laravel nos proporciona una manera más cómoda a la hora de cargar una vista si
 
 Pero no sólo podemos retornar una vista, sino, desde un simple string, a módulos propios de Laravel.
 
-Podemos observar todo esto en el  [ejemplo 02](# ejemplo 02. Otras vistas).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 02](# ejemplo 02. Otras vistas).
 
 ## parámetros
 
@@ -328,7 +356,7 @@ Para configurar este tipo de rutas en nuestro archivo de rutas `public/routes/we
 	});
 ```
 
-¿Qué pasa si no introducimos un id y sólo navegamos hasta cliente/ ? ... Nos va a devolver un `404 | NOT FOUND`.
+¿Qué pasa si no introducimos un id y sólo navegamos hasta cliente/ ? ... que nos va a devolver un `404 | NOT FOUND`.
 
 Para resolver esto, podemos definir una ruta por defecto en caso de que el id (o parámetro) no sea pasado. Para ello usaremos el símbolo `?` en nuestro nombre de ruta e inicializaremos la variable con el valor que queramos.
 
@@ -339,9 +367,9 @@ Para resolver esto, podemos definir una ruta por defecto en caso de que el id (o
 	});
 ```
 
-Ahora tenemos otro problema, porque estamos filtrando por id del cliente que, normalmente es un número; pero si metemos un parámetro que no sea un número, vamos a obtener un resultado no deseado.
+Ahora tenemos otro problema, porque estamos filtrando por id del cliente que, normalmente es un número; pero si introducimos un parámetro que no sea un número, vamos a obtener un resultado no deseado.
 
-Para resolver este caso haremos uso de la cláusula where junto con una expresión regular númerica.
+Para resolver este caso haremos uso de la cláusula `where` junto con una expresión regular númerica:
 
 ```php
 <?php
@@ -350,14 +378,14 @@ Para resolver este caso haremos uso de la cláusula where junto con una expresi�
 	}) -> where('id', '[0-9]+');
 ```
 
-Además, podemos pasarle variables a nuestra URL para luego utilzarlas en nuestros archivos de plantillas o en archivos .php haciendo uso de un array asociativo. Veamos un ejemplo con la forma reducida para ahorrarnos código.
+Además, podemos pasarle variables a nuestra URL para luego utilizarlas en nuestros archivos de plantillas o en archivos .php haciendo uso de un array asociativo. Veamos un ejemplo con la forma reducida para ahorrarnos código:
 
 ```php
 <?php
 	Route::view('datos', 'usuarios', ['id' => 5446]);
 ```
 
-... y el archivo `resources/views/usuarios.php` debe tener algo parecido a ésto:
+... y el archivo `resources/views/usuarios.blade.php` debe tener algo parecido a ésto:
 
 ```php
 <!-- Estructura típica de un archivo HTML5 -->
@@ -370,11 +398,13 @@ Además, podemos pasarle variables a nuestra URL para luego utilzarlas en nuestr
 
 Para más información acerca de las rutas, parámetros y expresiones regulares en las rutas puedes echar un vistazo a la [documentación oficial de rutas](https://laravel.com/docs/8.x/routing#route-parameters) que contiene numerosos ejemplos.
 
+> **Ejemplo**: Podemos observar un ejemplo en [ejemplo 03](# ejemplo 03. paso de parámetros).
+
 # plantillas o templates
 
 A través de las plantillas de Laravel vamos a escribir **menos código** PHP y vamos a tener nuestros archivos **mejor organizados**.
 
-**Blade** es el sistema de plantillas que trae Laravel, por eso los archivos de plantillas que guardamos en el directorio de *views* llevan la extensión `blade.php`.
+**Blade** es el sistema de plantillas que trae Laravel, por eso los archivos de plantillas que guardamos en el directorio de `views` llevan la extensión `blade.php`.
 
 De esta manera sabemos inmediatamente que se trata de una plantilla de Laravel y que forma parte de una vista que se mostrará en el navegador.
 
@@ -382,19 +412,19 @@ De esta manera sabemos inmediatamente que se trata de una plantilla de Laravel y
 
 Laravel tiene un gran número de directivas que podemos utilizar para ahorrarnos mucho código repetitivo entre otras funciones.
 
-Digamos que las directivas son pequeñas funciones ya escritas que aceptan parámetros y que cada una de ellas hace una función diferente dentro de Laravel.
+Digamos que las directivas son pequeñas funciones ya escritas que aceptan parámetros y que cada una de ellas hace una función diferente dentro de Laravel. Por ejemplo:
 
 - `@yield` define el contenido dinámico que se va a cargar. Se usa conjuntamente con `@section`.
-- `@section` y `@endsection` bloque de código dinámico.
+- `@section` y `@endsection` es un bloque de código dinámico.
 - `@extends` importa el contenido de una plantilla ya creada.
 
 ## separando código
 
 Veamos sobre un ejemplo cómo separar el código para no repetirlo.
 
-Podemos observar todo esto en el  [ejemplo 03](# ejemplo 03. Uso de directivas).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 04](# ejemplo 04. Uso de directivas).
 
-Realiza también el  [ejemplo 04](# ejemplo 04. Vista registrarse).
+> **Ejemplo**: Realiza también el  [ejemplo 05](# ejemplo 05. Vista registrarse).
 
 ## estructuras de control
 
@@ -416,6 +446,10 @@ En Blade (plantillas de Laravel) siempre que iniciemos un bloque de estructura d
   @foreach ($equipo as $elemento)
      <p> {{ $elemento }} </p>
   @endforeach
+  // si no funciona la estructura anterior:
+  // foreach ($equipo as $elemento) {
+  //     echo "<p>" . $elemento . "</p>";
+  // }
 ```
 
 Acordaros que podemos pasar variables a través de las rutas como si fueran parámetros. Pero en este caso, vamos a ver otra directiva más; el uso de `@compact`.
@@ -428,6 +462,8 @@ Acordaros que podemos pasar variables a través de las rutas como si fueran par�
   // Route::view('nosotros', ['equipo' => 'equipo']);
   Route::view('nosotros', @compact('equipo'));
 ```
+
+> **Ejemplo**: Veamos sobre un ejemplo pasar información a la vista a través del [ejemplo 06](# ejemplo 06. Pasar datos a una vista).
 
 # controladores
 
@@ -532,7 +568,7 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
   }
 ```
 
-Podemos observar todo esto en el  [ejemplo 05](# ejemplo 05. controlador RegisterController y su formulario).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 07](# ejemplo 07. controlador RegisterController y su formulario).
 
 # tipos de Request
 
@@ -546,7 +582,7 @@ En HTTP existen diferentes tipos de Request o tipos de Petición: GET, POST, PUT
 - `PATCH` es utilizado para actualizar parcialmente un elemento o recurso. 
 - `DELETE` se utiliza para eliminar un recurso o elemento.
 
-Podemos observar todo esto en el  [ejemplo 06](# ejemplo 06. petición post).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 08](# ejemplo 08. Petición post).
 
 # validación de formularios
 
@@ -669,7 +705,7 @@ Para confirmar el password notamos que habíamos puesto al campo de confirmació
 </div>
 ```
 
-Una convención en Laravel para comprobar si dos campos son iguales es asignarle al segundo el prefijo `_confirmatio`.`password_confirmation`(y **debe nombrarse así**) junto con la validación `confirmed` que hemos puesto para el campo `pasword` en el controlador va a verificar que el campo `passwor` y `password_confirmation` sean iguales.
+Una convención en Laravel para comprobar si dos campos son iguales es asignarle al segundo el prefijo `_confirmatio`.`password_confirmation` (y **debe nombrarse así**) junto con la validación `confirmed` que hemos puesto para el campo `pasword` en el controlador va a verificar que el campo `passwor` y `password_confirmation` sean iguales.
 
 # migraciones y la base de datos
 
@@ -818,7 +854,7 @@ A tener en cuenta:
 
 <img src="/assets/ud07_insertar03.png" style="zoom:60%;" />
 
-​	Y vemos que se ha insertado en la base de datos:
+	Y vemos que se ha insertado en la base de datos:
 
 <img src="/assets/ud07_insertar04.png" style="zoom:60%;" />
 
@@ -954,12 +990,8 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
 
    ```sh
    npm run dev
-   ```
-
-   Si no funciona, prueba:
-
-   ```sh
-   npm run dev -- --host
+   # ó, si no funciona:
+   # npm run dev -- --host
    ```
 
    <img src="/assets/ud07_laravel_002.png" style="zoom:50%;" />
@@ -988,25 +1020,25 @@ Para reinstalar nodejs:
 
 2. Eliminar todo resto de node y npm: 
 
-   ​	a. Antes que nadas, debe ejecutar el siguiente comando desde el terminal:
+   	a. Antes que nadas, debe ejecutar el siguiente comando desde el terminal:
 
    ```sh
    sudo rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node* /usr/local/lib/dtrace/node.d ~/.npm ~/.node-gyp /opt/local/bin/node opt/local/include/node /opt/local/lib/node_modules
    ```
 
-   ​	b. Eliminar los directorios node o node_modules de /usr/local/lib con la ayuda del siguiente comando:
+   	b. Eliminar los directorios node o node_modules de /usr/local/lib con la ayuda del siguiente comando:
 
    ```sh
    sudo rm -rf /usr/local/lib/node*
    ```
 
-   ​	c. Eliminar los directorios node o node_modules de /usr/local/include con la ayuda del siguiente comando:
+   	c. Eliminar los directorios node o node_modules de /usr/local/include con la ayuda del siguiente comando:
 
    ```sh
    sudo rm -rf /usr/local/include/node*
    ```
 
-   ​	d. Eliminar cualquier archivo de nodo o directorio de /usr/local/bin con la ayuda del siguiente comando:
+   	d. Eliminar cualquier archivo de nodo o directorio de /usr/local/bin con la ayuda del siguiente comando:
 
    ```sh
    sudo rm -rf /usr/local/bin/node
@@ -1014,19 +1046,19 @@ Para reinstalar nodejs:
 
 3. Instalar otra vez nvm:
 
-   ​	a. Instalar NvM (Node Version Manager), desde el directorio de usuario `~` :
+   	a. Instalar NvM (Node Version Manager), desde el directorio de usuario `~` :
 
    ```sh
    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
    ```
 
-   ​	b. Actualiza el archivo .bashrc:
+   	b. Actualiza el archivo .bashrc:
 
    ```sh
    source .bashrc
    ```
 
-   ​	c. Confirma que el directorio local está configurado:
+   	c. Confirma que el directorio local está configurado:
 
    ```sh
    echo $NVM_DIR
@@ -1035,13 +1067,13 @@ Para reinstalar nodejs:
 
 4. Instalar node:
 
-   ​	a. Revisar qué versiones de Node.js están disponibles:
+   	a. Revisar qué versiones de Node.js están disponibles:
 
    ```sh
    nvm ls-remote
    ```
 
-   ​	b. Instalar la versión que desees (elige la v20.10.0):
+   	b. Instalar la versión que desees (elige la v20.10.0):
 
    ```sh
    nvm install v20.10.0
@@ -1057,29 +1089,55 @@ Para reinstalar nodejs:
 
 ## ejemplo 01. Hola Mundo
 
-Vamos a eliminar todo el *style* que viene por defecto y a vaciar de contenido de la etiqueta `<body>` de la vista resources/views/`wellcome.blade.php` y creamos etiqueta:
+Vamos a eliminar todo el *style* que viene por defecto y a vaciar de contenido de la etiqueta `<body>` de la vista **resources/views/**`wellcome.blade.php` y creamos etiquetas:
 
 ```php+HTML
 <h1>Página principal</h1>
 <h2>Hola Mundo.</h2>
 ```
 
+[**[VOLVER  ^]**](# routes)
+
 ## ejemplo 02. Otras vistas
 
-Creamos un fichero `nosotros.blade.php`, `tienda.blade.php` en views.
+Creamos dos ficheros `nosotros.blade.php`, `tienda.blade.php` en **resources/views**:
 
-Añadimos en `web.php` :
+Además, añadimos en el fichero `web.php`  las siguientes rutas:
 
 ```php
 Route::get('/nosotros', function () {
     return view('nosotros');
 });
-Route::get('/tienda-virtual', function () {
-    return view('tienda');
-});
+
+Route::view('/tienda-virtual','tienda');  // forma corta para la ruta a una vista
+
 ```
 
-## ejemplo 03. Uso de directivas
+[**[VOLVER  ^]**](# parámetros)
+
+## ejemplo 03. Paso de parámetros
+
+En el fichero `web.php` modifica la ruta a tienda-virtual para que se le pase por parámetro la variable $id. Préviamente se ha inicializado a un valor; controlar si se ha introducido sin valor y si se ha introducido algún valor no numérico:
+
+````php
+Route::get('tienda/{id?}', function($id = 1) {
+    return view('tienda', ['id' => $id]);
+}) -> where('id', '[0-9]+');
+
+// otra forma:
+// Route::view('tienda/{id?}', 'tienda', ['id' => 1]);
+````
+
+Después, mostrar este valor en la vista `tienda.blade.php`:
+
+```php+HTML
+<h1>tienda virtual</h1>
+<p>producto con id: <?= $id ?></p>
+```
+
+[**[VOLVER  ^]**](# plantillas o templates)
+
+## ejemplo 04. Uso de directivas
 
  Cómo hacer uso del poder de Laravel para crear plantillas y no repetir código.
 
@@ -1221,7 +1279,9 @@ Supongamos que tenemos 3 apartados en la web:
 
 De esta manera podremos hacer uso del menú de navegación que hemos puesto en nuestra plantilla y gracias a los alias noticias y galeria, la URL será más amigable.
 
-## ejemplo 04. Vista registrarse
+[**[VOLVER  ^]**](# estructuras de control)
+
+## ejemplo 05. Vista registrarse
 
 > Antes de continuar con el ejemplo, debes **eliminar**:
 >
@@ -1257,7 +1317,17 @@ Añadir al fichero `web.php` la entrada:
   }) -> name('resgister');
 ```
 
-## ejemplo 05. controlador RegisterController y su formulario
+[**[VOLVER  ^]**](# estructuras de control)
+
+## ejemplo 06. Pasar datos a una vista
+
+Crear en `web.php` un array (de nombre `arrayProductos`) con, al menos, 4 ítems. 
+
+Pasar este array a una vista, de nombre `listaProductos.blade.php` y muéstralos en una tabla.
+
+[**[VOLVER  ^]**](# controladores)
+
+## ejemplo 07. Controlador RegisterController y su formulario
 
 En vez de usar *closures* (o *callbacks*) en el fichero `web.php` vamos a crear controladores en nuestro ejemplo y trasladar la lógica de negocio a estos últimos. Así, y siguiendo con los ejemplos anteriores, vamos a crear un controlador para gestionar el registro en nuestra APP (vamos a ordenar nuestros ficheros y colocaremos `RegisterConroller` dentro de la carpeta `Auth` y añadimos doble diagonal inversa `\\`).
 
@@ -1378,7 +1448,9 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
 @endsection
 ````
 
-## ejemplo 06. petición post
+[**[VOLVER  ^]**](# tipos de request)
+
+## ejemplo 08. Petición post
 
 Vamos a crear ahora el enlace registrarse. Para ello accedemos a `web.php` e introducimos la linea con el método POST:
 
@@ -1441,7 +1513,7 @@ Si accedemos a localhost/register:
 
 
 
-
+[**[VOLVER  ^]**](# validación de formularios)
 
 
 
