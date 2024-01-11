@@ -19,6 +19,12 @@
 
 
 
+
+
+
+
+
+
 [TOC]
 
 # duración y criterios de evaluación
@@ -111,7 +117,7 @@ Todos los comando podemos encontrarlos ejecutando:
 
 ```sh
 # php artisan
-# ó
+# ó, si no funciona:
 sudo docker-compose exec myapp php artisan
 ```
 
@@ -119,7 +125,7 @@ Por ejemplo, si quisiéramos crear un controlador (como veremos más adelante) l
 
 ```sh
 # php artisan make:controller RegisterController
-# ó
+# ó, si no funciona:
 sudo docker-compose exec myapp php artisan make:controller RegisterController
 ```
 
@@ -236,14 +242,6 @@ Esta es nuestra carpeta de recursos donde guardaremos los siguientes archivos, q
 - `views` Archivos de nuestras vistas, lo que las rutas cargan (comúnmente: lo que se ve en pantalla).
 
 > **Ejemplo**: Podemos observar todo esto en el  [ejemplo 01](# ejemplo 01. Hola mundo).
-
-
-
-
-
-
-
-
 
 ## routes
 
@@ -479,6 +477,7 @@ Abrimos la consola y nos situamos en la raíz de nuestro proyecto:
 
 ```sh
 php artisan make:controller PagesController
+
 ```
 
 > **ABC**
@@ -487,6 +486,8 @@ php artisan make:controller PagesController
 >
 > ```sh
 > sudo docker-compose exec myapp php artisan make:controller PagesController
+> # ó, si no funciona:
+> # sudo docker-compose exec myapp php artisan make:controller PagesController
 > ```
 >
 > 
@@ -515,17 +516,17 @@ Esta convención ayuda bastante para tener todo mejor organizado:
 
 En este enlace a la documentación de Laravel vemos las acciones que son controladas (o manejadas) por el controlador [enlace](https://laravel.com/docs/10.x/controllers#actions-handled-by-resource-controller).
 
-
-
 Veamos cómo quedaría un refactor del archivo de rutas utilizando un Controller como el que acabamos de crear.
+
+
+
+
 
 Ahora nos quedaría de la siguiente manera:
 
 ```php
 <?php
-
-  // web.php (v2.0) ▒▒▒▒ Refactorizado
-
+  // web.php (v2.0) ▒▒▒ Refactorizado
   use App\Http\Controllers\PagesController;
   use Illuminate\Support\Facades\Route;
 
@@ -540,11 +541,9 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
 ```php
 <?php
   // PagesController.php
-
   namespace App\Http\Controllers;
 
-  class PagesController extends Controller
-  {
+  class PagesController extends Controller {
      public function inicio() { return view('welcome'); }
 
      public function datos() { 
@@ -556,13 +555,10 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
      }
 
      public function nosotros($nombre = null) {
-        $equipo = [
-            'Paco',
-            'Enrique',
-            'Maria',
-            'Veronica'
-        ];
-
+        $equipo = ['Paco',
+            	   'Enrique',
+                   'Maria',
+                   'Veronica'];
         return view('nosotros', @compact('equipo', 'nombre'));
      }
   }
@@ -1153,7 +1149,7 @@ Supongamos que tenemos 3 apartados en la web:
 
    Para ello creamos el archivo `app.blade.php` dentro del nuevo directorio de plantillas `resources/views/layouts`.
 
-2. Dicho archivo va a contener el típico código de una página simple de HTML y en el body añadiremos nuestros contenido estático y dinámico.
+   Dicho archivo va a contener el típico código de una página simple de HTML y en el body añadiremos nuestros contenido estático y dinámico.
 
    ```php+HTML
    <!DOCTYPE html>
@@ -1183,32 +1179,32 @@ Supongamos que tenemos 3 apartados en la web:
        </div>
      </header>
        
-     <!-- BORRAR MÁS ADELANTE - este menú de navegación -->
+     <!-- BORRAR MÁS ADELANTE este menú en el siguiente ejemplo -->
      <nav class="flex gap-5 items-center">
           <a class="font-bold uppercase text-gray-600 text-sm"
              href={{ route('inicio') }} >inicio</a> |
           <a class="font-bold uppercase text-gray-600 text-sm"  
              href={{ route('noticias') }} >blogs</a> |
           <a class="font-bold uppercase text-gray-600 text-sm"  
-             href={{ route('fotos') }} >fotos</a>
-       </nav>    
-       <hr>
+             href={{ route('galeria') }} >fotos</a>
+     </nav>    
+     <hr>
        
-       <!-- CONTENIDO PRINCIPAL -->
-       <main class="container mx-auto mt-10">
-          <h2 class="font-black text-center text-3xl mb-10">
+     <!-- CONTENIDO PRINCIPAL -->
+     <main class="container mx-auto mt-10">
+        <h2 class="font-black text-center text-3xl mb-10">
               @yield('titulo')
-          </h2>
-          @yield('contenido')
-       </main>    
+        </h2>
+        @yield('contenido')
+     </main>    
        
-       <!-- FOOTER -->
-       <footer class="text-center p-5 text-gray-500 font-bold uppercase">
-          MiPrimeraWeb - Todos los derechos reservados @php echo date('Y') @endphp
-          <br>
-          <!-- con helpers -->
-          MiPrimeraWeb - Todos los derechos reservados {{ now()->year}}
-       </footer>    
+     <!-- FOOTER -->
+     <footer class="text-center p-5 text-gray-500 font-bold uppercase">
+        MiPrimeraWeb - Todos los derechos reservados @php echo date('Y') @endphp
+        <br>
+        <!-- con helpers -->
+        MiPrimeraWeb - Todos los derechos reservados {{ now()->year }}
+     </footer>    
    </body>
    </html>
    ```
@@ -1222,51 +1218,45 @@ Supongamos que tenemos 3 apartados en la web:
    Importamos el contenido de plantilla bajo la directiva `@extends` para que cargue los elementos estáticos que hemos declarado y con la directiva `@section` y `@endsection` definimos el bloque de código dinámico, en función de la sección que estemos visitando.
 
    ```php
-   <?php
-       // inicio.blade.php
-       @extends('layouts.app')
+   @extends('layouts.app')
    
-       @section('titulo')
-           página principal
-       @endsection
+   @section('titulo')
+       página principal
+   @endsection
    
-       @section('contenido')
-           contenido de la página principal
-       @endsection
+   @section('contenido')
+       contenido de la página principal
+   @endsection
    ```
-
+   
    `blog.blade.php`:
 
    ```php
-   <?php
-       // blog.blade.php
-       @extends('layouts.app')
+   @extends('layouts.app')
    
-       @section('titulo')
-       	notícias
-       @endsection
-       
-       @section('contenido')
-           contenido de todas las notícias
-       @endsection 
+   @section('titulo')
+       notícias
+   @endsection
+   
+   @section('contenido')
+       contenido de todas las notícias
+   @endsection 
    ```
-
-   `fotos.blade.php`:
-
-   ````php
-   <?php
-     // fotos.blade.html
-     @extends('layouts.app')
    
-     @section('titulo')
-   	fotografías
-     @endsection
-       
-     @section('contenido')
-       galería de fotografías
-     @endsection     
+   `fotos.blade.php`:
+   
+   ````php
+   @extends('layouts.app')
+   
+   @section('titulo')
+   fotografías
+   @endsection
+   
+   @section('contenido')
+   galería de fotografías
+   @endsection     
    ````
-
+   
 4. El último paso que nos queda es configurar el archivo de rutas `routes/web.php`:
 
    ````php
@@ -1283,11 +1273,11 @@ De esta manera podremos hacer uso del menú de navegación que hemos puesto en n
 
 ## ejemplo 05. Vista registrarse
 
-> Antes de continuar con el ejemplo, debes **eliminar**:
+> Antes de continuar con el ejemplo, debes **modificar** (**guarda los modificados**):
 >
-> - el menú de navegación de *inicio | blogs | fotos* del fichero `layouts/app.blade.php`.
-> - las rutas en el fichero `web.php` que afecten a este menú (exceptuando la ruta de inicio).
-> - las dos vistas `blog.blade.php` y `foto.blade.php`.
+> - elimina el menú de navegación de *inicio | blogs | fotos* del fichero `layouts/app.blade.php`.
+> - elimina las rutas en el fichero `web.php` que afecten a este menú (exceptuando la ruta de inicio).
+> - elimina las dos vistas `blog.blade.php` y `foto.blade.php`.
 >
 > Este borrado se debe a que NO vamos a continuar con estas vistas; solo eran un ejemplo de uso de directivas y la separación de código. 
 
@@ -1296,34 +1286,74 @@ Como has observado, nuestro anterior ejemplo contenía en el fichero `resources/
 Crea las vistas para estos dos enlaces. Para ello alojarás sus dos vistas en una carpeta nueva `resources/views/auth` con nombre `register.blade.php` para *Crear cuenta*.
 
 ```php
-<?php
-  // fotos.blade.html
-  @extends('layouts.app')
+@extends('layouts.app')
 
-  @section('titulo')
-	Regístrate en tu APP
-  @endsection
-    
-  @section('contenido')
-    
-  @endsection    
+@section('titulo')
+Regístrate en tu APP
+@endsection
+
+@section('contenido')
+
+@endsection    
+```
+
+Modificar en el fichero app.blade.app el menú de crear cuenta para que se pueda acceder des del enlace a la vista creada anteriormente:
+
+```php+HTML
+// ...
+<nav class="flex gap-5 items-center">
+   <a class="font-bold uppercase text-gray-600 text-sm" href="#">Login</a>
+   <a class="font-bold uppercase text-gray-600 text-sm" href={{ route('register') }}>Crear cuenta</a>
+</nav> 
+// ..
 ```
 
 Añadir al fichero `web.php` la entrada:
 
 ```php
-  Route::get('/crear-cuenta', function(){
-      return view(auth.register) //la ruta contiene .
-  }) -> name('resgister');
+  Route::view('/crear-cuenta','auth.register') -> name('resgister');  //la ruta contiene .
 ```
 
 [**[VOLVER  ^]**](# estructuras de control)
 
 ## ejemplo 06. Pasar datos a una vista
 
-Crear en `web.php` un array (de nombre `arrayProductos`) con, al menos, 4 ítems. 
+1. Crear en `web.php` un array (de nombre `arrayProductos`) con, al menos, 4 ítems:
 
-Pasar este array a una vista, de nombre `listaProductos.blade.php` y muéstralos en una tabla.
+````php
+  Route::get('listaproductos', function(){
+    $productos = ['rosa','clavel','orquídea','lírio'];
+    return view('pru1', compact('productos'));
+  });
+````
+
+> Para pasar un array a una vista existen varios métodos:
+>
+> - return view('pru1', ['productos' => $productos]);
+>
+> - return view('pru1') -> with ('productos', $productos);
+>
+> - **return view('pru1', compact('productos'));**
+>
+>    con la función de php compact se crea internamente un array con productos.
+
+2. Pasar este array a una vista, de nombre `listaproductos.blade.php` y muéstralos en una tabla:
+
+```php+HTML
+<?php
+    foreach ($productos as $item) {
+        echo "<li>".$item."</li>";
+    }
+?>
+```
+
+Pero como hemos visto, Laravel tiene unas directivas que funcionan en sus vistas y que se pueden utilizar de forma más elegante:
+
+```php
+@foreach ($usuarios as $item)
+    <li>{{ $item }}</li>
+@endforeach
+```
 
 [**[VOLVER  ^]**](# controladores)
 
@@ -1335,14 +1365,17 @@ Abrimos el CLI artisan (nuevo terminal en VS Code o `Ctrl`+`) en la carpeta de n
 
 ````sh
 php artisan make:controller Auth\\RegisterController
-# ó 
+# ó, si no fuciona: 
 # sudo docker-compose exec myapp php artisan make:controller Auth\\RegisterController
 ````
 
 En `web.php` modificar la ruta de *Crear cuenta* (quitar el *callback* y añadir el controlador y su método). Se recomienda como convención el nombre del método `index`:
 
 ````php
-Route::get('/crear-cuenta', [RegisterController::class, 'index']) -> name('resgister');
+// ...
+use App\Http\Controllers\Auth\RegisterController;
+// ...
+Route::get('/register', [RegisterController::class, 'index']) -> name('register');
 ````
 
 Y en `RegisterController.php`, trasladamos la lógica de negocio que ejecutaba el callback, añadiendo la palabrasreservadas `public` y añadiendo también un nombre a esta función `index()`:
@@ -1455,8 +1488,8 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
 Vamos a crear ahora el enlace registrarse. Para ello accedemos a `web.php` e introducimos la linea con el método POST:
 
 ```php
-Route::get('/crear-cuenta', [RegisterController::class, 'index']) -> name('resgister');
-Route::post('/crear-cuenta' [RegisterController::class, 'store'])
+Route::get('/register', [RegisterController::class, 'index']) -> name('resgister');
+Route::post('/register' [RegisterController::class, 'store'])
 ```
 
 > **No** ponemos un alias en esta ruta porque va a tomar también el alias del anterior ruta.
@@ -1469,7 +1502,9 @@ public function store() {
 }
 ```
 
-Para terminar este punto, en el fichero .blade `register.blade.php` vamos a modificar la etiqueta form para que redireccione al action correspondiente con el método en qüestión. Fíjate que en action ponemos la función route y el nombre de la ruta:
+> La función `dd` en Laravel permite parar la ejecución en ese punto.
+
+Para terminar este punto, en la vista `register.blade.php` vamos a modificar la etiqueta *form* para que redireccione al action correspondiente con el método en qüestión. Fíjate que en action ponemos la función route y el nombre de la ruta:
 
 ```php 
 ...
@@ -1481,7 +1516,7 @@ Si recargamos la página y accionamos el enlace vemos que nos muestra el siguien
 
 <img src="/assets/ud07_laravel_005_error419.png" style="zoom:100%;" />
 
-**¿Qué es página expirada?**
+**¿Por qué una página expirada?**
 
 Laravel es un framework enfocado a la seguridad (en este caso, se asegura que no suframos ataques del tipo XSRF o Cross Site Request Forgery). Así que Laravel tiene consideraciones de seguridad.
 
