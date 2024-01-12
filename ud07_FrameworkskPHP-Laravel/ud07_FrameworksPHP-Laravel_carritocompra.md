@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 7
-   title: Framework Laravel
+   title: Laravel - carrito de compra
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
@@ -227,8 +227,13 @@ https://github.com/darryldecode/laravelshoppingcart
     {
     
       public function shop() {
-        $products = Product::all();
-        dd($products);
+        // si se quiere capturar la excepción que pudiera provocar.  
+        //try {
+        	$products = Product::all();
+    	//} catch (\Exception $e) {
+        //	dd($e->getMessage());
+    	//}
+    
         return view('shop')->withTitle('E-COMMERCE STORE | SHOP')->with(['products' => $products]);
       }
     
@@ -299,7 +304,20 @@ https://github.com/darryldecode/laravelshoppingcart
     # sudo docker-compose exec myapp php artisan serve
     ```
 
-16. Crear vistas Ahora tenemos que crear dos vistas tanto para el carrito como para las páginas de la tienda en la carpeta `resources/views` Nombramos nuestras dos vistas como `cart.blade.php` y `shop.blade.php`. Así tal cuál.
+    > Si se produce un error en la linea:
+    >
+    > ```php
+    > $products = Product::all(); 
+    > ```
+    >
+    > de `CartController.php` podremos activar el try/catch comentado en las lineas de código. Además de:
+    >
+    > - comprobar que el usuario de la base de datos tiene privilegios sobre la base de datos.
+    > - reiniciar los servidores.
+
+16. Crear vistas. Ahora tenemos que crear dos vistas tanto para el carrito como para las páginas de la tienda en la carpeta `resources/views`. 
+
+    Nombramos nuestras dos vistas como `shop.blade.php` y `cart.blade.php`.
 
     Editamos el archivo `resources\views\shop.blade.php` y pegamos el siguiente código:
 
@@ -359,14 +377,245 @@ https://github.com/darryldecode/laravelshoppingcart
         </div>
     </div>
     @endsection
-    
     ```
 
+    Editamos el archivo `resources\views\cart.blade.php` y pegamos este código:
+
+    ```php+html
+    @extends('layouts.app')
     
+    @section('content')
+      <div class="container" style="margin-top: 80px">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Tienda</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cart</li>
+          </ol>
+        </nav>
+        @if(session()->has('success_msg'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session()->get('success_msg') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        @endif
+        @if(session()->has('alert_msg'))
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ session()->get('alert_msg') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        @endif
+        @if(count($errors) > 0)
+          @foreach($errors0>all() as $error)
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ $error }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+          @endforeach
+        @endif
+        <div class="row justify-content-center">
+           <div class="col-lg-7">
+              <br>
+              @if(\Cart::getTotalQuantity()>0)
+                 <h4>{{ \Cart::getTotalQuantity()}} Producto(s) en el carrito</h4><br>
+              @else
+                 <h4>No Product(s) In Your Cart</h4><br>
+                 <a href="/" class="btn btn-dark">Continue en la tienda</a>
+              @endif
+    
+              @foreach($cartCollection as $item)
+                <div class="row">
+                  <div class="col-lg-3">
+                    <img src="/images/{{ $item->attributes->image }}" class="img-thumbnail" width="200" height="200">
+                  </div>
+                  <div class="col-lg-5">
+                     <p>
+                       <b><a href="/shop/{{ $item->attributes->slug }}">{{ $item->name }}</a></b><br>
+                       <b>Price: </b>${{ $item->price }}<br>
+                       <b>Sub Total: </b>${{ \Cart::get($item->id)->getPriceSum() }}<br>
+                       {{--                                <b>With Discount: </b>${{ \Cart::get($item->id)->getPriceSumWithConditions() }}--}}
+                     </p>
+                   </div>
+                   <div class="col-lg-4">
+                     <div class="row">
+                        <form action="{{ route('cart.update') }}" method="POST">
+                          {{ csrf_field() }}
+                          <div class="form-group row">
+                             <input type="hidden" value="{{ $item->id}}" id="id" name="id">
+                             <input type="number" class="form-control form-control-sm" value="{{ $item->quantity }}" id="quantity" name="quantity" style="width: 70px; margin-right: 10px;">
+                             <button class="btn btn-secondary btn-sm" style="margin-right: 25px;"><i class="fa fa-edit"></i></button>
+                           </div>
+                         </form>
+                         <form action="{{ route('cart.remove') }}" method="POST">
+                           {{ csrf_field() }}
+                           <input type="hidden" value="{{ $item->id }}" id="id" name="id">
+                           <button class="btn btn-dark btn-sm" style="margin-right: 10px;"><i class="fa fa-trash"></i></button>
+                         </form>
+                       </div>
+                     </div>
+                  </div>
+                <hr>
+              @endforeach
+              @if(count($cartCollection)>0)
+                <form action="{{ route('cart.clear') }}" method="POST">
+                  {{ csrf_field() }}
+                    <button class="btn btn-secondary btn-md">Borrar Carrito</button> 
+                </form>
+              @endif
+           </div>
+           @if(count($cartCollection)>0)
+             <div class="col-lg-5">
+               <div class="card">
+                 <ul class="list-group list-group-flush">
+                   <li class="list-group-item"><b>Total: </b>${{ \Cart::getTotal() }}</li>
+                 </ul>
+               </div>
+               <br>
+               <a href="/" class="btn btn-dark">Continue en la tienda</a>
+               <a href="/checkout" class="btn btn-success">Proceder al Checkout</a>
+             </div>
+           @endif
+         </div>
+         <br><br>
+       </div>
+    @endsection
+    ```
 
+17. A continuación crear, si no lo tienes, el archivo `layouts/app.blade.php ` y le pegas el siguiente código: 
 
+    ```php+HTML
+    <!doctype html>
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ $title ?? 'E-COMMERCE TIENDA' }}</title>
+        <link rel="stylesheet" href={{ url('css/app.css') }}>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    </head>
+    <body>
+    <div id="app">
+        @include('partials.navbar')
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"</script>
+    </body>
+    </html>
+    ```
 
+18.  Creas esta carpeta y archivo dentro de `views/partials/navbar.blade.php`. Código para el menú y agregas el código:
 
+    ````php+HTML
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+          E-COMMERCE TIENDA
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('shop') }}">TIENDA</a>
+            </li>
+            <li class="nav-item dropdown">
+               <a id="navbarDropdown" class="nav-link dropdown-toggle"
+                 href="#" role="button" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false"
+               >
+                 <span class="badge badge-pill badge-dark">
+                   <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity()}}
+                 </span>
+               </a>
+    
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width: 450px; padding: 0px; border-color: #9DA0A2">
+                  <ul class="list-group" style="margin: 20px;">
+                    @include('partials.cart-drop')
+                  </ul>
+                </div>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </nav>
+    ````
+
+    20. `partials/cart-drop.blade.php`:
+
+        ```php+HTML
+        @if(count(\Cart::getContent()) > 0)
+          @foreach(\Cart::getContent() as $item)
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-lg-3">
+                  <img src="/images/{{ $item->attributes->image }}"
+                       style="width: 50px; height: 50px;"
+                  >
+                </div>
+                <div class="col-lg-6">
+                  <b>{{$item->name}}</b>
+                  <br><small>Qty: {{$item->quantity}}</small>
+                </div>
+                <div class="col-lg-3">
+                  <p>${{ \Cart::get($item->id)->getPriceSum() }}</p>
+                </div>
+                <hr>
+              </div>
+            </li>
+          @endforeach
+          <br>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-10">
+                <b>Total: </b>${{ \Cart::getTotal() }}
+              </div>
+              <div class="col-lg-2">
+                <form action="{{ route('cart.clear') }}" method="POST">
+                  {{ csrf_field() }}
+                  <button class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
+                </form>
+              </div>
+            </div>
+          </li>
+          <br>
+          <div class="row" style="margin: 0px;">
+              <a class="btn btn-dark btn-sm btn-block" href="{{ route('cart.index') }}">
+                  CARRITO <i class="fa fa-arrow-right"></i>
+              </a>
+              <a class="btn btn-dark btn-sm btn-block" href="">
+                  CHECKOUT <i class="fa fa-arrow-right"></i>
+              </a>
+          </div>
+        @else
+          <li class="list-group-item">Tu carrito esta vacío</li>
+        @endif
+        ```
+
+    21. Cargar las imágenes en la carpeta `public/images`.
+
+        Si llegaste hasta aquí felicitaciones !! - Verás esto en tú navegador:
+
+        **<img src="https://lh7-us.googleusercontent.com/Wv8W1njTqhZFY5z8wfhvw1dX0vhpTJAU6aNPGJr42v12YS3Fs11jFYyy8YSz3XHQeQpI6ZTeBiFNOGxAEc5G52tElV0cTF5FXewXgaeQ3NZbYqy_3an89k7ff0YUGhzcMJeA9svO905JYC-9zKbDqzk" alt="img" style="zoom: 50%;" />**
+
+        
+
+        
+
+        Formador: Enrique Martínez para compucenter33 en youtubeenlace para ir a nuestro canal [https://www.youtube.com/c/compucenter33](https://www.youtube.com/c/compucenter33)
 
 
 
