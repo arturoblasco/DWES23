@@ -19,7 +19,7 @@
 
 Creado por Enrique Martínez para el canal de youtube [compucenter33](https://www.youtube.com/c/compucenter33)
 
-<img src="https://lh7-us.googleusercontent.com/_Yx_03ZdyMxy06TzR8AcVvqohz-174YeZpk7bTVHM4fTrnIS3bfGSiW8bZi4Ay87D7zn5B77cLEnOA6aGhbnCIlMBRq6aYZgOffnrYlq1w6ySDiwKF4silRPZauYrZ4vFlZgBqBMozo9rKUGpR6j9s0" alt="img" style="zoom: 45%;" />
+<img src="./assets/ud07_carrito001.png" alt="img" style="zoom: 100%;" />
 
 Para que este ejercicio sea rápido y fácil usaremos un plugin llamado [**darryldecode/cart**](https://github.com/darryldecode/laravelshoppingcart)
 
@@ -607,15 +607,19 @@ https://github.com/darryldecode/laravelshoppingcart
 
     21. Cargar las imágenes en la carpeta `public/images`.
 
-        Si llegaste hasta aquí felicitaciones !! - Verás esto en tú navegador:
-
-        **<img src="https://lh7-us.googleusercontent.com/Wv8W1njTqhZFY5z8wfhvw1dX0vhpTJAU6aNPGJr42v12YS3Fs11jFYyy8YSz3XHQeQpI6ZTeBiFNOGxAEc5G52tElV0cTF5FXewXgaeQ3NZbYqy_3an89k7ff0YUGhzcMJeA9svO905JYC-9zKbDqzk" alt="img" style="zoom: 50%;" />**
-
         
 
-        
+    Una vez finalizado el código, el producto resultante será:
 
-        Formador: Enrique Martínez para compucenter33 en youtubeenlace para ir a nuestro canal [https://www.youtube.com/c/compucenter33](https://www.youtube.com/c/compucenter33)
+    **<img src="./assets/ud07_carrito001.png" alt="img" style="zoom: 100%;" />**
+
+    
+
+    
+    
+    ## bibliografía
+    
+    - Enrique Martínez para *compucenter33* [https://www.youtube.com/c/compucenter33](https://www.youtube.com/c/compucenter33)
 
 
 
