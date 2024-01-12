@@ -4,7 +4,7 @@
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
-   keywords: [DWES, 2023, PHP, Laravel, API, Restful]
+   keywords: [DWES, 2023, PHP, Laravel, API, RESTful]
    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
    header: ${unit}: ${title} - ${subject} (versión: ${today})
    footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}

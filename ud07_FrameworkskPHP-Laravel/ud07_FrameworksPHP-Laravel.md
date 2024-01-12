@@ -101,7 +101,7 @@ Ejemplo:
 
 Si el Usuario accede a /productos el router ya tiene registrada esa ruta y un controlador con una función que sabe que Modelo debe llamar y que vista mostrar cuando el usuario visita esa URL.
 
-<img src="/assets/ud07_laravel000.png" style="zoom:50%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel000.png" style="zoom:50%;" />
 
 
 
@@ -161,11 +161,11 @@ sudo docker-compose exec myapp php artisan make:controller RegisterController
 
 5. Si utilizamos el contenedor `Portainer` para la gestión de nuestros contenedores, podremos observar que estarán en marcha nuestros dos contenedores (pertenecientes al servidor web y servidor de bases de datos):
 
-<img src="/assets/ud07_laravel_001.png" style="zoom:75%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_001.png" style="zoom:75%;" />
 
 > Si por alguna extraña razón estás en Windows y no te funciona una de las 2 imágenes, puede ser debido a la instalación de composer dentro de la imagen de Laravel.
 >
-> <img src="/assets/ud07_img02_error-laravel.png" style="zoom:50%;" />
+> <img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_img02_error-laravel.png" style="zoom:50%;" />
 >
 > Para solucionarlo, nos vamos a la carpeta del proyecto que se te habrá creado por defecto al hacer docker-compose; en este caso, y si no has modificado el archivo .yml, la carpeta del proyecto sera `my-proyect` y dentro de ella eliminamos la carpeta vendor.
 >
@@ -206,7 +206,7 @@ Referentes a CSS:
 
 # carpetas en Laravel
 
-<img src="./assets/ud07_laravel002.png" alt="phpMyAdmin" style="zoom:35%; float:right;" />Al crear un nuevo proyecto con este framework, Laravel crea una serie de carpetas por defecto. Esta estructura de carpetas es la recomendada para utilizar Laravel.
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel002.png" alt="phpMyAdmin" style="zoom:35%; float:right;" />Al crear un nuevo proyecto con este framework, Laravel crea una serie de carpetas por defecto. Esta estructura de carpetas es la recomendada para utilizar Laravel.
 
 
 
@@ -477,26 +477,13 @@ Abrimos la consola y nos situamos en la raíz de nuestro proyecto:
 
 ```sh
 php artisan make:controller PagesController
-
+# ó, si no funciona:
+# sudo docker-compose exec myapp php artisan make:controller PagesController
 ```
 
-> **ABC**
->
-> Si no podemos ejecutar la sentencia anterior, entonces:
->
-> ```sh
-> sudo docker-compose exec myapp php artisan make:controller PagesController
-> # ó, si no funciona:
-> # sudo docker-compose exec myapp php artisan make:controller PagesController
-> ```
->
-> 
+Si todo ha salido bien, recibiremos un mensaje por consola con que todo ha ido bien y podremos comprobar que, efectivamente, se ha creado el archivo `PagesController.php` con una estructura básica de controlador, dentro de la carpeta `Controllers` que hemos descrito anteriormente. 
 
-Si todo ha salido bien, recibiremos un mensaje por consola con que todo ha ido bien y podremos comprobar que, efectivamente se ha creado el archivo `PagesController.php` con una estructura básica de controlador, dentro de la carpeta `Controllers` que hemos descrito anteriormente. 
-
-Ahora podemos modificar nuestro archivo de rutas `web.pbp` para dejarlo limpio de lógica y trasladar ésta a nuestro nuevo controlador.
-
-La idea de ésto es dejar el archivo `web.php` tan limpio como podamos para que, de un vistazo, se entienda todo perfectamente.
+Ahora podemos modificar nuestro archivo de rutas `web.pbp` para dejarlo limpio de lógica y trasladar ésta a nuestro nuevo controlador. La idea de esto es dejar el archivo `web.php` tan limpio como podamos para que, de un vistazo, se entienda todo perfectamente.
 
 > **recuerda** 
 >
@@ -544,7 +531,9 @@ y en nuestro archivo controlador lo dejaríamos de la siguiente manera:
   namespace App\Http\Controllers;
 
   class PagesController extends Controller {
-     public function inicio() { return view('welcome'); }
+     public function inicio() { 
+         return view('welcome'); 
+     }
 
      public function datos() { 
         return view('usuarios', ['id' => 56]);
@@ -604,7 +593,7 @@ public function store(Request $request) {
 
 Todas las reglas de validación de Laravel podemos observarlas en la documentación oficial, en este [enlace](https://laravel.com/docs/10.x/validation#available-validation-rules).
 
-Podemos observar que, en apariencias, no hace nada (o no muestra nada). Para mostrar un mensaje de error colocaremos la directiva `@error`...`@enderrror` en nuestro formulario (en el ejemplo `register.blade.php`) justo después del `<input>` en cuestión. 
+Podemos observar que, en apariencia, no hace nada (o no muestra nada). Es decir, para mostrar un mensaje de error cuando no se cumpla una validación colocaremos la directiva `@error`...`@enderrror` en nuestro formulario (en el ejemplo `register.blade.php`) justo después del `<input>` en cuestión. 
 
 Siguiendo en el ejemplo:
 
@@ -678,9 +667,9 @@ Muchas veces es frustrante volver a un formulario después de un error y observa
 >
 ```
 
-> A partir de ahora, como tarea, puedes validar tu mismo todos los campos del formulario.
+> A partir de ahora, como tarea, puedes validar tú mismo todos los campos del formulario.
 
-Entre la validación de Laravel también podrá verse la validación de HTML5. Si quieres deshabilitar esta última puedes introducir el atributo `novalidate` en la etiqueta `<form ... novalidate>`.
+Entre las validaciones de Laravel también podrá verse la validación de HTML5. Si quieres deshabilitar esta última puedes introducir el atributo `novalidate` en la etiqueta `<form ... novalidate>`.
 
 ## confirmar password en otro campo
 
@@ -689,27 +678,27 @@ Para confirmar el password notamos que habíamos puesto al campo de confirmació
 ```php+HTML
 <div>
     <label for="password_confirmation" class="mb-2 block uppercase text-gray-500 font-bold">
-        Repetir password
+      Repetir password
     </label>
     <input 
-        id="password_confirmation"
-        name="password_confirmation"
-        type="password"
-        placeholder="repite la contraseña"
-        class="border p-3 w-full rounded-lg"
+      id="password_confirmation"
+      name="password_confirmation"
+      type="password"
+      placeholder="repite la contraseña"
+      class="border p-3 w-full rounded-lg"
     />
 </div>
 ```
 
-Una convención en Laravel para comprobar si dos campos son iguales es asignarle al segundo el prefijo `_confirmatio`.`password_confirmation` (y **debe nombrarse así**) junto con la validación `confirmed` que hemos puesto para el campo `pasword` en el controlador va a verificar que el campo `passwor` y `password_confirmation` sean iguales.
+Una convención en Laravel para comprobar si dos campos son iguales es asignarle al segundo el prefijo `_confirmation`.`password_confirmation` (y **debe nombrarse así**) junto con la validación `confirmed` que hemos puesto para el campo `pasword` en el controlador va a verificar que el campo `password` y `password_confirmation` sean iguales.
 
 # migraciones y la base de datos
 
 Si has seguido los ejemplos anteriores correctamente habrás comprobado que cuando ponemos un correo e intentamos acceder muestra el siguiente error:
 
-<img src="./assets/ud07_laravel_008_errorAccesoTabla.png" style="zoom:40%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_008_errorAccesoTabla.png" style="zoom:40%;" />
 
-Nos indica que está revisando el valor de `email` en la tabla de usuarios y esta no existe. Para completar el formulario habrá que crear dicha tabla `users`. Para esto debemos realizar nuestra primera migración.
+Nos indica que está revisando el valor de `email` en la tabla de usuarios y esta no existe. Para completar el formulario habrá que crear dicha tabla `users`. Para esto debemos realizar nuestra primera **migración**.
 
 ## qué son migraciones
 
@@ -722,12 +711,16 @@ Lanzar desde comandos:
 ```php
 // ejecuta las migraciones
 sudo docker-compose exec myapp php artisan migrate
+```
 
+```php
 // en caso de querer deshacer el cambio:    
 sudo docker-compose exec myapp php artisan migrate:rollback
 // regresar las últimas 5 (por ejemplo) migraciones  
 sudo docker-compose exec myapp php artisan migrate:rollback --step=5
+```
 
+```php
 // otros comandos para crear migración    
 sail artisan make:migration agregar_imagen_user
 // o
@@ -736,7 +729,7 @@ sail php artisan make:migration agregar_imagen_user
 
 Las migraciones se van a ir colocando, siempre, en la carpeta del proyecto `database/migrations`:
 
-<img src="/assets/ud07_migraciones01.png" style="zoom:50%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones01.png" style="zoom:50%;" />
 
 Laravel tiene unas migraciones por defecto, sobre todo para la creación de usuarios.
 
@@ -744,7 +737,7 @@ Laravel tiene unas migraciones por defecto, sobre todo para la creación de usua
 >
 > Recuerda tener el fichero `.env` configurado para acceder a tu bd en qüestión y con usuario y contraseña adecuados:
 >
-> <img src="/assets/ud07_migraciones02.png" style="zoom:70%;" />
+> <img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones02.png" style="zoom:70%;" />
 
 Abrimos el terminal, dentro del proyecto:
 
@@ -752,11 +745,11 @@ Abrimos el terminal, dentro del proyecto:
 sudo docker-compose exec myapp php artisan migrate
 ```
 
-<img src="/assets/ud07_migraciones03.png" style="zoom:50%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones03.png" style="zoom:50%;" />
 
-Si, después de ejecutar, accedemos a nuestra base de datos (por ejemplo desde phpMyadmin):
+Si, después de ejecutar, accedemos a nuestra base de datos, por ejemplo desde *phpMyadmin*:
 
-<img src="/assets/ud07_migraciones04.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones04.png" style="zoom:70%;" />
 
 ### rollback de la migración
 
@@ -766,37 +759,13 @@ Si, quisiéramos echar para atrás en la migración:
 sudo docker-compose exec myapp php artisan migrate:rollback
 ```
 
-<img src="/assets/ud07_migraciones05.png" style="zoom:50%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones05.png" style="zoom:50%;" />
 
 Vemos que las tablas dejan de existir (solo queda la tabla migraciones) en nuestra bd:
 
-<img src="/assets/ud07_migraciones06.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones06.png" style="zoom:60%;" />
 
-
-
-## siguiendo el ejemplo de crear usuario en la app
-
-Como vemos, si intentamos crear un usuario en nuestro ejemplo de inserción de usuarios, se obtiene un error en el que nos indica que falta el campo `username` en la tabla `users`. Esto es debido a que, cuando se ha ejecutado, por primera vez, la migración este campo no existía. Para que la app funcione deberemos de migrar este campo.
-
-Ejecutamos (el nombre lleva una convención de Laravel):
-
-```sh
-sudo docker-compose exec myapp php artisan make:migration add_username_to_users_table
-```
-
-Si accedemos al fichero generado en la carpeta `migrations` insertaremos el código que se muestra a continuación:
-
-<img src="/assets/ud07_migraciones07.png" style="zoom:60%;" />
-
-Para que los cambios surjan efecto, volvemos a ejecutar `migrate`:
-
-```sh
-sudo docker-compose exec myapp php artisan migrate
-```
-
-> Aunque se indique el campo `username` como string se creará en la base de datos como varchar.
-
-Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formulario.
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 10](# ejemplo 10. crear usuario en la app).
 
 # modelos
 
@@ -804,7 +773,7 @@ Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formu
 
 Laravel incluye su propio **ORM** (Object Relacional Mapper) que hace muy sencillo interactuar con tu base de datos.
 
-En **Eloquent** cada tabla tiene su propio modelo; ese modelo interactúa únicamente con esa tabla y tiene las funciones necesarias para crear registros, obtenerlos, actualizarlos y eliminarlas.
+En **Eloquent cada tabla tiene su propio modelo**; ese modelo interactúa únicamente con esa tabla y tiene las funciones necesarias para crear registros, obtenerlos, actualizarlos y eliminarlos.
 
 ```sh
 sudo docker-compose exec myapp php artisan make:model Cliente
@@ -816,79 +785,81 @@ Laravel tiene el modelo `users` creado por defecto.
 
 ### en Modelos
 
-Cuando creas el Modelo Cliente, Eloquent asume que la tabla se va a llamar **clientes**.
+Cuando creas el Modelo **Cliente**, Eloquent asume que la tabla se va a llamar **clientes**.
 
-Si el Modelo se llama Producto; Eloquent espera una tabla llamada **productos**.
+Si el Modelo se llama **Producto**; Eloquent espera una tabla llamada **productos**.
 
-Puede ser un problema llamar tu modelo Proveedor, porque Eloquent espera la tabla llamada **provedors**, pero se puede reescribir en el modelo.
+> **Problema**
+>
+> Puede ser un problema llamar tu modelo **Proveedor**, porque Eloquent espera la tabla llamada **provedors**, pero se puede reescribir en el modelo.
 
 ## crear registros con Eloquent ORM
 
 Para **insertar una fila** en nuestra tabla `users`, debemos insertar el siguiente código en nuestro controlador `RegisterController.php`:
 
-<img src="/assets/ud07_insertar01.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar01.png" style="zoom:60%;" />
 
 A tener en cuenta:
 
-1. cuando introducimos `User`arriba del código se va a importar `use App\Models\User;`
+1. cuando introducimos `User` arriba en el código se va a importar `use App\Models\User;`
 
 2. el método `create` corresponde a un `insert into ...`
 
-3. podemos utilizar un helper (en Laravel encontramos una gran variedad) relacionado con los string; por ejemplo para que no introduzcamos espacios no deseados en el campo username.
+3. podemos utilizar un *helper* (en Laravel encontramos una gran variedad) relacionado con los string; por ejemplo para que no introduzcamos espacios no deseados en el campo username.
 
 4. vemos que, para *hashear* el password y que no se vea la cadena literal, podemos utilizar la clase `Hash::make(cadena)`. Si no importa directamente `use Illuminate\Support\Facades\Hash` le damos *botón derecho*-**import class**.
 
    > **cuidado**
    >
-   > Si no modificamos nada más, el campo `username` obtendrá un error. Esto es debido a que este campo lo hemos introducido nosotros después de la primera migración; y Laravel tiene un sistema de seguridad por el que no permite creaciones de campo tan fácilmente (así prevee posibles ataques de inserción de código en nuestra base de datos).
+   > Si no modificamos nada más, el campo `username` obtendrá un error. Esto es debido a que este campo lo hemos introducido nosotros después de la primera migración; y Laravel tiene un sistema de seguridad por el que no permite creaciones de campos tan fácilmente (así prevee posibles ataques de inserción de código en nuestra base de datos).
 
 5. Para ello, además del código anterior, modificaremos el modelo `User.php` que se encuentra en la carpeta `app/Models` como medida de seguridad:
 
-<img src="/assets/ud07_insertar02.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar02.png" style="zoom:70%;" />
 
 4. Probamos insertar un usuario en la app:
 
-<img src="/assets/ud07_insertar03.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar03.png" style="zoom:60%;" />
 
-	Y vemos que se ha insertado en la base de datos:
+Y vemos que se ha insertado en la base de datos:
 
-<img src="/assets/ud07_insertar04.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar04.png" style="zoom:60%;" />
 
 ### cambiar el campo 'username' a único
 
-Echar para atrás la última migración:
+1. Echar para atrás la última migración:
 
-```sh
-sudo docker-compose exec myapp php artisan migrate:rollback
-```
+   ```phh
+   sudo docker-compose exec myapp php artisan migrate:rollback
+   ```
 
-<img src="/assets/ud07_migraciones08.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones08.png" style="zoom:60%;" />
 
-Hacer cambios en el fichero `...add_username_to_users_table.php`:
+2. Hacer cambios en el fichero `...add_username_to_users_table.php`:
 
-<img src="/assets/ud07_migraciones09.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones09.png" style="zoom:70%;" />
 
-Volver a migrar:
+3. Volver a migrar:
 
-```sh
-sudo docker-compose exec myapp php artisan migrate
-```
+   ````php
+   sudo docker-compose exec myapp php artisan migrate
+   ````
 
-Ahora podemos hacer un cambio en `RegisterController.php`, que convierte la cadena a una URL (minúscula y los espacios los substituye por un guión medio):
+4. Ahora podemos hacer un cambio en `RegisterController.php`, que convierte la cadena a una URL (minúscula y los espacios los substituye por un guión medio):
 
-<img src="/assets/ud07_insertar05.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar05.png" style="zoom:70%;" />
 
-Insertamos un valor en `username`con mayúsculas y espacios:
+5. Insertamos un valor en `username`con mayúsculas y espacios:
 
-<img src="/assets/ud07_insertar06.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar06.png" style="zoom:60%;" />
 
-<img src="/assets/ud07_insertar07.png" style="zoom:60%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar07.png" style="zoom:60%;" />
 
-Para que no aparezca un mensaje de error al introducir dos usuarios con el `username` iguales, lo que podemos hacer es modificar el Request (cuando es nuestra última opción):
+6. Para que no aparezca un mensaje de error al introducir dos usuarios con el `username` iguales, lo que podemos hacer es modificar el Request (cuando es nuestra última opción):
 
-<img src="/assets/ud07_insertar08.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar08.png" style="zoom:70%;" />
 
-## redireccionar al usuario al Muro una vez su cuenta es creada
+## redireccionar al usuario al Muro una vez la cuenta es creada
 
 1. Crear un controlador de nombre `PostController`:
 
@@ -902,21 +873,21 @@ sudo docker-compose exec myapp php artisan make:controller PostController
 sudo docker-compose exec myapp php artisan make:controller LoginController
 ```
 
-<img src="/assets/ud07_insertar11.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar11.png" style="zoom:70%;" />
 
-<img src="/assets/ud07_insertar09.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar09.png" style="zoom:70%;" />
 
-<img src="/assets/ud07_insertar10.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar10.png" style="zoom:70%;" />
 
 ## autenticar un usuario que ha creado su cuenta
 
 
 
-<img src="/assets/ud07_insertar12.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar12.png" style="zoom:70%;" />
 
 
 
-<img src="/assets/ud07_insertar13.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_insertar13.png" style="zoom:70%;" />
 
 
 
@@ -990,7 +961,7 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    # npm run dev -- --host
    ```
 
-   <img src="/assets/ud07_laravel_002.png" style="zoom:50%;" />
+   <img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_002.png" style="zoom:50%;" />
 
 9. En el fichero /resources/views/layouts/`app.blade.php` hay que indicarle que va a utilizar el fichero /resources/css/`app.css`, para ello hay que añadirlo en:
 
@@ -998,11 +969,11 @@ Si hemos decidido instalar `Tailwind CSS` para que nos eche una mano con nuestro
    @vite('resources/css/app.css')
    ```
 
-   <img src="/assets/ud07_laravel_003.png" style="zoom:50%;" />
+   <img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_003.png" style="zoom:50%;" />
 
    A partir de ahora, y con este ejemplo, podemos observar que se nos muestra el css:
 
-   <img src="/assets/ud07_laravel_004.png" style="zoom:50%;" />
+   <img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_004.png" style="zoom:50%;" />
 
 # anexo II - reinstalación de node
 
@@ -1092,7 +1063,7 @@ Vamos a eliminar todo el *style* que viene por defecto y a vaciar de contenido d
 <h2>Hola Mundo.</h2>
 ```
 
-[**[VOLVER  ^]**](# routes)
+[**[volver  ^]**](# routes)
 
 ## ejemplo 02. Otras vistas
 
@@ -1109,7 +1080,7 @@ Route::view('/tienda-virtual','tienda');  // forma corta para la ruta a una vist
 
 ```
 
-[**[VOLVER  ^]**](# parámetros)
+[**[volver  ^]**](# parámetros)
 
 ## ejemplo 03. Paso de parámetros
 
@@ -1131,7 +1102,7 @@ Después, mostrar este valor en la vista `tienda.blade.php`:
 <p>producto con id: <?= $id ?></p>
 ```
 
-[**[VOLVER  ^]**](# plantillas o templates)
+[**[volver  ^]**](# plantillas o templates)
 
 ## ejemplo 04. Uso de directivas
 
@@ -1211,7 +1182,7 @@ Supongamos que tenemos 3 apartados en la web:
 
    Cada sección que haga uso de esta plantilla contendrá un menú de navegación con enlaces a cada una de las secciones y el contenido dinámico de cada sección.
 
-3. Ahora crearemos los archivos dinámicos de cada una de las secciones, en nuestro caso:
+2. Ahora crearemos los archivos dinámicos de cada una de las secciones, en nuestro caso:
 
    `inicio.blade.php`:
 
@@ -1228,7 +1199,7 @@ Supongamos que tenemos 3 apartados en la web:
        contenido de la página principal
    @endsection
    ```
-   
+
    `blog.blade.php`:
 
    ```php
@@ -1242,9 +1213,9 @@ Supongamos que tenemos 3 apartados en la web:
        contenido de todas las notícias
    @endsection 
    ```
-   
+
    `fotos.blade.php`:
-   
+
    ````php
    @extends('layouts.app')
    
@@ -1256,8 +1227,8 @@ Supongamos que tenemos 3 apartados en la web:
    galería de fotografías
    @endsection     
    ````
-   
-4. El último paso que nos queda es configurar el archivo de rutas `routes/web.php`:
+
+3. El último paso que nos queda es configurar el archivo de rutas `routes/web.php`:
 
    ````php
    <?php
@@ -1269,7 +1240,7 @@ Supongamos que tenemos 3 apartados en la web:
 
 De esta manera podremos hacer uso del menú de navegación que hemos puesto en nuestra plantilla y gracias a los alias noticias y galeria, la URL será más amigable.
 
-[**[VOLVER  ^]**](# estructuras de control)
+[**[volver  ^]**](# estructuras de control)
 
 ## ejemplo 05. Vista registrarse
 
@@ -1314,7 +1285,7 @@ Añadir al fichero `web.php` la entrada:
   Route::view('/crear-cuenta','auth.register') -> name('resgister');  //la ruta contiene .
 ```
 
-[**[VOLVER  ^]**](# estructuras de control)
+[**[volver  ^]**](# estructuras de control)
 
 ## ejemplo 06. Pasar datos a una vista
 
@@ -1355,7 +1326,7 @@ Pero como hemos visto, Laravel tiene unas directivas que funcionan en sus vistas
 @endforeach
 ```
 
-[**[VOLVER  ^]**](# controladores)
+[**[volver  ^]**](# controladores)
 
 ## ejemplo 07. Controlador RegisterController y su formulario
 
@@ -1378,7 +1349,7 @@ use App\Http\Controllers\Auth\RegisterController;
 Route::get('/register', [RegisterController::class, 'index']) -> name('register');
 ````
 
-Y en `RegisterController.php`, trasladamos la lógica de negocio que ejecutaba el callback, añadiendo la palabrasreservadas `public` y añadiendo también un nombre a esta función `index()`:
+Y en `RegisterController.php`, trasladamos la lógica de negocio que ejecutaba el *callback*, añadiendo la palabra reservada `public` y añadiendo también un nombre a esta función `index()`:
 
 ```php
 public function index() {
@@ -1456,10 +1427,10 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
         </div>
 
         <div>
-          <!-- password_confirmation para validar posteriormente password -->
           <label for="password_confirmation" class="mb-2 block uppercase text-gray-500 font-bold">
               Repetir password
           </label>
+          <!-- password_confirmation para validar posteriormente password -->
           <input 
               id="password_confirmation"
               name="password_confirmation"
@@ -1468,6 +1439,7 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
               class="border p-3 w-full rounded-lg"
           />
         </div>
+          
         <br>
         <input 
               type="submit"
@@ -1476,12 +1448,11 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
               cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg"
         />
       </form>
-    </div>
   </div>
 @endsection
 ````
 
-[**[VOLVER  ^]**](# tipos de request)
+[**[volver  ^]**](# tipos de request)
 
 ## ejemplo 08. Petición post
 
@@ -1514,7 +1485,7 @@ Para terminar este punto, en la vista `register.blade.php` vamos a modificar la 
 
 Si recargamos la página y accionamos el enlace vemos que nos muestra el siguiente error:
 
-<img src="/assets/ud07_laravel_005_error419.png" style="zoom:100%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_005_error419.png" style="zoom:100%;" />
 
 **¿Por qué una página expirada?**
 
@@ -1531,7 +1502,7 @@ Para evitar estos ataques usaremos la directiva `@csrf` justo después de la lin
 
 Si pulsamos F12 para ver el código se mostrará un campo oculto con un token para validar la cadena y evitar este tipo de ataques:
 
-<img src="/assets/ud07_laravel_006_error419.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_006_error419.png" style="zoom:70%;" />
 
 Modificamos la función `store` para pasarle la clase Request:
 
@@ -1544,15 +1515,35 @@ public function store(Request $request) {
 
 Si accedemos a localhost/register:
 
-<img src="/assets/ud07_laravel_007_formulario.png" style="zoom:70%;" />
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_laravel_007_formulario.png" style="zoom:70%;" />
 
+[**[volver  ^]**](# validación de formularios)
 
+## ejemplo 10. Crear usuario en la app
 
-[**[VOLVER  ^]**](# validación de formularios)
+Como vemos, si intentamos crear un usuario en nuestro ejemplo de inserción de usuarios, se obtiene un error en el que nos indica que falta el campo `username` en la tabla `users`. Esto es debido a que, cuando se ha ejecutado, por primera vez, la migración este campo no existía. Para que la app funcione deberemos de migrar este campo.
 
+Ejecutamos (el nombre lleva una convención de Laravel):
 
+```sh
+sudo docker-compose exec myapp php artisan make:migration add_username_to_users_table
+```
 
+Si accedemos al fichero generado en la carpeta `migrations` insertaremos el código que se muestra a continuación:
 
+<img src="/../../../../../../../media/abc/DADES1/1BAIXADES/assets/ud07_migraciones07.png" style="zoom:60%;" />
+
+Para que los cambios surjan efecto, volvemos a ejecutar `migrate`:
+
+```sh
+sudo docker-compose exec myapp php artisan migrate
+```
+
+> Aunque se indique el campo `username` como string se creará en la base de datos como varchar.
+
+Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formulario.
+
+[**[volver  ^]**](# modelos)
 
 # referencias
 
