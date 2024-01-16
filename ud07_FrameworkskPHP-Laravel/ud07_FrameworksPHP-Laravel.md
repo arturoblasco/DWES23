@@ -1592,7 +1592,7 @@ Después, en el controlador en cuestión (`RegisterController.php`), poner la va
 //...
 ```
 
-[[volver  ^]](# migraciones y la base de datos)
+[[volver  ^]](# migraciones y la base de datos)  
 
 ## ejemplo 13. Crear usuario en la app
 
@@ -1622,7 +1622,7 @@ php artisan migrate
 
 Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formulario.
 
-[[volver  ^]](# modelos)
+[[volver  ^]](# modelos) 
 
 # referencias
 
