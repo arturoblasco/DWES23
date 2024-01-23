@@ -593,7 +593,7 @@ Los mensajes de errores están en inglés, ¿cómo podemos **mostrarlos en caste
 
 Descomprimes el directorio `es` en una carpeta en `resources` llamada `lang` (deberás de crearla).
 
-Para terminar el cambio accede al fichero `config/app.php` y en la linea 86 cambiar el idioma a español:
+Para terminar el cambio accede al fichero `config/app.php` y en la linea 86 (más o menos) cambiar el idioma a español:
 
 ```php
   'locale' => 'es',
@@ -605,7 +605,7 @@ Para terminar el cambio accede al fichero `config/app.php` y en la linea 86 camb
 
 Muchas veces es frustrante volver a un formulario después de un error y observar que los valores de todos los campos se han borrado y que necesitas volver a introducirlos. Para evitar este caso podemos poner en los `input` el atributo `value` y pasarle `"{{ old('username') }}"`.
 
-> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 11](# ejemplo 11. mantener valor en el campo después de un error).
+> **Ejemplo**: Podemos observar todo esto en el  [ejemplo 11](# ejemplo 11. mantener valor después de un error).
 
 ## confirmar password en otro campo
 
@@ -638,14 +638,21 @@ Lanzar desde la linea de comandos:
 
 ```php
 // ejecuta las migraciones
-sudo docker-compose exec myapp php artisan migrate
+php artisan migrate
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate
 ```
 
 ```php
-// en caso de querer deshacer el cambio:    
-sudo docker-compose exec myapp php artisan migrate:rollback
+// en caso de querer deshacer el cambio:  
+php artisan migrate:rollback
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:rollback
+    
 // regresar las últimas 5 (por ejemplo) migraciones  
-sudo docker-compose exec myapp php artisan migrate:rollback --step=5
+php artisan migrate:rollback --step=5
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:rollback --step=5
 ```
 
 Las migraciones se van a ir colocando, siempre, en la carpeta del proyecto `database/migrations`:
@@ -662,8 +669,10 @@ Laravel tiene unas migraciones por defecto, sobre todo para la creación de usua
 
 Abrimos el terminal, dentro del proyecto:
 
-```sh
-sudo docker-compose exec myapp php artisan migrate
+```php
+php artisan migrate
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate
 ```
 
 <img src="./assets/ud07_migraciones03.png" style="zoom:50%;" />
@@ -676,8 +685,10 @@ Si, después de ejecutar, accedemos a nuestra base de datos, por ejemplo desde *
 
 Si, quisiéramos echar para atrás en la migración:
 
-```sh
-sudo docker-compose exec myapp php artisan migrate:rollback
+```php
+php artisan migrate:rollback
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:rollback
 ```
 
 <img src="./assets/ud07_migraciones05.png" style="zoom:50%;" />
@@ -718,11 +729,24 @@ Si el Modelo se llama **Producto**; Eloquent espera una tabla llamada **producto
 
 Para **insertar una fila** en nuestra tabla `users`, debemos insertar el siguiente código en nuestro controlador `RegisterController.php`:
 
-<img src="./assets/ud07_insertar01.png" style="zoom:60%;" />
+```php
+//...
+use Illuminate\Support\Facades\Hash
+use App\Models\User   // si no se encuentra se añade
+//...
+public function store(Request $request) {
+    //...
+    User::create([
+        'name' => $request->name,
+        'username' => $request->username,
+        'mail' => $request->email,
+        'password' => Hash::make($request->password)
+    ]);
+}
+//...
+```
 
-
-
-
+<img src="./assets/ud07_insertar01.png" style="zoom:55%;" />
 
 A tener en cuenta:
 
@@ -740,13 +764,11 @@ A tener en cuenta:
 
 5. Para ello, además del código anterior, modificaremos el modelo `User.php` que se encuentra en la carpeta `app/Models` como medida de seguridad:
 
-<img src="./assets/ud07_insertar02.png" style="zoom:70%;" />
+<img src="./assets/ud07_insertar02.png" style="zoom:55%;" />
 
 4. Probamos insertar un usuario en la app:
 
-<img src="./assets/ud07_insertar03.png" style="zoom:60%;" />
-
-
+<img src="./assets/ud07_insertar03.png" style="zoom:55%;" />
 
 Y vemos que se ha insertado en la base de datos:
 
@@ -756,23 +778,35 @@ Y vemos que se ha insertado en la base de datos:
 
 1. Echar para atrás la última migración:
 
-   ```phh
-   sudo docker-compose exec myapp php artisan migrate:rollback
+   ```php
+   php artisan migrate:rollback
+   // ó, si no funciona:
+   // sudo docker-compose exec myapp php artisan migrate:rollback
    ```
 
 <img src="./assets/ud07_migraciones08.png" style="zoom:60%;" />
 
 2. Hacer cambios en el fichero `...add_username_to_users_table.php`:
 
+   ```php
+   //...
+       Schema::table('users', function(Blueprint $table)){
+   		$table->string('username')-> unique() -> after('name');
+       });
+   //...
+   ```
+
 <img src="./assets/ud07_migraciones09.png" style="zoom:50%;" />
 
 3. Volver a migrar:
 
    ````php
-   sudo docker-compose exec myapp php artisan migrate
+   php artisan migrate
+   // ó, si no funciona:
+   // sudo docker-compose exec myapp php artisan migrate
    ````
 
-4. Ahora podemos hacer un cambio en `RegisterController.php`, que convierte la cadena a una URL (minúscula y los espacios los substituye por un guión medio):
+4. Ahora podemos hacer un cambio en `RegisterController.php`, que convierte la cadena a una URL (minúscula y los espacios los sustituye por un guión medio):
 
 <img src="./assets/ud07_insertar05.png" style="zoom:50%;" />
 
@@ -784,7 +818,7 @@ Y vemos que se ha insertado en la base de datos:
 
 6. Para que no aparezca un mensaje de error al introducir dos usuarios con el `username` iguales, lo que podemos hacer es modificar el Request (cuando es nuestra última opción):
 
-<img src="./assets/ud07_insertar08.png" style="zoom:60%;" />
+<img src="./assets/ud07_insertar08.png" style="zoom:55%;" />
 
 ## redireccionar al usuario al Muro una vez la cuenta es creada
 
@@ -800,9 +834,9 @@ sudo docker-compose exec myapp php artisan make:controller PostController
 sudo docker-compose exec myapp php artisan make:controller LoginController
 ```
 
-<img src="./assets/ud07_insertar11.png" style="zoom:60%;" />
+<img src="./assets/ud07_insertar11.png" style="zoom:55%;" />
 
-<img src="./assets/ud07_insertar09.png" style="zoom:60%;" />
+<img src="./assets/ud07_insertar09.png" style="zoom:55%;" />
 
 <img src="./assets/ud07_insertar10.png" style="zoom:50%;" />
 
@@ -1209,7 +1243,7 @@ Modificar en el fichero app.blade.app el menú de crear cuenta para que se pueda
 Añadir al fichero `web.php` la entrada:
 
 ```php
-  Route::view('/crear-cuenta','auth.register') -> name('resgister');  //la ruta contiene .
+  Route::view('/crear-cuenta','auth.register') -> name('register');  //la ruta contiene .
 ```
 
 [[volver  ^]](# estructuras de control)
@@ -1459,8 +1493,6 @@ Si accedemos a la ruta `localhost/register` se observa la información del array
 
 [[volver  ^]](# validación de formularios)
 
-
-
 ## ejemplo 09. Validación de campos
 
 Para validar los campos del formulario del controlador `RegisterController.php` podemos utilizar las reglas de validación siguientes; éstas se colocarán en la función `store` del controlador:
@@ -1538,7 +1570,7 @@ En el ejemplo anterior, modificaríamos el contenido de la directiva `@error`.
 
 [[volver  ^]](# mensajes en castellano)
 
-## ejemplo 11. Mantener valor en el campo después de un error
+## ejemplo 11. Mantener valor después de un error
 
 Para 'guardar' del valor de un campo si volvemos al formulario en el atributo `value` del `input` colocaremos `{{ old('username') }}`. En el ejemplo de `username`:
 
@@ -1608,7 +1640,15 @@ php artisan make:migration add_username_to_users_table
 
 Si accedemos al fichero generado en la carpeta `migrations` insertaremos el código que se muestra a continuación:
 
-<img src="./assets/ud07_migraciones07.png" style="zoom:60%;" />
+```php
+//...
+    Schema::table('users', function(Blueprint $table)){
+		$table->string('username')-> unique() -> after('name');
+    });
+//...
+```
+
+<img src="./assets/ud07_migraciones07.png" style="zoom:50%;" />
 
 Para que los cambios surjan efecto, volvemos a ejecutar `migrate`:
 
@@ -1623,6 +1663,149 @@ php artisan migrate
 Siguiendo el ejemplo anterior ahora no nos dará error la inserción en el formulario.
 
 [[volver  ^]](# modelos) 
+
+# ejercicios propuestos
+
+## Ejercicio 1
+
+Sobre el proyecto de la sesión anterior, vamos a añadir un formulario (parecido) al que hemos estado creando (registro) pero que muestre (por ejemplo) un producto (como por ejemplo libros):
+
+- Crea una tabla `libros` en tu base de datos. Para esto, recuerda:
+
+   1. crear una migración para crear la tabla libros:
+
+      ```php
+      sudo docker-compose exec myapp php artisan make:migration create_libros_table
+      ```
+
+      Este comando generará un nuevo archivo de migración en el directorio `database/migrations`.
+
+   2. abre el archivo de migración recién creado. Puedes encontrarlo en el directorio `database/migrations` y tendrá un nombre similar a `2024_01_01_000000_create_libros_table.php` (la fecha y la hora pueden variar).
+
+   3. dentro del archivo de migración, encontrarás dos métodos: `up` y `down`. En el método `up`, define la estructura de la tabla "libro". Puedes hacerlo utilizando la sintaxis del constructor de esquemas de Laravel. Aquí hay un ejemplo básico:
+
+      ```php
+      use Illuminate\Database\Migrations\Migration;
+      use Illuminate\Database\Schema\Blueprint;
+      use Illuminate\Support\Facades\Schema;
+      
+      class CreateLibroTable extends Migration
+      {
+          public function up()
+          {
+              Schema::create('libro', function (Blueprint $table) {
+                  $table->id();
+                  $table->string('titulo');
+                  $table->text('editorial')->nullable();
+                  // Agrega más columnas según sea necesario para tu aplicación
+                  $table->decimal('precio', 8, 2);
+                  $table->timestamps();
+              });
+          }
+      
+          public function down()
+          {
+              Schema::dropIfExists('libro');
+          }
+      }
+      ```
+
+      En este ejemplo, la tabla `libros` tiene una columna de ID, un título, una descripción, un precio (que hemos añadido nosotros pues podemos personalizar la estructura de la tabla según nuestras necesidades) y las marcas de tiempo (`created_at` y `updated_at`). 
+
+      
+
+   4. Después de definir la estructura de la tabla, ejecuta las migraciones con el siguiente comando:
+
+      ```php
+      sudo docker-compose exec myapp php artisan migrate
+      ```
+
+      Este comando aplicará la migración y creará la tabla "libro" en tu base de datos.
+
+- Crea un `seeder` para introducir información:
+
+   ```php
+   sudo docker-compose exec myapp php artisan make:seeder LibroSeeder
+   ```
+
+​	Este comando generará un nuevo archivo de seeder en el directorio `database/seeders`.
+
+1. abre el archivo de seeder recién creado. Puedes encontrarlo en el directorio `database/seeders` y tendrá un nombre similar a `LibroSeeder.php`. 
+
+   Dentro del archivo de seeder, dentro del método `run`, puedes utilizar el modelo `Libro` para insertar datos en la tabla. Asegúrate de tener el modelo `Libro` creado en tu aplicación. Aquí tienes un ejemplo básico:
+
+   ```php
+   use Illuminate\Database\Seeder;
+   use App\Models\Libro;
+   
+   class LibroSeeder extends Seeder
+   {
+       public function run()
+       {
+           // Ejemplo de inserción de datos en la tabla "libro"
+           Libro::create([
+               'titulo' => 'Libro 1',
+               'descripcion' => 'Descripción del Libro 1',
+               'precio' => 15.99,
+           ]);
+   
+           Libro::create([
+               'titulo' => 'Libro 2',
+               'descripcion' => 'Descripción del Libro 2',
+               'precio' => 21.50,
+           ]);
+   
+           // ************************************
+           // AGREGA MÁS LIBROS (POR LO MENOS 5)
+           // ************************************
+       }
+   }
+   ```
+
+
+
+
+
+2. ejecutar el seeder y insertar los datos en la tabla, utiliza el siguiente comando:
+
+   ```php
+   sudo docker-compose exec myapp php artisan db:seed --class=LibroSeeder
+   ```
+
+​	Esto ejecutará el seeder que acabas de crear y agregaría los datos a la tabla "libro".
+
+> **Recuerda** que, además de ejecutar un seeder específico, también puedes utilizar el comando `php artisan db:seed` sin especificar un seeder en particular para ejecutar todos los seeders definidos en tu aplicación.
+
+
+
+- Crear un controlador para la tabla `libros`.
+
+   1. Si queremos mostrar todas las filas de la tabla `libros` creamos el siguiente método en el controlador anteriormente generado:
+
+      ```php
+          public function mostrarTodos()
+          {
+              // Obtener todas las filas de la tabla "libro"
+              $libros = Libro::all();
+      
+              // Pasar los datos a la vista
+              return view('libros.mostrar', ['libros' => $libros]);
+          }
+      ```
+
+      En dicho método se aprecia que guarda en la variable `$libros` todos los libros de la tabla libros. A continuación, lanza una vista de nombre `mostrar.blade.php` almacenada en la carpeta `resources/views/libros` en la que pasa por parámetro la variable $libros anteriormente creada.
+
+- Crear una ruta para acceder a dicho formulario de inserción de libros (productos). 
+
+   Para ello, recuerda introducir en el fichero `web.php` de la carpeta `routes` la ruta para lanzar el controlador-mostrarTodos (y, si no se introduce de forma automática, poner también el `use` que apunte a dicho controlador).
+
+- Crear la vista `resources/views/libros/mostrar.blade.php` e introducir el código para recorrer la variable $libros que se pasa desde el método `mostrarTodos` del controlador `LibroController`. Para esto, recuerda, utilizar la directiva `@foreach` ... `@foreach` y acceder a cada campo mediante `$libro->id` (por ejemplo).
+
+- Crea en tu página principal (del ejemplo seguido durante esta unidad) un enlace a dicha ruta para probar el ejercicio (también lo podrás probar añadiendo a la URL de la aplicación `/mostrar-libros`.)
+
+**¿Qué entregar?**
+
+Como entrega de esta sesión deberás comprimir tu proyecto **laravel** con los cambios incorporados, y eliminando las carpetas `vendor` y `node_modules`. Renombra el archivo comprimido a `proyecto_07.zip`.
 
 # referencias
 

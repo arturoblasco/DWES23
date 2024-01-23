@@ -158,6 +158,8 @@ Para ejecutar las migraciones (el método `up` de cada una), lanzamos el siguien
 
 ```php
 php artisan migrate
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate
 ```
 
 Adicionalmente a las tablas afectadas, se tendrá otra tabla `migrations` en la base de datos con un histórico de las migraciones realizadas. Para cada una, se almacena su *id* (autonumérico), el nombre de la migración, y el número de proceso por lotes en que se hizo (aquellas que compartan el mismo número se hicieron a la vez en el mismo lote). De este modo, aquellas que ya se hayan hecho no se volverán a realizar.
@@ -166,12 +168,16 @@ Para deshacer las migraciones realizadas (ejecutar el método `down` de las mism
 
 ```php
 php artisan migrate:rollback
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:rollback
 ```
 
 Esto eliminará TODAS las migraciones del último lote existente en la tabla `migrations`. Si no queremos deshacerlo todo, sino retroceder un número determinado de migraciones dentro de ese lote, ejecutamos el comando anterior con un parámetro `--step`, indicando el número de pasos o migraciones a deshacer (en orden cronológico de más reciente a más antigua):
 
 ```php
 php artisan migrate:rollback --step=2
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:rollback --step=2    
 ```
 
 Si volvemos a hacer la migración, se restablecerán las migraciones deshechas de ese lote.
@@ -180,6 +186,8 @@ Otro comando también muy utilizado es `migrate:fresh`. Lo que hace es eliminar 
 
 ```php
 php artisan migrate:fresh
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate:fresh
 ```
 
 > **NOTA**: el comando `migrate:fresh` es DESTRUCTIVO, elimina los contenidos de las tablas, y sólo debe utilizarse en entornos de desarrollo, no de producción.
@@ -219,8 +227,10 @@ public function up()
 
 Ahora vamos a crear una nueva migración para definir la estructura de los libros:
 
-```
+```php
 php artisan make:migration crear_tabla_libros --create=libros
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:migration crear_tabla_libros --create=libros
 ```
 
 Editamos después el contenido de esta migración, en concreto el método `up` para definir estos campos en los libros:
@@ -242,11 +252,13 @@ Cargamos las migraciones con el comando:
 
 ```php
 php artisan migrate
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan migrate
 ```
 
 Tras esto, ya deberíamos ver en nuestra base de datos “*biblioteca*” las dos tablas creadas (*usuarios* y *libros*), junto con la tabla *migrations* que crea Laravel para gestionar las migraciones realizadas.
 
-> **NOTA:** si, además de las tablas anteriores, aparece una tabla de *personal_access_tokens*, ésta la crea automáticamente el paquete *Sanctum*, incorporado por defecto en Laravel. No nos molesta para lo que vamos a hacer durante el curso, pero si queréis quitarla, hay que editar el archivo `app\Providers\AppServiceProvider.php` y añadir esta línea en el método `register` (junto con el correspondiente `use` para la clase `Sanctum`):
+> **NOTA:** si, además de las tablas anteriores, aparece una tabla de *personal_access_tokens* (ésta la crea automáticamente el paquete *Sanctum*) incorporada por defecto en Laravel. No nos molesta para lo que vamos a hacer durante el curso, pero si queréis quitarla, hay que editar el archivo `app\Providers\AppServiceProvider.php` y añadir esta línea en el método `register` (junto con el correspondiente `use` para la clase `Sanctum`):
 
 ```php
 // ...
@@ -275,13 +287,14 @@ La idea es crear una clase por cada tabla que tengamos en nuestra base de datos,
 
 ```php
 php artisan make:model Libro
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:model Libro
 ```
 
 Por convención, los modelos se crean con un nombre en singular, empezando por mayúscula, y se ubican en la carpeta `app\Models`. La estructura básica del modelo es algo así:
 
 ```php
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -290,7 +303,6 @@ class Libro extends Model
 {
 
 }
-
 ?>
 ```
 
@@ -325,6 +337,8 @@ El comando anterior `make:model` admite unos parámetros adicionales, de forma q
 
 ```php
 php artisan make:model Pelicula -m
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:model Pelicula -m
 ```
 
 El comando anterior crea un modelo `Pelicula` en la carpeta `app\Models` y, además, crea una migración llamada `create_peliculas_table` en la carpeta `database/migrations`, lista para que editemos el método `up` y especifiquemos los campos necesarios.
@@ -333,12 +347,16 @@ El comando anterior crea un modelo `Pelicula` en la carpeta `app\Models` y, adem
 
 ```php
 php artisan make:model Pelicula -mc
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:model Pelicula -mc
 ```
 
 Este otro comando crea lo mismo que el anterior, y además, un controlador llamado `PeliculaController` en la carpeta `app\Http\Controllers`. Dicho controlador está vacío, para que añadamos los métodos que consideremos.
 
 ```php
 php artisan make:model Pelicula -mcr
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:model Pelicula -mcr
 ```
 
 Esta otra opción crea lo mismo que la anterior, pero el controlador `PeliculaController` es en este caso un controlador de recursos, por lo que tiene ya incorporados el conjunto de métodos propios de este tipo de controladores: `index`, `show`, etc.
@@ -347,6 +365,8 @@ Podemos también usar la versión extendida de estos parámetros. Por ejemplo:
 
 ```php
 php artisan make:model Pelicula --migration --controller --resource
+// ó, si no funciona:
+// sudo docker-compose exec myapp php artisan make:model Pelicula --migration --controller --resource
 ```
 
 En nuestro caso, como hemos ido creando los controladores y migraciones antes que los modelos, no sería necesario dar este paso, pero ahora que ya empezamos a ver cómo funciona y se interrelaciona todo, puede resultar útil emplear este comando para crear de golpe todas las partes implicadas (modelo, migración y controlador)
@@ -481,8 +501,7 @@ Vemos que hemos utilizado el método `route` para indicar la ruta a seguir, con 
 Por su parte, la ruta asociada a este enlace podría ser algo así (en el archivo de rutas):
 
 ```php
-Route::get('/libros/{id}', [LibroController::class, 'show'])
-->name('libros.show');
+Route::get('/libros/{id}', [LibroController::class, 'show']) ->name('libros.show');
 ```
 
 Aunque también podemos haber definido las rutas como un paquete de recursos, y cada una tendrá su método asociado:
@@ -613,11 +632,7 @@ Si queremos borrar el libro con *id* 3, se generará una ruta *http://biblioteca
 
 > **NOTA** el helper `@csrf` lo veremos con más detalle al hablar de formularios, pero se añade a los formularios Laravel para evitar ataques de tipo *cross-site*, es decir, accesos a una URL de nuestra web desde otras webs.
 
-
-
 > **Ejercicios**: realizar la primera parte de ejercicios.
-
-
 
 # relaciones entre modelos
 
@@ -753,34 +768,40 @@ Esta relación la podemos dejar plasmada en nuestro ejemplo de la biblioteca, de
 
 - Creamos una nueva migración de modificación sobre la tabla de *libros*, para añadir un nuevo campo `autor_id`.
 
-```php
-php artisan make:migration nuevo_campo_autor_libros --table=libros
-class NuevoCampoAutorLibros extends Migration
-{
-  public function up()
-  {
-     Schema::table('libros', function(Blueprint $table) {
-         $table->integer('autor_id');
-     });
-  }
+   ```php
+   php artisan make:migration nuevo_campo_autor_libros --table=libros
+   ```
 
-  public function down()
-  {
-     Schema::table('libros', function(Blueprint $table) {
-         $table->dropColumn('autor_id');
-     });
-  }
-}
-php artisan migrate
-```
+   ```php
+   class NuevoCampoAutorLibros extends Migration
+   {
+     public function up()
+     {
+        Schema::table('libros', function(Blueprint $table) {
+            $table->integer('autor_id');
+        });
+     }
+   
+     public function down()
+     {
+        Schema::table('libros', function(Blueprint $table) {
+            $table->dropColumn('autor_id');
+        });
+     }
+   }
+   ```
+
+   ```php
+   php artisan migrate
+   ```
 
 - Creamos de golpe el modelo, la migración y el controlador de autores (aunque el controlador no lo vamos a utilizar, al menos por el momento). El modelo `Autor` debe quedar en la carpeta `app\Models`, junto con el de usuarios y el de libros.
 
-```php
-php artisan make:model Autor -mcr
-```
+   ```php
+   php artisan make:model Autor -mcr
+   ```
 
-> **NOTA**: en este punto, deberás renombrar a mano la migración, ya que el plural que asignará Laravel por defecto será *autors*, y no *autores*. Recuerda cambiar tanto el nombre del fichero de la migración, como el nombre de la tabla a la que se referencia en los métodos `up` y `down`.
+   > **NOTA**: en este punto, deberás renombrar a mano la migración, ya que el plural que asignará Laravel por defecto será *autors*, y no *autores*. Recuerda cambiar tanto el nombre del fichero de la migración, como el nombre de la tabla a la que se referencia en los métodos `up` y `down`.
 
 - Editamos la migración para definir los campos que tendrá la nueva tabla de autores, en su método `up`: un nombre y un año de nacimiento (opcional):
 
