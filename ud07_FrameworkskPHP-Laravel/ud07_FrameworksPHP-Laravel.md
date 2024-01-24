@@ -591,7 +591,11 @@ Este tipo de errores **con texto estático** **no es la mejor opción**. Laravel
 
 Los mensajes de errores están en inglés, ¿cómo podemos **mostrarlos en castellano**? Existen paquetes en Laravel en castellano, por ejemplo [MarcoGomesr/laravel-validation-en-espanol](https://github.com/MarcoGomesr/laravel-validation-en-espanol). 
 
-Descomprimes el directorio `es` en una carpeta en `resources` llamada `lang` (deberás de crearla).
+En el terminal, a nivel de tu proyecto, ejecuta la clonación:
+
+````php
+git clone https://github.com/MarcoGomesr/laravel-validation-en-espanol.git resources/lang
+````
 
 Para terminar el cambio accede al fichero `config/app.php` y en la linea 86 (más o menos) cambiar el idioma a español:
 
@@ -1112,7 +1116,6 @@ Supongamos que tenemos 3 apartados en la web:    *Inicio  |  Blog  |  Fotos*
           <a class="font-bold uppercase text-gray-600 text-sm"  
              href={{ route('galeria') }} >fotos</a>
      </nav>    
-     <hr>
        
      <!-- CONTENIDO PRINCIPAL -->
      <main class="container mx-auto mt-10">
@@ -1132,9 +1135,9 @@ Supongamos que tenemos 3 apartados en la web:    *Inicio  |  Blog  |  Fotos*
    </body>
    </html>
    ```
-
+   
    Cada sección que haga uso de esta plantilla contendrá un menú de navegación con enlaces a cada una de las secciones y el contenido dinámico de cada sección.
-
+   
    > A tener en cuenta:
    >
    > - `{{ route('inicio') }}` muestra:
@@ -1142,7 +1145,7 @@ Supongamos que tenemos 3 apartados en la web:    *Inicio  |  Blog  |  Fotos*
    >    - `route(...)` lanza la ruta de nombre (o alias) concreto.
    > - `@php` echo date('Y') `@endphp` son etiquetas para Blade para contener código php. En este caso un echo que muestra el año `'Y'` de la fecha actual `date()`.
    > - `now()` es un helper de Laravel (componente del framework diseñado para facilitar alguna tarea típica en el desarrollo de una aplicación web). Tiene distintos atributos y métodos, entre ellos, `year` para mostrar el año.
-
+   
 2. Ahora crearemos los archivos dinámicos de cada una de las secciones, en nuestro caso:
 
    `inicio.blade.php`:
@@ -1429,8 +1432,8 @@ Para la vista de register `register.blade.php` vamos a introducir el código:
 Vamos a crear ahora el enlace registrarse. Para ello accedemos a `web.php` e introducimos la linea con el método POST:
 
 ```php
-Route::get('/register', [RegisterController::class, 'index']) -> name('resgister');
-Route::post('/register' [RegisterController::class, 'store'])
+Route::get('/register', [RegisterController::class, 'index']) -> name('register');
+Route::post('/register', [RegisterController::class, 'store']);
 ```
 
 > A tener en cuenta
