@@ -130,7 +130,7 @@ php artisan make:controller Api/LibroController --api --model=Libro
 // sudo docker-compose exec myapp php artisan make:controller Api/LibroController --api --model=Libro
 ```
 
-Esto creará el controlador en la carpeta `App\Http\Controllers\Api` con una serie de funciones ya predefinidas. No es obligatorio ubicarlo en esa subcarpeta, obviamente, pero esto nos servirá para separar los controladores de API del resto. Esta será la apariencia del controlador generado:
+​	
 
 ```php
 namespace App\Http\Controllers\Api;
@@ -847,4 +847,4 @@ Como entrega de esta sesión deberás comprimir el proyecto **blog** con los cam
 
 # bibliografia
 
-- [Nacho Iborra Baeza](https://nachoiborraies.github.io/laravel/).
+- [Nacho Iborra Baeza](https://nachoiborraies.github.io/laravel/).****
