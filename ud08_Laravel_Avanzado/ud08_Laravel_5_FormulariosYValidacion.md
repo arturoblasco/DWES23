@@ -15,6 +15,12 @@
 
 
 
+
+
+[TOC]
+
+
+
 # definición y uso de formularios
 
 El envío de formularios en Laravel implica, por un lado, definir un formulario, empleando HTML sencillo junto con algunas opciones ofrecidas por Blade. Por otra parte, debemos recoger los datos enviados por el formulario en algún método de algún controlador, y procesarlos adecuadamente.

@@ -15,6 +15,12 @@
 
 
 
+
+
+[TOC]
+
+
+
 # autenticación basada en sesiones
 
 En esta sesión veremos cómo incluir mecanismos de autenticación en nuestros proyectos Laravel. Partiremos de la base de un proyecto ya creado (como el ejemplo de la biblioteca que venimos haciendo de sesiones anteriores) e incorporaremos paso a paso los elementos necesarios para autenticar usuarios.
