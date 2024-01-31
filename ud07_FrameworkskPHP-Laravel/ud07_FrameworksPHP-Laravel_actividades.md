@@ -204,7 +204,7 @@ Route::get('/libros', [LibroController::class, 'mostrarTodos']) -> name('libros'
 
 ## crear vista
 
-Crear la vista `resources/views/libros/mostrar.blade.php` e introducir el código para recorrer la variable $libros que se pasa desde el método `mostrarTodos` del controlador `LibroController`. Para esto, recuerda, utilizar la directiva `@foreach` ... `@foreach` y acceder a cada campo mediante `$libro->id` (por ejemplo).
+Crear la vista `resources/views/libros/mostrar.blade.php` e introducir el código para recorrer la variable $libros que se pasa desde el método `mostrarTodos` del controlador `LibroController` mediante una tabla html. Para esto, recuerda, utilizar la directiva `@foreach` ... `@foreach` y acceder a cada campo mediante `$libro->id` (por ejemplo).
 
 
 
@@ -219,28 +219,56 @@ Crear una página (vista) en la que se inserte un registro de la tabla libros. U
    ```php
        public function store(Request $request) {
    
+           // validaciones sobre los campos del formulario
            $this->validate($request, [
                'titulo' => ['required', 'unique:libros'],
                'precio' => ['required', 'numeric',
                             'min: 0','max:10000', 
                             'regex:/^\d+(\.\d{1,2})?$/']
            ]);    
+           
+           // inserción en la tabla libros (modelo Libro)
+           Libro::create([
+               'titulo' => $request->titulo,
+               'descripcion' => $request->descripcion,
+               'precio' => $request->precio
+       	]);
+           
+           // redireccionar hacia mostrarDatos
+           return redirect() -> route('libros');
        }
    ```
 
-   - `'max:10000'` para establecer un valor máximo permitido.
+   ​	Sobre la validación de campos del formulario:
 
+   - `'max:10000'` para establecer un valor máximo permitido.
    - `'regex:/^\d+(\.\d{1,2})?$/'` para permitir decimales con hasta dos lugares decimales.
+
+   ​	Sobre la inserción del registro completo en la tabla libros:
+
+   - Insert en Laravel es el método `create()` sobre el modelo en cuestión (en este caso Libro).
+   - Recoge los campos del array $request y los guarda en cada atributo de la tabla libros.
+   - Los campos autoincrementables `id`, `created_at` y `update_at` no se hacen referencia.
+
+   ​	Sobre la inserción del registro completo en la tabla libros:
+
+   - Después de validar e insertar en la tabla (por ese orden) se redireccionará a la ruta de nombre `libros` (que si nos fijamos en el fichero `web.php` hace referencia a `mostrar.blade.php`).
+
+   
+
+   
+
+   
 
 2. Por otro lado, en el **modelo** debemos insertar en la clase `Libro` :
 
-````php
-    protected $fillable = [
-        'titulo',
-        'descripcion',
-        'precio',
-    ];
-````
+   ```php
+       protected $fillable = [
+           'titulo',
+           'descripcion',
+           'precio',
+       ];
+   ```
 
 > En Laravel, el atributo `protected $fillable` se utiliza para especificar qué campos de una tabla de base de datos pueden ser asignados masivamente. Cuando se realiza una operación de asignación masiva, como al crear un nuevo modelo utilizando el método `create` o al actualizar un modelo mediante el método `update`, Laravel utiliza el conjunto de campos especificados en `$fillable` para determinar qué datos se deben incluir en la operación.
 >
@@ -250,14 +278,28 @@ Crear una página (vista) en la que se inserte un registro de la tabla libros. U
 
 ## crear formulario
 
-[...]
+Puedes ayudarte en el ejemplo de la teoría `Register`. Recuerda:
+
+- poner la directiva `@csrf` justo después de la etiqueta `<form>`.
+- recoger los errores mediante `@error  {{ $message }} @enderror`.
 
 ## crear página
 
-[...]
+Como anteriormente, en el controlador, le hemos indicado que redirecciona a `App\resources\views\libros\mostrar.blade.php` 
 
-**¿Qué entregar?**
+## crear ruta post
 
-Como entrega de esta sesión deberás comprimir tu proyecto **laravel** con los cambios incorporados, y eliminando las carpetas `vendor` y `node_modules`. Renombra el archivo comprimido a `proyecto_07.zip`.
+En `web.php`:
 
+```php
+Route::post('/libros', [LibroController::class, 'store']) -> name('libros');
+```
+
+
+
+
+
+> **¿Qué entregar?**
+>
+> Como entrega de esta sesión deberás comprimir tu proyecto **laravel** con los cambios incorporados, y eliminando las carpetas `vendor` y `node_modules`. Renombra el archivo comprimido a `proyecto_07.zip`.
 
