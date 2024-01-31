@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 7
-   title: Laravel - modelo de datos  actividades
+   title: Laravel - modelo de datos (actividades)
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
@@ -18,6 +18,24 @@
 
 
 [TOC]
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+>
+> Material extraído de https://nachoiborraies.github.io/laravel/
 
 # ejercicios propuestos
 
