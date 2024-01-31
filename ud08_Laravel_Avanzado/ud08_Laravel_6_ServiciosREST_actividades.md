@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 8
-   title: Laravel - servicios REST   actividades
+   title: Laravel - servicios REST (actividades)
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor

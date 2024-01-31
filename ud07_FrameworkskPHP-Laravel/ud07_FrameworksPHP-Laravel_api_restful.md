@@ -144,12 +144,12 @@ public function up(): void
 
 Crear un controlador donde establezcamos los métodos que nosotros queramos realizar a la hora de trabajar con los datos.
 
-1. **Crear** desde consola un controlador para la tabla `productos`:
+1. **Crear** desde consola un controlador (con **modelo**) para la tabla `productos`:
 
    ```sh
-   php artisan make:controller ProductoController
+   php artisan make:controller ProductoController --api --model=Producto
    # ó, si no funciona, probar:
-   # sudo docker-compose exec myapp php artisan make:controller ProductoController
+   # sudo docker-compose exec myapp php artisan make:controller ProductoController --api --model=Producto
    ```
 
    <img src="/assets/ud07_apirestful_007.png" style="zoom: 60%;" />
@@ -164,7 +164,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
    - `update()` para actualizar un dato ya existente en la BD.
    - `delete()` para eliminar un dato ya existente en la BD.
 
-2. Como vamos a conectarnos a un modelo para traer la información de dicho modelo añadimos mediante `use`. También creamos la función `index` para listar todos los elementos de la tabla (en este caso `productos`):
+2. Como vamos a conectarnos a un modelo para traer la información de dicho modelo añadimos mediante `use`. También creamos la función `index` para **listar todos los elementos de la tabla** (en este caso `productos`):
 
    ```php
    <?php
@@ -183,7 +183,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
 
    > **CUIDADO CON EL RETURN** porque ahora no estamos devolviendo una vista sino un array de datos en formato JSON.
 
-3. Crear un modelo en la carpeta `Models` de nombre `Producto.php`:
+3. Añadir en el modelo `Producto.php`:
 
    ```php
    <?php
@@ -210,9 +210,9 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
 
    <img src="/assets/ud07_apirestful_008.png" style="zoom: 90%;" />
 
-   La función anterior `index` nos devuelve todos los productos. Pero, qué pasa si queremos un producto en cuestión:
+5. La función anterior `index` nos devuelve todos los productos. Pero, qué pasa si queremos **listar un producto en cuestión**:
 
-5. En `ProductoController.php` añadimos otra función (show) en la que se le pasa por parámateros el `id` :
+   En `ProductoController.php` añadimos otra función (show) en la que se le pasa por parámateros el `id` :
 
    ```php
    <?php
@@ -243,7 +243,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
 
    <img src="/assets/ud07_apirestful_009.png" style="zoom: 90%;" />
 
-7. Para introducir datos utilizaremos el método `store`:
+7. Para **introducir datos** utilizaremos el método `store`:
 
    a) en `ProductoController.php`:
 
@@ -264,7 +264,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
    });
    ```
 
-8. Para actualizar datos de un producto, utilizaremos el método `update`:
+8. Para **actualizar datos** de un producto, utilizaremos el método `update`:
 
    a) en `ProductoController.php`:
 
@@ -298,7 +298,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
    });
    ```
 
-9. Y para eliminar un producto, el método `delete`:
+9. Y para **eliminar un producto**, el método `delete`:
 
    a) en `ProductoController.php`:
 
