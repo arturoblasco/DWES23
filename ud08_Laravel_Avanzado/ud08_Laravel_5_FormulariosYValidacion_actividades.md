@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 8
-   title: Laravel - formularios y validación  actividades
+   title: Laravel - formularios y validación (actividades)
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
@@ -18,6 +18,28 @@
 
 
 [TOC]
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+>
+> Material extraído de https://nachoiborraies.github.io/laravel/
+
+
+
+
+
+
 
 # ejercicios
 

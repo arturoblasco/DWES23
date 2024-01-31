@@ -21,6 +21,20 @@
 
 
 
+
+
+
+
+
+
+ 
+
+> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+>
+> Material extraído de https://nachoiborraies.github.io/laravel/
+
+
+
 # conceptos de servicios REST
 
 <img src="/assets/ud07_apirestful_000.png" alt="phpMyAdmin" style="zoom:70%; float:right;" />En esta unidad del curso veremos cómo emplear Laravel como proveedor de servicios REST. Comenzaremos detallando algunas cuestiones básicas de la arquitectura cliente-servidor y de los servicios REST, para luego pasar a ver cómo desarrollarlos y probarlos con Laravel.

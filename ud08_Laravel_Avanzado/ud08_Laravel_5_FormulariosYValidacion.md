@@ -21,6 +21,20 @@
 
 
 
+
+
+
+
+
+
+
+
+ 
+
+> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+>
+> Material extraído de https://nachoiborraies.github.io/laravel/
+
 # definición y uso de formularios
 
 El envío de formularios en Laravel implica, por un lado, definir un formulario, empleando HTML sencillo junto con algunas opciones ofrecidas por Blade. Por otra parte, debemos recoger los datos enviados por el formulario en algún método de algún controlador, y procesarlos adecuadamente.
