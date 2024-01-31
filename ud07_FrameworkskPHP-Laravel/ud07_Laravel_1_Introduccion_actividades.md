@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 7
-   title: Laravel - modelo de datos (actividades)
+   title: Laravel - Introducción (actividades)
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor

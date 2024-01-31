@@ -1,6 +1,6 @@
 ---
    unit: unidad didáctica 7
-   title: Laravel - introducción
+   title: Laravel - Introducción
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
