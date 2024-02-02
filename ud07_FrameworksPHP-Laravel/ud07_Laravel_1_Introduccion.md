@@ -4,7 +4,7 @@
    language: ES
    author: Arturo Blasco
    subject: Desarrollo Web en Entorno Servidor
-   keywords: [DWES, 2023, PHP, Laravel]
+   keywords: [DWES, 2024, PHP, Laravel]
    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
    header: ${unit}: ${title} - ${subject} (versión: ${today})
    footer: ${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}|${pageCount}
@@ -104,21 +104,21 @@ Es un patrón de diseño muy conciso y bien estructurado, lo que le ha valido la
 
 En forma de esquema, podríamos representarlo así:
 
-<img src="./assets/01_mvc.png" alt="Modelo Vista Controlador" style="zoom:80%;" />
+<img src="./assets/01_mvc.png" alt="Modelo Vista Controlador" style="zoom:70%;" />
 
 # software necesario
 
 A la hora de trabajar con Laravel, necesitamos tener previamente instalados en nuestro sistema una serie de recursos software, como son:
 
-1. Un IDE (entorno de desarrollo) con el que editar el código de nuestros proyectos. Emplearemos Visual Studio Code en estos apuntes, aunque existen otras alternativas similares, como PHPStorm, Sublime Text, Atom, etc.
-2. Un servidor web que soporte PHP. En nuestro caso, utilizaremos Apache.
-3. Un servidor de bases de datos en el que almacenar la información de nuestras aplicaciones. Emplearemos un servidor MariaDB/MySQL.
-4. PHP actualizado a una versión compatible con la versión de Laravel que vayamos a utilizar. Por ejemplo, para Laravel versión 9 se necesita una versión de PHP 8.0 o posterior.
-5. El propio framework Laravel. Se necesitará instalar la herramienta `composer` para, después, instalar Laravel. Aunque también se pueden crear proyectos Laravel desde la propia herramienta *composer*, como veremos más adelante.
-6. Además, necesitaremos el gestor de paquetes `npm` para instalar dependencias del lado del cliente en proyectos Laravel. Este gestor se instala con el framework Node.js.
+1. Un **IDE** (entorno de desarrollo) con el que editar el código de nuestros proyectos. Emplearemos `Visual Studio Code` en estos apuntes, aunque existen otras alternativas similares, como PHPStorm, Sublime Text, Atom, etc.
+2. Un **servidor web** que soporte PHP. En nuestro caso, utilizaremos `Apache`.
+3. Un **servidor de bases de datos** en el que almacenar la información de nuestras aplicaciones. Emplearemos un servidor `MariaDB`/`MySQL`.
+4. **PHP** actualizado a una versión compatible con la versión de Laravel que vayamos a utilizar. Por ejemplo, para Laravel versión 9 se necesita una versión de `PHP 8.0` o posterior.
+5. El propio **framework** `Laravel`. Se necesitará instalar la herramienta **`composer`** para, después, instalar Laravel. Aunque también se pueden crear proyectos Laravel desde la propia herramienta `composer`, como veremos más adelante.
+6. Además, necesitaremos el **gestor de paquetes `npm`** para instalar dependencias del lado del cliente en proyectos Laravel. Este gestor se instala con el framework `Node.js`.
 7. Otras herramientas adicionales que nos puedan venir bien, como por ejemplo alguna herramienta para probar el acceso a los servicios REST que desarrollemos.
 
-Veremos a continuación los pasos necesarios para instalar todo el software que utilizaremos. Se darán las pautas de instalación en un sistema Linux basado en Debian, como por ejemplo Ubuntu, Lubuntu, Linux Mint, etc. También se facilitará en [esta otra sección](https://nachoiborraies.github.io/laravel/md/es/01b#6-recursos-adicionales) de este documento un enlace a una máquina virtual donde poder instalar todo el software, así como otra máquina virtual con el software ya preinstalado y listo para utilizarse, usando las versiones que se indican a lo largo del documento.
+Veremos a continuación los pasos necesarios para instalar todo el software que utilizaremos. Se darán las pautas de instalación en un sistema Linux basado en Debian, como por ejemplo Ubuntu, Lubuntu, Linux Mint, etc. También se facilitará un enlace a una máquina virtual donde poder instalar todo el software, así como otra máquina virtual con el software ya preinstalado y listo para utilizarse, usando las versiones que se indican a lo largo del documento.
 
 Para **usuarios de otros sistemas**, como Windows o Mac OSX, la mayoría de opciones que veremos aquí son igualmente válidas (cambiando la ruta y/o el modo de instalación de algunas herramientas). En cualquier caso, se puede hacer uso de otras herramientas alternativas, como por ejemplo:
 
@@ -127,11 +127,11 @@ Para **usuarios de otros sistemas**, como Windows o Mac OSX, la mayoría de opci
 
 En cualquier caso, no es el propósito de este curso aprender a instalar todo el software en todos los sistemas posibles, y es por ello que proporcionamos la máquina virtual indicada, para simplificar las opciones. Veremos algunas pinceladas de cómo instalar ciertas herramientas en varios sistemas, no obstante.
 
-## 1. Visual Studio Code
+## Visual Studio Code
 
 Como IDE para desarrollar nuestras aplicaciones emplearemos **Visual Studio Code**, que es uno de los IDEs más versátiles que existen hoy en día para desarrollo web. Desde la [web oficial](https://code.visualstudio.com/) de Visual Studio Code podemos descargarlo para la plataforma deseada.
 
-> **Versión requerida**: ninguna en particular, sirve con la última versión disponible.
+> **versión requerida**: ninguna en particular, sirve con la última versión disponible.
 
 **Linux (Debian)**
 
@@ -147,21 +147,54 @@ Se creará automáticamente un acceso directo en el menú de inicio, dentro de l
 
 Para Windows descargamos el instalador y seguimos los pasos. No hay mucho que configurar; en todo caso, podemos dejar marcada la casilla para añadir el menú contextual “*Abrir con Code*” para poder abrir archivos y carpetas con VS Code desde el explorador de archivos directamente, con un clic derecho.
 
-<img src="./assets/01_vscode_windows.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_vscode_windows.png" alt="img" style="zoom:70%;" />
 
 **Mac OSX**
 
 Para **Mac OSX**, descargamos la aplicación y la podemos ejecutar directamente. También podemos moverla a la carpeta de *Aplicaciones* para tenerla localizada.
 
-<img src="./assets/01_vscode_mac.png" alt="img" style="zoom:90%;" />
+<img src="./assets/01_vscode_mac.png" alt="img" style="zoom:70%;" />
 
-## 2. Apache, PHP y MariaDB/MySQL con XAMPP
+**Extensiones para VS Code**
+
+Recomendable será instalar los siguientes plugins para Visual Studio Code.
+
+Referentes a PHP:
+
+- *PHP Intelephense*
+- *PHP IntelliSense*
+- *PHP Namespace Resolver*
+
+Referentes a Laravel:
+
+- Laravel Blade Snippets
+- *Laravel Snippets*
+- *Laravel goto view*
+- *Laravel Extra Intellisense*
+
+Referentes a API:
+
+- *Thunder Client*
+
+   Esta herramienta nos servirá para simular peticiones a servidores web, y recoger y analizar la respuesta. La emplearemos para probar los servicios *REST* que desarrollaremos en algunas sesiones. Se instala como una extensión de Visual Studio Code. La buscamos en el panel de extensiones y la instalamos:
+
+   <img src="./assets/01_extension_thunderclient.png" alt="img" style="zoom:70%;" />
+
+   <img src="/assets/01_extension_thunderclient_2.png" alt="phpMyAdmin" style="zoom:80%; float:right;" />Nos aparecerá un icono en el panel izquierdo desde el que gestionaremos las conexiones y peticiones (aprenderemos a utilizarlo más adelante):
+
+   Como alternativa, también podemos utilizar la herramienta **Postman**, o bien vía web o instalando la aplicación de escritorio desde su [web oficial](https://www.postman.com/).
+
+Referentes a CSS:
+
+- *Tailwind CSS IntelliSense*
+
+## Apache, PHP y MariaDB/MySQL con XAMPP
 
 Para poder tener un sistema con Apache, PHP y un gestor de bases de datos (como MariaDB/MySQL), y poderlo gestionar cómodamente, trabajaremos con un sistema AMPP, paquetes que integran en una sola instalación todas estas cosas. El ejemplo más conocido de estos sistemas es **XAMPP**, aunque existen otros como WAMPP, para Windows. Una de las ventajas que ofrecen es que, además de instalar Apache, PHP y MySQL y dejarlo todo integrado, nos proporciona un cliente web llamado **phpMyAdmin** para poder administrar las bases de datos desde Apache. Esto nos vendrá bien para crear o importar las bases de datos de los distintos ejercicios.
 
-> **Versión requerida**: depende sobre todo de la versión de Laravel con la que vayamos a trabajar. En el caso por ejemplo de Laravel 9, es necesario tener al menos una versión de PHP 8.0, y para ello debemos contar con una versión de XAMPP 8.x.
+> **versión requerida**: depende sobre todo de la versión de Laravel con la que vayamos a trabajar. En el caso por ejemplo de Laravel 9, es necesario tener al menos una versión de PHP 8.0, y para ello debemos contar con una versión de XAMPP 8.x.
 
-### 2.1. Instalación
+### Instalación
 
 Para instalar XAMPP, basta con descargarlo de su [web oficial](https://www.apachefriends.org/es/index.html) y seguir los pasos del asistente. Nos basta con tener instalado Apache, MySQL y PHP, así que podemos descartar otras opciones que nos ofrezca, si nos da a elegir.
 
@@ -178,13 +211,13 @@ sudo ./xampp-linux-x64-7.4.5-installer.run
 
 En el caso de **Windows** o **Mac OSX** simplemente hay que lanzar el instalador y seguir los pasos, eligiendo las opciones que nos interese instalar (al menos, Apache, MySQL y PHP), si nos dan a elegir. Así es como podemos dejarlo en el caso de Windows, por ejemplo:
 
-<img src="./assets/01_xampp_windows.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_xampp_windows.png" alt="img" style="zoom:70%;" />
 
 #### El manager de XAMPP
 
 XAMPP proporciona una herramienta *manager* o *panel de control* que nos permite gestionar en todo momento los servicios activos.
 
-En el caso de **Linux** se encuentra en **/opt/lampp/manager-linux-x64.run**. Podemos acceder a la carpeta desde el terminal para ejecutarlo (con permisos de superusuario), o bien crear algún acceso directo en otra ubicación que nos resulte más cómoda. Por ejemplo, podemos crear un acceso directo en el escritorio con el editor *nano* o con el propio editor Visual Studio Code que hemos instalado previamente. Suponiendo la carpeta */home/alumno/Escritorio/* o */home/alumno/Desktop/*, como la que tenemos en la máquina virtual, podemos primero crear el archivo vacío:
+En el caso de **Linux** se encuentra en **/opt/lampp/manager-linux-x64.run**. Podemos acceder a la carpeta desde el terminal para ejecutarlo (con permisos de superusuario); o bien crear algún acceso directo en otra ubicación que nos resulte más cómoda. Por ejemplo, podemos crear un acceso directo en el escritorio con el editor *nano* o con el propio editor *Visual Studio Code* que hemos instalado previamente. Suponiendo la carpeta */home/alumno/Escritorio/* o */home/alumno/Desktop/*, como la que tenemos en la máquina virtual, podemos primero crear el archivo vacío:
 
 ```
 touch /home/alumno/Desktop/XAMPP.desktop
@@ -205,41 +238,29 @@ Type=Application
 Terminal=1
 ```
 
-> **NOTA**: la versión del programa (atributo *Version*) dependerá de la versión que hayamos instalado de XAMPP en el momento concreto. El atributo *Terminal* lo ponemos a 1 para poder especificar el password de superusuario al ejecutar, de lo contrario no funcionará.
+> **nota**: la versión del programa (atributo *Version*) dependerá de la versión que hayamos instalado de XAMPP en el momento concreto. El atributo *Terminal* lo ponemos a 1 para poder especificar el password de superusuario al ejecutar, de lo contrario no funcionará.
 
 En el caso de **Windows**, dicho manager está en la carpeta de instalación (típicamente *C:\xampp*), en un archivo llamado *xampp-control.exe*, que podemos ejecutar. En el caso de **Mac OSX**, se habrá creado un acceso en la sección de *Aplicaciones* para poder poner en marcha este manager.
 
-<img src="./assets/01_xampp_mac1.png" alt="img" style="zoom:90%;" />
+<img src="./assets/01_xampp_mac1.png" alt="img" style="zoom:80%;" />
 
 El manager nos permitirá lanzar o detener cada servidor. Para las pruebas que haremos deberemos tener iniciados tanto Apache como MySQL. En Linux y Mac OS X tendrá una apariencia como ésta aproximadamente:
 
-<img src="./assets/01_xampp_manager.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_xampp_manager.png" alt="img" style="zoom:70%;" />
 
 En el caso de Windows la apariencia es algo diferente, aunque igualmente funcional:
 
-<img src="./assets/01_xampp_manager_windows.jpg" alt="img" style="zoom:80%;" />
+<img src="./assets/01_xampp_manager_windows.jpg" alt="img" style="zoom:70%;" />
 
 Por defecto, Apache estará escuchando en el puerto 80 (o 443 para conexiones SSL), y MySQL en el 3306. Podemos modificar estos puertos en los respectivos archivos de configuración (“*httpd.conf*” y “*my.cnf*”), dentro de las carpetas de la instalación de XAMPP (la ubicación concreta de estos archivos varía entre versiones y entre sistemas operativos).
 
-## 3. Thunder Client
-
-Esta herramienta nos servirá para simular peticiones a servidores web, y recoger y analizar la respuesta. La emplearemos para probar los servicios REST que desarrollaremos en algunas sesiones. Se instala como una extensión de Visual Studio Code. La buscamos en el panel de extensiones y la instalamos:
-
-<img src="./assets/01_extension_thunderclient.png" alt="img" style="zoom:80%;" />
-
-Nos aparecerá un icono en el panel izquierdo desde el que gestionaremos las conexiones y peticiones (aprenderemos a utilizarlo más adelante):
-
-![img](./assets/01_extension_thunderclient_2.png)
-
-Como alternativa, también podemos utilizar la herramienta **Postman**, o bien vía web o instalando la aplicación de escritorio desde su [web oficial](https://www.postman.com/).
-
-## 4. Laravel
+## Laravel
 
 Para trabajar con Laravel, será necesario instalar el gestor de paquetes **composer** mediante el que podremos tanto crear proyectos Laravel como gestionar las dependencias de otros módulos en un proyecto.
 
-> **Versión requerida**: en la última actualización de estos apuntes, se dispone de la versión 2.3.x de la herramienta **composer** y de la versión 9.x de Laravel.
+> **versión requerida**: en la última actualización de estos apuntes, se dispone de la versión 2.3.x de la herramienta **composer** y de la versión 9.x de Laravel.
 
-### 4.1. Instalando *composer*
+### Instalando *composer*
 
 Como hemos comentado, la instalación de Laravel se realiza a través del gestor de paquetes **composer**. Ésta es una herramienta muy habitual en ecosistemas PHP, y su labor es similar a la que desempeña el gestor NPM para aplicaciones JavaScript: gestionar las dependencias de un determinado proyecto, descargando, actualizando o desinstalando los paquetes necesarios. En este caso, lo utilizaremos para descargar e instalar el propio framework Laravel.
 
@@ -281,15 +302,15 @@ pcre.jit=0
 
 Para instalar *composer* en Windows debemos hacerlo a través de un instalador que también podemos descargar desde la [web oficial](https://getcomposer.org/download/), en la sección *Windows Installer*. Seguimos los pasos del asistente, y deberemos indicar la ruta donde se encuentra el comando *php*, necesario para poder utilizar la herramienta. Añadimos este comando al PATH del sistema también:
 
-![img](./assets/01_composer_windows.png)
+<img src="./assets/01_composer_windows.png" alt="img" style="zoom:80%;" />
 
 **Comprobación de la instalación**
 
 Una vez instalado, podemos ejecutar el comando `composer` sin más en un terminal, y comprobar que muestra una salida con las opciones que ofrece:
 
-<img src="./assets/01_composer.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_composer.png" alt="img" style="zoom:70%;" />
 
-### 4.2. Instalando Laravel
+### Instalando Laravel
 
 A través de la herramienta `composer` se pueden crear directamente proyectos Laravel, como veremos en el curso. Sin embargo, la sintaxis del comando de creación es algo larga, si la comparamos con el instalador de Laravel, por lo que vamos a instalarlo también. Para hacerlo, usamos la propia herramienta `composer`, con este comando:
 
@@ -306,7 +327,7 @@ echo "export PATH=$PATH:$HOME/.config/composer/vendor/bin" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-> **NOTA**: en algunos sistemas la carpeta que hay que incluir en el PATH es `$HOME/composer/vendor/bin` en lugar de la anterior.
+> **nota**: en algunos sistemas la carpeta que hay que incluir en el PATH es `$HOME/composer/vendor/bin` en lugar de la anterior.
 
 **Mac OSX:**
 
@@ -317,7 +338,7 @@ source ~/.bash_profile
 
 Con esto, se habrá instalado un comando llamado `laravel`, que podemos utilizar a partir de ahora para crear los proyectos. Podemos probar a ejecutarlo en un terminal para que nos muestre las opciones disponibles, lo que indicará que está correctamente instalado y localizado.
 
-### 4.3. Actualizando Laravel
+### Actualizando Laravel
 
 En general, el comando `laravel` que se instala se encargará de crear proyectos empleando la última versión de Laravel que haya disponible. Así, si por ejemplo lo instalamos cuando aún existía la versión 7 de Laravel pero se publica la versión 8, automáticamente el comando `laravel` nos permitirá crear proyectos de la versión 8 desde ese punto. Sin embargo, es posible que con el tiempo se requiera actualizar el instalador para que los proyectos con nuevas versiones se sigan creando sin problemas.
 
@@ -336,18 +357,18 @@ composer global remove laravel/installer
 composer global require laravel/installer
 ```
 
-## 5. Node.js
+## Node.js
 
 A pesar de que podría parecer que *Node.js* es un ecosistema diferente a Laravel, lo cierto es que con la instalación de Node se incorpora una herramienta muy útil en cualquier aplicación web que utilice librerías JavaScript, como puedan ser Bootstrap o jQuery. Es la herramienta **NPM** (*Node Package Manager*), que permite instalar de forma sencilla estas librerías en cualquier proyecto.
 
-> **Versión requerida**: es recomendable tener instalada la última versión LTS (*Long Term Support*). En la última versión de estos apuntes, dicha versión es la 16.x.
+> **versión requerida**: es recomendable tener instalada la última versión LTS (*Long Term Support*). En la última versión de estos apuntes, dicha versión es la 16.x.
 
 Para instalar Node en cualquiera de los sistemas que estamos contemplando (Linux, Windows o Mac OSX) podemos optar por:
 
 - Instalarlo a través del *instalador* correspondiente
 - Utilizar la herramienta NVM (*Node Version Manager*). Esta herramienta nos va a permitir tener más de una versión de Node instalada, y poder elegir en todo momento cuál de ellas es la que queremos tener activa. En el caso de Windows, la herramienta NVM que podemos utilizar no es la “oficial”, pero sí existe una especie de clon alternativo funcional.
 
-### 5.1. Instalación en Linux
+### Instalación en Linux
 
 En el caso de distribuciones Linux, como es el caso de la máquina virtual proporcionada, podemos optar por ejecutar un instalador o por usar NVM. En la versión completa de la máquina virtual proporcionada se ha optado por esta última opción (NVM), pero damos aquí los pasos a seguir para ambas opciones.
 
@@ -389,11 +410,11 @@ En el caso de no disponer del comando `wget` instalado, podemos o bien instalarl
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
 
-> **NOTA**: el número de versión `v0.39.1` puede variar. Es preferible consultar la web de GitHub para obtener el comando actualizado.
+> **nota**: el número de versión `v0.39.1` puede variar. Es preferible consultar la web de GitHub para obtener el comando actualizado.
 
-> **NOTA**: después de ejecutar el comando anterior, será necesario cerrar el terminal y volverlo a abrir para poder utilizar el comando `nvm`. Si sigue sin reconocer el comando, quizá debamos actualizar con `source ~/.bashrc`
+> **nota**: después de ejecutar el comando anterior, será necesario cerrar el terminal y volverlo a abrir para poder utilizar el comando `nvm`. Si sigue sin reconocer el comando, quizá debamos actualizar con `source ~/.bashrc`
 
-### 5.2. Instalación en Mac OSX
+### Instalación en Mac OSX
 
 Para distribuciones Mac OSX, tenemos igualmente la opción de usar un instalador o la herramienta NVM.
 
@@ -405,7 +426,7 @@ El instalador de Node.js para Mac OSX es muy sencillo. Lo descargamos de la [web
 
 Para utilizar NVM en Mac OSX seguimos los mismos pasos que para Linux, comentados anteriormente, pero en este caso para actualizar el terminal ejecutaremos `source ~/.bash_profile`.
 
-### 5.3. Instalación en Windows
+### Instalación en Windows
 
 **Opción de instalador**
 
@@ -415,7 +436,7 @@ El instalador de Node.js para Windows es igualmente muy sencillo. Lo descargamos
 
 Como comentábamos, la herramienta NVM oficial sólo está disponible para sistemas Unix, por lo que funciona en Linux y Mac OSX, pero no en Windows. Como alternativa, existe alguna implementación paralela de *nvm* que podemos hacer servir, como [esta](https://github.com/coreybutler/nvm-windows). Podemos descargar un instalador (*nvm-setup.zip*) y ejecutarlo para instalar este gestor. Después, desde línea de comandos tendremos disponibles una serie de comandos para gestionar las versiones de Node, como veremos a continuación.
 
-### 5.4. Utilizando NVM
+### Utilizando NVM
 
 Si hemos optado por instalar Node a través de `nvm`, tendremos disponibles una serie de comandos en el terminal para instalar y gestionar las versiones de Node. Aquí resumimos los más importantes.
 
@@ -459,31 +480,63 @@ nvm install 16.16.0
 nvm use 16.16.0
 ```
 
-### 5.5. Prueba de Node
+### Prueba de Node
 
 Podemos ejecutar ahora `node -v` en el terminal y comprobar que nos muestra el número de versión adecuado. También podemos ejecutar el comando `npm - v` para comprobar la versión que se ha instalado del gestor NPM (que no tiene por qué coincidir con la de Node).
 
-## 6. Recursos adicionales
+## Recursos adicionales
 
 Para facilitar la labor de instalar y/o trabajar con el software propuesto, se proporcionan dos máquinas virtuales basadas en sistemas Lubuntu (versión 20). En ambos casos, se cuenta con un usuario *alumno* con password *alumno*.
 
-- [Máquina virtual base](https://1drv.ms/u/s!As6iclFnE7BAgUAG8pcmWX0wHq05?e=iyV164)
-- [Máquina virtual con software instalado](https://1drv.ms/u/s!As6iclFnE7BAgUHh306rQDEyCg8d?e=ufdkhR)
+- [Máquina virtual base](#)
+- [Máquina virtual con software instalado](#)
 
 Es necesario utilizar el programa [VirtualBox](https://www.virtualbox.org/) para ejecutar estas máquinas virtuales. También se puede cambiar la configuración por defecto de dichas máquinas virtuales, para darles más memoria RAM o núcleos de procesador, si se cree conveniente.
+
+> **instalar docker bitnami/Laravel**
+>
+> Otra opción (**vamos a utilizar esta en nuestros equipos linux**) será utilizar una *stack* de contenedores docker que contendrá servidor Apache, servidor BBDD MariaDB, Laravel y phpMyadmin.
+>
+> 1. Lo primero de todo es crear una carpeta con el nombre del proyecto y accedemos ella.
+>
+>    Por ejemplo, creamos el proyecto *prularavel* dentro de nuestra carpeta de proyectos:
+>
+>    ```sh
+>    $ mkdir ~/dwes/proyectos/nombreProyecto
+>    ```
+>
+> 2. Accedemos dentro de la carpeta de este nuevo proyecto.
+>
+> 3. Utilizar el fichero `docker-compose.yml` (que tenemos en nuestra carpeta del curso). Una vez descargado el archivo en nuestra carpeta que acabamos de crear con el nombre del proyecto, lanzamos el siguiente comando por consola para instalar todas las dependencias y crear las imágenes de Docker correspondientes.
+>
+>    ```sh
+>    sudo docker-compose up -d
+>    ```
+>
+> 4. Si utilizamos el contenedor `Portainer` para la gestión de nuestros contenedores, podremos observar que estarán en marcha nuestros dos contenedores (pertenecientes al servidor web y servidor de bases de datos):
+>
+> <img src="./assets/ud07_laravel_001.png" style="zoom:70%;" />
+>
+> **aporte**
+>
+> Un aporte, o instalación, a tener en cuenta, podría ser la de instalar `Tailwind CSS`. Este software nos va a proporcionar, de manera sencilla y cómoda, una opción de utilizar CSS.
+>
+> Para ello, seguir las instrucciones del [anexos - instalación de Tailwind CSS](#).
+
+
 
 # Primeros pasos con Laravel
 
 Ahora que ya tenemos todo el sistema preparado para desarrollar proyectos Laravel, veamos los primeros pasos que debemos dar para crear estos proyectos.
 
-## 1. Crear proyectos Laravel
+## Crear proyectos Laravel
 
 Para crear proyectos Laravel, tenemos dos alternativas:
 
 - Emplear el comando `laravel` que hemos instalado en sesiones anteriores mediante *composer*
 - Utilizar el propio comando `composer` para crear el proyecto. Esta opción será la recomendada si queremos crear proyectos con versiones de Laravel que no sean la última, o si por algún motivo no funciona la opción anterior.
 
-### 1.1. Usando el comando *laravel*
+### Usando el comando *laravel*
 
 Si empleamos el comando `laravel` para crear proyectos (asumiendo que ya lo tendremos instalado de la sesión de [software necesario](https://nachoiborraies.github.io/laravel/md/es/01b)), nos deberemos ubicar en la carpeta donde queramos crear el proyecto y escribir este comando:
 
@@ -499,7 +552,7 @@ laravel new biblioteca
 
 Esto creará un proyecto `biblioteca` en una subcarpeta con el mismo nombre.
 
-### 1.2. Usando el comando *composer*
+### Usando el comando *composer*
 
 Alternativamente, también se puede emplear la herramienta `composer` para crear el proyecto, usando la siguiente sintaxis (también desde la carpeta donde queramos ubicar el proyecto):
 
@@ -515,7 +568,7 @@ composer create-project --prefer-dist laravel/laravel biblioteca
 
 Del mismo modo que en el caso anterior, se creará una carpeta `biblioteca` con el contenido inicial del proyecto dentro, empleando la última versión de Laravel disponible.
 
-### 1.3. Crear proyectos Laravel usando versiones anteriores
+### Crear proyectos Laravel usando versiones anteriores
 
 Al crear un proyecto con el comando `laravel new`, se creará con la última versión disponible de Laravel. En el caso de que necesitemos crear un proyecto Laravel que no utilice la última versión, sino alguna anterior, necesitamos utilizar la herramienta `composer` para especificar el número de versión de Laravel que queremos utilizar. Por ejemplo, este comando crea un proyecto llamado “prueba” utilizando Laravel 7:
 
@@ -523,7 +576,7 @@ Al crear un proyecto con el comando `laravel new`, se creará con la última ver
 composer create-project --prefer-dist laravel/laravel prueba 7.x
 ```
 
-### 1.4. El comando *artisan*
+### El comando *artisan*
 
 Cuando se crea un proyecto Laravel, se instala una herramienta llamada `artisan` en la raíz del proyecto. Es una interfaz de línea de comandos (CLI, *Command Line Interface*), que proporciona una serie de opciones adicionales que nos vendrán bien en nuestra gestión de proyectos Laravel para, por ejemplo, crear controladores, migrar datos a una base de datos, etc.
 
@@ -541,19 +594,19 @@ php artisan --version
 
 Para escribir estos comandos, podemos abrir la carpeta del proyecto con Visual Studio Code, y abrir el terminal integrado en este IDE (menú *Ver > Terminal*). Esto nos ubicará automáticamente en la carpeta del proyecto, y podemos directamente ejecutar estos comandos desde ahí.
 
-### 1.5. Laravel y Visual Studio Code
+### Laravel y Visual Studio Code
 
 Como hemos comentado, podemos gestionar muy cómodamente los proyectos Laravel desde el IDE Visual Studio Code. Basta con abrir la carpeta principal del proyecto desde el propio IDE, y eso puede hacerse desde el menú *Archivo > Abrir Carpeta*, o bien arrastrando la carpeta a la zona principal del IDE, e incluso, dependiendo de cómo hayamos hecho la instalación, también podemos hacer clic derecho sobre la carpeta del proyecto en el explorador de archivos, y elegir *Abrir con Code* en el menú contextual.
 
 Una vez abierto, tendremos la estructura del proyecto en la parte izquierda (pestaña de explorador de archivos), y podremos ir editando los archivos en la parte derecha.
 
-<img src="./assets/01_vscode_laravel_proyecto.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_vscode_laravel_proyecto.png" alt="img" style="zoom:70%;" />
 
 Para facilitar aún más la gestión de proyectos Laravel, podemos instalar alguna extensión adicional a Visual Studio Code. Una de las más populares es *Laravel Extension Pack*, que a su vez contiene una serie de extensiones para resaltar sintaxis, editar vistas, etc:
 
-<img src="./assets/01_vscode_laravel_extension.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_vscode_laravel_extension.png" alt="img" style="zoom:60%;" />
 
-## 2. Estructura de un proyecto Laravel
+## Estructura de un proyecto Laravel
 
 Los proyectos Laravel se pueden gestionar abriendo la carpeta directamente desde nuestro IDE (Visual Studio Code). Cuando creamos un proyecto Laravel, se crea una estructura de carpetas y archivos predefinida. Explicamos ahora brevemente en qué consisten las principales carpetas y archivos que se generan, de acuerdo a la versión actualizada de estos apuntes.
 
@@ -590,7 +643,7 @@ Los proyectos Laravel se pueden gestionar abriendo la carpeta directamente desde
 
 Aunque algunos de los conceptos vistos aquí pueden no estar claros aún (como el concepto de *middleware*, o los proveedores de servicios), los iremos viendo poco a poco durante el curso.
 
-### 2.1. Configuración general del proyecto
+### Configuración general del proyecto
 
 De entre la estructura de carpetas de un proyecto Laravel vista anteriormente, echaremos ahora un rápido vistazo a dónde se encuentra la configuración general del proyecto.
 
@@ -632,17 +685,17 @@ Por otra parte, la carpeta `config` contiene unos archivos generales de configur
 
 Es más habitual modificar los valores del archivo `.env` que los que hay en este archivo de configuración. Pero, en algunos casos, sí convendrá acudir a alguno de los archivos de esta carpeta y modificar la información que contiene.
 
-## 3. Arquitectura de un proyecto Laravel
+## Arquitectura de un proyecto Laravel
 
 Una vez vista la estructura de carpetas y archivos que se genera cuando creamos un proyecto Laravel, es importante también tener unas nociones básicas de cómo se interconectan los elementos internamente, y qué hace que un proyecto Laravel se pueda poner en marcha.
 
-### 3.1. Los proveedores de servicios (*service providers*)
+### Los proveedores de servicios (*service providers*)
 
 Los proveedores de servicios son los principales responsables del arranque o puesta en marcha de todo proyecto Laravel, lo que se conoce como *bootstrapping*. Se encargan de registrar los componentes del proyecto, dependencias externas, clases y métodos definidos por nosotros, para hacerlos accesibles al resto de la aplicación.
 
 Si abrimos el archivo `config/app.php` de nuestro proyecto Laravel, veremos entre otras cosas una sección denominada `providers`, donde se define un array con todos los proveedores de servicios que se ponen en marcha al arrancar la aplicación. Por ejemplo, hay proveedores de servicios para acceso a la base de datos (*DatabaseServiceProvider*), autenticación de usuarios (*AuthServiceProvider*), etc.
 
-### 3.2. Las clases del núcleo de Laravel
+### Las clases del núcleo de Laravel
 
 Para poder desarrollar los componentes de las aplicaciones Laravel, es necesario contar con una infraestructura previa de clases que nos faciliten esta tarea. Así, a lo largo de las siguientes sesiones haremos uso de algunas clases proporcionadas por Laravel que vienen preinstaladas con el framework, tales como `Model`, `Route`, etc, y que nos permiten o bien heredar de ellas para crear otras subclases (como es el caso de los modelos de datos) o bien utilizar algunos métodos de utilidad que estas clases proporcionan (como es el caso de la clase `Route`, por ejemplo).
 
@@ -652,7 +705,7 @@ Conviene tener presente que todas estas clases pertenecientes al núcleo de Lara
 use Illuminate\Database\Eloquent\Model;
 ```
 
-### 3.3. Otros elementos
+### Otros elementos
 
 Además de los dos pilares anteriores sobre los que se sustenta fundamentalmente el desarrollo de proyectos en Laravel, podemos hablar de otros elementos que nos pueden resultar de utilidad en el desarrollo, como son los *facades* y los *contracts*.
 
@@ -664,7 +717,7 @@ return Cache::get('key');
 
 Los *contracts* son un conjunto de interfaces que proporcionan el núcleo de servicios ofrecidos por Laravel. Por ejemplo, métodos para enviar e-mails, o encolar tareas en una cola de prioridad, etc.
 
-## 4. Prueba de proyectos Laravel
+## Prueba de proyectos Laravel
 
 Existen varias formas de probar o poner en marcha un proyecto Laravel, dependiendo de si estamos desarrollándolo y probándolo (en cuyo caso buscamos ponerlo en marcha fácilmente), o si ya lo hemos puesto en producción. Resumidamente, veremos tres formas de poner en marcha el proyecto:
 
@@ -674,7 +727,7 @@ Existen varias formas de probar o poner en marcha un proyecto Laravel, dependien
 
 La tercera forma será la que necesitemos utilizar si queremos poner la web en producción en un servidor real, ya que en estos casos cada aplicación tiene su propia configuración y ubicación diferente al resto. Las otras dos primeras opciones pueden resultarnos útiles para pruebas sencillas durante el desarrollo.
 
-### 4.1. Permisos en carpetas del proyecto
+### Permisos en carpetas del proyecto
 
 Para poder probar nuestro proyecto Laravel, además de configurar y poner en marcha el servidor correspondiente es necesario habilitar permisos de acceso y escritura a ciertas carpetas del proyecto, especialmente en sistemas Linux o Mac, si movemos el proyecto a una carpeta con permisos reducidos.
 
@@ -691,7 +744,7 @@ sudo chmod -R 777 storage/logs
 
 > **NOTA** El tercer comando no sería necesario en principio, ya que la subcarpeta `logs` está dentro de la carpeta `storage`, y se aplican los cambios de forma recursiva. Sin embargo, es posible que en algunas situaciones esta subcarpeta se cree a posteriori y no tenga los permisos adecuados. Comprobaremos al cargar la aplicación desde el navegador si existe algún error al inicio. En este caso, el propio error indicará que no puede generar el *log*, y deberemos escribir ese comando.
 
-### 4.2. Puesta en marcha con el comando *artisan*
+### Puesta en marcha con el comando *artisan*
 
 La forma más sencilla de probar nuestro proyecto es a través del comando `artisan`. Nos ubicamos en la carpeta raíz del proyecto (recuerda que esto se puede hacer automáticamente abriendo la carpeta con Visual Studio Code y abriendo su terminal), y ejecutamos este comando:
 
@@ -707,13 +760,13 @@ Starting Laravel development server: http://127.0.0.1:8000
 
 Conectando a la URL que se nos facilita, veremos la pantalla de inicio de nuestro proyecto, que será algo así (aunque el diseño de la página de inicio puede variar dependiendo de la versión de Laravel que usemos):
 
-<img src="./assets/01_laravel_welcome.png" alt="img" style="zoom:80%;" />
+<img src="./assets/01_laravel_welcome.png" alt="img" style="zoom:60%;" />
 
 Más adelante aprenderemos a modificar esta página de inicio, obviamente, y a ir añadiendo otras.
 
 > **NOTA**: si nuestra aplicación necesita acceder a una base de datos, además de arrancarla con el comando `artisan` visto antes, también tendremos que tener en marcha el servidor de bases de datos correspondiente, a través del manager de XAMPP.
 
-### 4.3. Puesta en marcha en carpeta predefinida de XAMPP
+### Puesta en marcha en carpeta predefinida de XAMPP
 
 Como segunda alternativa relativamente rápida, podemos ubicar la carpeta del proyecto dentro de la carpeta predefinida de XAMPP para alojar webs:
 
@@ -731,7 +784,7 @@ A continuación debemos poner en marcha el servidor Apache (empleando el *manage
 
 > **NOTA**: al mover la carpeta del proyecto a la ubicación de XAMPP en Linux, ten en cuenta que esa carpeta es de acceso restringido. Deberemos dar permisos a las carpetas indicadas [en la sección 4.1](https://nachoiborraies.github.io/laravel/md/es/01c#41-permisos-en-carpetas-del-proyecto) para que la aplicación se pueda poner en marcha adecuadamente.
 
-### 4.4. Puesta en marcha como host virtual
+### Puesta en marcha como host virtual
 
 En el caso de una puesta en producción real, o si queremos dejar una aplicación correctamente configurada con Apache, hay que realizar una serie de pasos previos, tales como asociarlo a un *virtual host* (de Apache, en nuestro caso). A continuación indicamos los pasos a seguir, y conviene tener presente que:
 
@@ -797,11 +850,11 @@ A continuación, debemos editar el archivo al que hacía referencia la línea qu
 
 > **NOTA**: la ruta indicada en el atributo *DocumentRoot* dependerá, evidentemente, de la ruta donde tengamos alojado nuestro proyecto *biblioteca*. El ejemplo anterior se ha ilustrado suponiendo que el proyecto *biblioteca* se ubica en una carpeta *ProyectosLaravel* en la carpeta de usuario de nuestra máquina virtual.
 
-## 5. Importando / Exportando un proyecto Laravel
+## Importando / Exportando un proyecto Laravel
 
 Vamos a indicar ahora unas instrucciones necesarias en el caso de que queramos importar un proyecto Laravel a un nuevo ordenador, o llevarlo a otro diferente, descargándolo de, por ejemplo, un repositorio GitHub, o comprimido en un archivo ZIP o similar. Dado que ciertas carpetas y archivos no se suben a dicho repositorio (o no deberían subirse), es conveniente saber cómo regenerar estos elementos en la nueva ubicación del proyecto.
 
-### 5.1. Exportar un proyecto
+### Exportar un proyecto
 
 Si queremos exportar o compartir un proyecto Laravel de forma externa, podemos:
 
@@ -810,7 +863,7 @@ Si queremos exportar o compartir un proyecto Laravel de forma externa, podemos:
 
 > **NOTA IMPORTANTE**: cuando comprimas un proyecto Laravel, procura comprimir la carpeta entera desde fuera, para así incluir también los archivos ocultos, como `.env.example`. De lo contrario, no será posible poner en marcha el proyecto en el lugar donde se utilice. Así que, simplemente, elimina las carpetas pesadas (`vendor` y `node_modules`), archivos que no quieras compartir directamente (`.env`, si es el caso) sal a la carpeta padre y comprímela.
 
-### 5.2. Importar un proyecto existente
+### Importar un proyecto existente
 
 A la hora de importar en un nuevo ordenador un proyecto existente (bien descargándolo de GitHub, o descomprimiéndolo de un archivo ZIP), debemos dar estos pasos (una vez descargado o descomprimido el proyecto).
 
@@ -850,6 +903,6 @@ Del mismo modo, existen algunas dependencias para la parte de cliente (como por 
 npm install
 ```
 
-# bibliografia
+# referencias
 
 - [Nacho Iborra Baeza](https://nachoiborraies.github.io/laravel/).
