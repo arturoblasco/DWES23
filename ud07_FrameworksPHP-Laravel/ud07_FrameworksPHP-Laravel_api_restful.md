@@ -42,6 +42,11 @@ Para hacer pruebas con estas APIs podemos implementar el código para consumirla
 - [Insomnia](https://insomnia.rest/download)
 - [Advance REST Client (desde el navegador)](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo?hl=es)
 
+Para mostrar en el navegador el código JSON con un formato más legible también podremos instalar, en el navegador que utilices, la extensión para tal efecto:
+
+- [JSON formatter](https://chromewebstore.google.com/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?pli=1), en Google Chrome.
+- [JSON formatter](https://addons.mozilla.org/en-US/firefox/addon/json_formatter/), en Mozilla Firefox.
+
 
 
 # qué es REST
@@ -291,8 +296,6 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
 
    
 
-   
-
    b) en `web.php`:
 
    ```php
@@ -303,7 +306,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
        Route::put('/{id}',[ProductoController::class, 'update']);
    });
    ```
-
+   
 9. Y para **eliminar un producto**, el método `delete`:
 
    a) en `ProductoController.php`:
@@ -327,6 +330,7 @@ Crear un controlador donde establezcamos los métodos que nosotros queramos real
        Route::delete('/{id}',[ProductoController::class, 'destroy']);
    });
    ```
+
 
 
 ## cómo funciona la API REST
