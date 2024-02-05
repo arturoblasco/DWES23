@@ -74,18 +74,18 @@ Antes de crear nuestra API en tabla `Productos` deberemos tener dicha tabla migr
 
 2. Añadir al fichero generado (en la carpeta `migrations` y en el ejemplo anterior *2024_01_08_102832_create_productos_table.php*) el resto de campos que se requieran en la tabla `productos`:
 
-```php
-public function up(): void
-{
-  Schema::create('productos', function (Blueprint $table) {
-    $table->id();
-    $table->string('nombre');
-    $table->text('descripcion');
-    $table->decimal('precio', 8, 2);
-    $table->timestamps();
- });
-}
-```
+   ```php
+   public function up(): void
+   {
+     Schema::create('productos', function (Blueprint $table) {
+       $table->id();
+       $table->string('nombre');
+       $table->text('descripcion');
+       $table->decimal('precio', 8, 2);
+       $table->timestamps();
+    });
+   }
+   ```
 
 2. Ejecutar migración:
 
@@ -100,6 +100,12 @@ public function up(): void
    <img src="/assets/ud07_apirestful_004.png" style="zoom: 70%;" />
 
 3. Crear un `seeder` para realizar una carga de datos:
+
+   ````php
+   php artisan make:seeder ProductoSeeder
+   # ó, si no funciona, probar:
+   # sudo docker-compose exec myapp php artisan make:seeder ProductoSeeder
+   ````
 
    Introducimos información en esta tabla nueva, creando un fichero en la carpeta `database/seeders` de nombre `ProductoSeeder.php`:
 
