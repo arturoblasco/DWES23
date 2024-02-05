@@ -23,7 +23,7 @@
 
 # qué es API
 
-<img src="/assets/ud07_apirestful_000.png" alt="phpMyAdmin" style="zoom:65%; float:right;" />Una **API** (*Application Programming Interface*) es un conjunto de funciones y procedimientos por los cuales, una aplicación externa accede a los datos, a modo de biblioteca como una capa de abstracción y la API se encarga de enviar el dato solicitado.
+<img src="/assets/ud07_apirestful_000.png" alt="phpMyAdmin" style="zoom:68%; float:right;" />Una **API** (*Application Programming Interface*) es un conjunto de funciones y procedimientos por los cuales, una aplicación externa accede a los datos, a modo de biblioteca como una capa de abstracción y la API se encarga de enviar el dato solicitado.
 
 Una de las características fundamentales de las API es que son ***Sateless***, lo que quiere decir que las peticiones se hacen y desaparecen, no hay usuarios logueados ni datos que se quedan almacenados.
 
