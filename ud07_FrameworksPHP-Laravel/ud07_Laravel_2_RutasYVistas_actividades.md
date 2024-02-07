@@ -78,7 +78,7 @@ Continuamos con el proyecto **blog**. En este caso vamos a definir una plantilla
    - Página de inicio
    - Listado de posts
 
-- Incluye la barra de navegación en la plantilla base que has definido antes
+- Incluye la barra de navegación en la plantilla base que has definido antes.
 
 - A partir de la plantilla base, define otras dos vistas en una subcarpeta `posts`, llamadas `posts/listado.blade.php` y `posts/ficha.blade.php`. Como título de cada página pon un breve texto de lo que son (por ejemplo, “Listado posts” y “Ficha post”), y como contenido de momento deja un encabezado `h1` que indique la página en la que estamos: “Listado de posts” o “Ficha del post XXXX”, donde *XXXX* será el identificador del post que habremos pasado por la URL (y que deberás pasar a la vista). Haz que las rutas correspondientes de `routes/web.php` que ya has definido rendericen estas vistas en lugar de devolver texto plano.
 
@@ -94,7 +94,7 @@ Sobre el mismo proyecto **blog** que venimos desarrollando, incorpora ahora los 
 - Edita el archivo `partials/nav.blade.php` para modificar la barra de navegación y dejarla con un estilo particular de Bootstrap. Puedes consultar [esta página](https://getbootstrap.com/docs/4.5/components/navbar/) para tomar ideas de algunos diseños que puedes aplicar en la barra de navegación.
 - Renombra el archivo `welcome.blade.php` a `inicio.blade.php` y cámbialo para que también herede de la plantilla base. Añade algún texto introductorio como contenido. Puede quedarte más o menos así (la barra de navegación superior puede variar en función del estilo que hayas querido darle).
 
-<img src="./assets/02_blog_inicio.png" alt="img" style="zoom:50%;" />
+<img src="./assets/02_blog_inicio.png" alt="img" style="zoom:30%;" />
 
 
 
