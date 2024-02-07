@@ -17,15 +17,13 @@
 
 
 
-[TOC]
-
-
-
- 
-
-> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+> **licencia**:  el uso de estos materiales está sujeto a licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
 >
-> Material extraído de https://nachoiborraies.github.io/laravel/
+> **material**: extraído de https://nachoiborraies.github.io/laravel/
+
+
+
+[TOC]
 
 # Frameworks PHP
 
@@ -529,6 +527,10 @@ Es necesario utilizar el programa [VirtualBox](https://www.virtualbox.org/) para
 
 Ahora que ya tenemos todo el sistema preparado para desarrollar proyectos Laravel, veamos los primeros pasos que debemos dar para crear estos proyectos.
 
+> **importante**
+>
+> En este [enlace](https://laravel.com/docs/10.x) podremos encontrar la documentación oficial de Laravel (en este caso, la versión 10.x). No dudes en consultarlo cuando tengas dudas!
+
 ## Crear proyectos Laravel
 
 Para crear proyectos Laravel, tenemos dos alternativas:
@@ -604,7 +606,7 @@ Una vez abierto, tendremos la estructura del proyecto en la parte izquierda (pes
 
 Para facilitar aún más la gestión de proyectos Laravel, podemos instalar alguna extensión adicional a Visual Studio Code. Una de las más populares es *Laravel Extension Pack*, que a su vez contiene una serie de extensiones para resaltar sintaxis, editar vistas, etc:
 
-<img src="./assets/01_vscode_laravel_extension.png" alt="img" style="zoom:60%;" />
+<img src="./assets/01_vscode_laravel_extension.png" alt="img" style="zoom:50%;" />
 
 ## Estructura de un proyecto Laravel
 

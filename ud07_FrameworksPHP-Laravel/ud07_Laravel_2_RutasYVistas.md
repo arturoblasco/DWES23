@@ -17,42 +17,55 @@
 
 
 
-[TOC]
-
-
-
-> El uso de estos materiales está sujeto a una licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
+> **licencia**:  el uso de estos materiales está sujeto a licencia Creative Commons [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
 >
-> Material extraído de https://nachoiborraies.github.io/laravel/
+> **material**: extraído de https://nachoiborraies.github.io/laravel/
+
+
+
+
+
+[TOC]
 
 
 
 # rutas
 
-Las rutas (*routes*) son un mecanismo que permite a Laravel establecer qué respuesta enviar a una petición que intenta acceder a una determinada URL. Estas rutas se especifican en diferentes archivos dentro de la carpeta `routes` de nuestro proyecto Laravel.
+Las rutas (***routes***) son un mecanismo que permite a Laravel establecer qué respuesta enviar a una petición que intenta acceder a una determinada URL. Estas rutas se especifican en diferentes archivos dentro de la carpeta **`routes`** de nuestro proyecto Laravel.
 
 Podríamos decir que existen dos tipos principales de rutas:
 
-- Las rutas **web** (almacenadas en el archivo `routes/web.php` de la aplicación), que nos permitirán cargar distintas vistas en función de la URL que indique el cliente.
-- Las rutas **API** (almacenadas en el archivo `routes/api.php`), a través de las cuales definiremos distintos servicios REST, como veremos también más adelante.
+- Las rutas **web** (almacenadas en el archivo **`routes/web.php`** de la aplicación), que nos permitirán cargar distintas vistas en función de la URL que indique el cliente.
+- Las rutas **API** (almacenadas en el archivo **`routes/api.php`**), a través de las cuales definiremos distintos servicios REST, como veremos también más adelante.
 
-Nos vamos a centrar durante esta sesión en el primer grupo, por lo que editaremos el contenido del archivo `routes/web.php`. Estas rutas son las más habituales, y se utilizan para recuperar contenidos típicamente en formato HTML. Inicialmente ya existe una ruta predefinida hacia la raíz del proyecto, que carga la página de bienvenida al mismo
+Nos vamos a centrar durante esta sesión en el primer grupo, por lo que editaremos el contenido del archivo **`routes/web.php`**. Estas rutas son las más habituales, y se utilizan para recuperar contenidos típicamente en formato HTML. Inicialmente ya existe una ruta predefinida hacia la raíz del proyecto, que carga la página de bienvenida al mismo:
 
 ```php
 <?php
 
 use Illuminate\Support\Facades\Route;
 
+// Ruta por defecto para cargar la vista welcome (sin extensión .blade.php)
+// cuando el usuario introduce simplemente el dominio
 Route::get('/', function() {
     return view('welcome');
 });
 ```
 
-Para definir una ruta en Laravel, se hace una llamada a un método estático de la clase `Route` (en el ejemplo anterior, al método `Route::get`). Como primer parámetro, especificaremos la URL de la ruta (la ruta raíz, en el ejemplo anterior), y como segundo parámetro, la función que se va a ejecutar cuando algún cliente haga una petición a esa ruta.
+Para definir una ruta en Laravel, se hace una llamada a un método estático de la clase `Route` (en el ejemplo anterior, al método `Route::get`). Como primer parámetro, especificaremos la URL de la ruta (la ruta raíz, en el ejemplo anterior), y como segundo parámetro, la función que se va a ejecutar (*callback* o *closure*) cuando algún cliente haga una petición a esa ruta.
+
+> **closure *VS* controlador**: Se puede definir en el segundo parámetro del método `Route::get` un *closure* o un *controlador* (veremos este segundo caso más adelante).
+>
+> Por ejemplo:
+>
+> ```php
+> Route::get('/libros', [LibroController::class, 'index']) -> name('libros');
+> ```
+>
 
 ## Rutas simples
 
-Las rutas simples tienen un nombre de ruta fijo, y una función que responde a dicho nombre emitiendo una respuesta. Un ejemplo es la ruta raíz que viene por defecto en nuestro proyecto. Podríamos definir otra ruta a continuación de esa, mediante la cual, si accedemos a la URL *http://biblioteca/fecha* nos muestre la fecha y hora actuales
+Las rutas simples tienen un nombre de ruta fijo, y una función que responde a dicho nombre emitiendo una respuesta. Un ejemplo es la ruta raíz que viene por defecto en nuestro proyecto. Podríamos definir otra ruta a continuación de esa, mediante la cual, si accedemos a la URL *[http://biblioteca/fecha](#)* nos muestre la fecha y hora actuales:
 
 ```php
 Route::get('fecha', function() {
@@ -60,7 +73,11 @@ Route::get('fecha', function() {
 });
 ```
 
-Si ponemos en marcha el servidor y accedemos a esa URL (o a *127.0.0.1:8000/fecha* si hemos lanzado la aplicación con `php artisan serve`), podremos ver esa fecha y hora actual.
+Si ponemos en marcha el servidor y accedemos a esa URL (o a *[http://127.0.0.1:8000/fecha](#)* si hemos lanzado la aplicación con **`php artisan serve`**), podremos ver esa fecha y hora actual.
+
+> realizar **ejercicio 1**.
+
+
 
 ## Rutas con parámetros
 
@@ -72,7 +89,7 @@ Route::get('saludo/{nombre}', function($nombre) {
 });
 ```
 
-En este caso, si el parámetro es obligatorio y no lo indicamos en la URL, nos redirigirá a una página de error 404. Para indicar que un parámetro no es obligatorio, se termina su nombre con un interrogante, y también conviene darle un valor por defecto en la función PHP de respuesta. Así modificaríamos la ruta anterior para que el nombre del usuario sea opcional y, en caso de no ponerlo, se le asigne el nombre “Invitado”.
+En este caso, si el parámetro es obligatorio y no lo indicamos en la URL, nos redirigirá a una página de `error 404`. Para indicar que un parámetro no es obligatorio, se termina su nombre con un interrogante `?`, y también conviene darle un valor por defecto en la función PHP de respuesta. Así modificaríamos la ruta anterior para que el nombre del usuario sea opcional y, en caso de no ponerlo, se le asigne el nombre “Invitado”:
 
 ```php
 Route::get('saludo/{nombre?}', function($nombre = "Invitado") {
@@ -87,10 +104,14 @@ Algunos parámetros será preciso que sigan un determinado patrón. Por ejemplo,
 ```php
 Route::get('saludo/{nombre?}', function($nombre = "Invitado") {
     return "Hola, " . $nombre;
-})->where('nombre', "[A-Za-z]+");
+}) -> where('nombre', "[A-Za-z]+");
 ```
 
 En caso de que la ruta no cumpla el patrón, se obtendrá una página de error. Más adelante se explicará cómo podemos personalizar estas páginas de error.
+
+> realizar **ejercicio 2**.
+
+
 
 ## Rutas con nombre o *named routes*
 
@@ -101,7 +122,7 @@ Para ello, al definir la ruta, le asociamos con la función `name` el nombre que
 ```php
 Route::get('contacto', function() {
     return "Página de contacto";
-})->name('ruta_contacto');
+}) -> name('ruta_contacto');
 ```
 
 Ahora, si queremos definir un enlace a esta ruta en cualquier parte, basta con emplear la función `route` de Laravel, indicando el nombre que le hemos asignado a esta ruta. Por lo tanto, en lugar de poner esto:
@@ -123,13 +144,11 @@ De este modo, ante futuros cambios en las rutas, sólo deberemos cambiar la URL 
 Podemos combinar varias cláusulas `where` en una ruta para validar distintos parámetros que pueda tener, y también enlazar estas llamadas con una a la función `name` para nombrar la ruta. Por ejemplo, la siguiente ruta espera recibir un nombre con caracteres, y un *id* numérico, ambos con valores por defecto:
 
 ```php
-Route::get('saludo/{nombre?}/{id?}',
-function($nombre="Invitado", $id=0)
-{
+Route::get('saludo/{nombre?}/{id?}', function($nombre="Invitado", $id=0) {
     return "Hola $nombre, tu código es el $id";
-})->where('nombre', "[A-Za-z]+")
-  ->where('id', "[0-9]+")
-  ->name('saludo');
+}) -> where('nombre', "[A-Za-z]+")
+   -> where('id', "[0-9]+")
+   -> name('saludo');
 ```
 
 Si accedemos a cada una de las siguientes URLs, obtendremos cada una de las respuestas indicadas:
@@ -153,7 +172,7 @@ Hasta ahora las rutas que hemos definido devuelven un texto simple, salvo la que
 
 La forma general de mostrar vistas en Laravel es hacer que las rutas devuelvan (`return`) una determinada vista. Para ello, se puede emplear la función `view` de Laravel, indicando el nombre de la vista a generar o mostrar.
 
-Por defecto, en la carpeta `resources/views` tenemos disponible una vista de ejemplo llamada `welcome.blade.php`. Es la que se utiliza como página de inicio en la ruta raíz en `routes/web.php`:
+Por defecto, en la carpeta **`resources/views`** tenemos disponible una vista de ejemplo llamada `welcome.blade.php`. Es la que se utiliza como página de inicio en la ruta raíz en **`routes/web.php`**:
 
 ```php
 Route::get('/', function() {
@@ -161,11 +180,17 @@ Route::get('/', function() {
 });
 ```
 
-Notar que no es necesario indicar el *path* o ruta hacia el archivo de la vista, ni tampoco la extensión, puesto que Laravel asume que por defecto las vistas se encuentran en la carpeta `resources/views`, con la extensión `.blade.php` (que hace referencia al motor de plantillas Blade que veremos a continuación), o simplemente con extensión `.php` (en el caso de vistas simples que no utilicen Blade).
+A través de las plantillas de Laravel vamos a escribir **menos código** PHP y vamos a tener nuestros archivos **mejor organizados**.
+
+**Blade** es el sistema de plantillas que trae Laravel, por eso los archivos de plantillas que guardamos en el directorio de `views` llevan la extensión `blade.php`.
+
+De esta manera sabemos inmediatamente que se trata de una plantilla de Laravel y que forma parte de una vista que se mostrará en el navegador.
+
+> **nota**: no es necesario indicar el *path* o ruta hacia el archivo de la vista, ni tampoco la extensión, puesto que Laravel asume que por defecto las vistas se encuentran en la carpeta **`resources/views`**, con la extensión `.blade.php` (que hace referencia al motor de plantillas Blade que veremos a continuación), o simplemente con extensión `.php` (en el caso de vistas simples que no utilicen Blade).
 
 Podemos, por ejemplo, crear una vista sencilla dentro de esta carpeta de vistas (llamémosla `inicio.blade.php`), con un contenido HTML básico:
 
-```php
+```php+HTML
 <html>
     <head>
         <title>Inicio</title>
@@ -184,7 +209,7 @@ Route::get('/', function() {
 });
 ```
 
-## 1. Pasar valores a las vistas
+## Pasar valores a las vistas
 
 Es muy habitual pasar cierta información a ciertas vistas, como por ejemplo, listados de datos a mostrar, o datos de un elemento en concreto. Por ejemplo, si queremos dar un mensaje de bienvenida a un nombre (supuestamente variable), debemos almacenar el nombre en una variable en la ruta, y pasárselo a la vista al cargarla. Esto puede hacerse, por ejemplo, con el método `with` tras generar la vista, indicando el nombre con que lo vamos a asociar a la vista, y el valor (variable) asociado a dicho nombre. En nuestro caso quedaría así:
 
@@ -197,7 +222,7 @@ Route::get('/', function() {
 
 Posteriormente, en la vista, deberemos mostrar el valor de esta variable en algún lugar del código HTML. Podemos emplear PHP tradicional para recoger esta variable:
 
-```php
+```php+HTML
 <html>
     <head>
         <title>Inicio</title>
@@ -237,7 +262,7 @@ Si simplemente vamos a devolver una vista con poca información asociada, o poca
 Route::view('/', 'inicio', ['nombre' => 'Nacho']);
 ```
 
-## 2. Primeros pasos con el motor de plantillas Blade
+## Primeros pasos con el motor de plantillas Blade
 
 Hemos comentado en el apartado anterior que el uso de Blade permite simplificar la sintaxis y la forma de procesar algunas cosas en nuestras vistas. Siempre que creemos el archivo de la vista con la extensión `.blade.php`, nos permitirá automáticamente aprovechar la sintaxis y funcionalidades de Blade en nuestras vistas.
 
@@ -253,7 +278,7 @@ Bienvenido/a <?php echo $nombre ?>
 Bienvenido/a {{ $nombre }}
 ```
 
-> **NOTA** Cada vez que se renderiza una vista en Laravel, se almacena el contenido PHP generado en `storage/framework/views`, y sólo se vuelve a re-generar ante un cambio en la vista, con lo que volver a llamar a una vista ya renderizada no afecta al rendimiento de la aplicación. Si echamos un vistazo a la vista generada con PHP plano y con Blade, veremos que hay una sutil diferencia entre ambas, y es que con Blade, en lugar de hacer un simple `echo` para mostrar el valor de la variable, se utiliza una función intermedia llamada `e`, que evita ataques XSS (*Cross Site Scripting*), es decir, que se inyecten *scripts* de JavaScript con la variable a mostrar. En otras palabras, el código no se interpreta, y se muestra tal cual. En algunos casos (especialmente cuando generamos contenido HTML desde dentro de la expresión Blade) nos puede interesar que no proteja contra estas inyecciones de código. En ese caso, se sustituye la segunda llave por una doble exclamación:
+> **nota**: Cada vez que se renderiza una vista en Laravel, se almacena el contenido PHP generado en `storage/framework/views`, y sólo se vuelve a re-generar ante un cambio en la vista, con lo que volver a llamar a una vista ya renderizada no afecta al rendimiento de la aplicación. Si echamos un vistazo a la vista generada con PHP plano y con Blade, veremos que hay una sutil diferencia entre ambas, y es que con Blade, en lugar de hacer un simple `echo` para mostrar el valor de la variable, se utiliza una función intermedia llamada `e`, que evita ataques XSS (*Cross Site Scripting*), es decir, que se inyecten *scripts* de JavaScript con la variable a mostrar. En otras palabras, el código no se interpreta, y se muestra tal cual. En algunos casos (especialmente cuando generamos contenido HTML desde dentro de la expresión Blade) nos puede interesar que no proteja contra estas inyecciones de código. En ese caso, se sustituye la segunda llave por una doble exclamación:
 
 ```php
 Bienvenido/a {!! $nombre !!}
@@ -261,7 +286,7 @@ Bienvenido/a {!! $nombre !!}
 
 Además de esta sintaxis básica para mostrar datos de variables en un lugar determinado de la vista, existen ciertas directivas en Blade que nos permiten realizar comprobaciones o repeticiones.
 
-### 2.1. Estructuras de control de flujo en Blade
+### Estructuras de control de flujo en Blade
 
 Para iterar sobre un conjunto de datos (array), podemos emplear la directiva `@foreach`, con una sintaxis similar al *foreach* de PHP, pero sin necesidad de llaves. Basta con finalizar el bucle con la directiva `@endforeach`, de este modo:
 
@@ -315,10 +340,10 @@ Sin embargo, con cualquiera de estas opciones tenemos un problema: en el primer 
 
 En este tipo de iteradores (`@foreach` o `@forelse`), tenemos disponible un objeto llamado `$loop`, con una serie de propiedades sobre el bucle que estamos iterando, como por ejemplo:
 
-- `index`: posición dentro del array por la que vamos
-- `count`: total de elementos
-- `first` y `last`: booleanos que determinan si es el primer o último elemento, respectivamente
-- …
+- `index`: posición dentro del array por la que vamos.
+- `count`: total de elementos.
+- `first` y `last`: booleanos que determinan si es el primer o último elemento, respectivamente.
+- *otras*
 
 Podemos ver todas las propiedades disponibles en este objeto llamando a `var_dump`:
 
@@ -351,7 +376,7 @@ Existen otros tipos de estructuras iterativas y selectivas en Blade, como `@whil
 Vamos a aplicar esto en nuestro ejemplo del proyecto *biblioteca*. Definiremos una ruta para sacar un listado de libros y, de momento, vamos a crear a mano dicho listado en el propio método de enrutamiento, y se lo pasaremos a una vista llamada `listado.blade.php`. Por un lado, la nueva ruta para el listado puede quedar así:
 
 ```php
-Route::get('listado', function() {
+Route::get('/listado', function() {
     $libros = array(
         array("titulo" => "El juego de Ender", 
               "autor" => "Orson Scott Card"),
@@ -387,7 +412,9 @@ Por su parte, la vista `listado.blade.php` puede quedar así:
 </html>
 ```
 
-### 2.2. Sobre los enlaces a otras rutas
+<img src="/assets/02_vista1.png" style="zoom:67%;" />
+
+### Sobre los enlaces a otras rutas
 
 Hemos comentado brevemente en puntos anteriores que, gracias a Blade y a los nombres en las rutas, podemos enlazar una vista con otra de dos formas: de forma tradicional…
 
@@ -408,25 +435,25 @@ Por ejemplo, podemos poner un enlace a la vista del listado de libros que hemos 
 <p><a href="{{ route('listado_libros') }}">Listado de libros</a></p>
 ```
 
-### 2.3. Definir plantillas comunes
+### Definir plantillas comunes
 
 A la hora de dar homogeneidad a una web, es habitual que la cabecera, el menú de navegación o el pie de página formen parte de una plantilla que se repite en todas las páginas del sitio, de modo que evitamos tener que actualizar todas las páginas ante cualquier posible cambio en estos elementos.
 
 Para crear una plantilla en Blade, creamos un archivo normal y corriente (por ejemplo, `plantilla.blade.php`), en la carpeta de vistas, con el contenido general de la plantilla. En aquellas zonas del documento donde vamos a permitir contenido variable dependiendo de la vista en sí, añadimos una sección llamada `@yield`, con un nombre asociado. Nuestra plantilla podría ser esta (notar que se permiten varios `@yield` con diferentes nombres):
 
-```php
+```php+HTML
 <html>
-    <head>
-        <title>
-        @yield('titulo')
-        </title>
-    </head>
-    <body>
-        <nav>
-            <!-- ... Menú de navegación -->
-        </nav>
-        @yield('contenido')
-    </body>
+  <head>
+    <title>
+      @yield('titulo')
+    </title>
+  </head>
+  <body>
+    <nav>
+      <!-- ... Menú de navegación -->
+    </nav>
+    @yield('contenido')
+  </body>
 </html>
 ```
 
@@ -443,37 +470,45 @@ Después, en cada vista en que queramos utilizar esta plantilla, añadimos la di
 @endsection
 ```
 
-Notar, además, que a la directiva `@section` se le puede pasar un segundo parámetro con el contenido de esa sección, y en este caso no es necesario cerrarla con `@endsection`. Esta opción es útil para contenidos donde no interesen caracteres en blanco o saltos de línea innecesarios al principio o al final, como ocurre en el ejemplo anterior con el título (*title*) de la página.
+> **nota**: a la directiva `@section` se le puede pasar un segundo parámetro con el contenido de esa sección, y en este caso no es necesario cerrarla con `@endsection`. Esta opción es útil para contenidos donde no interesen caracteres en blanco o saltos de línea innecesarios al principio o al final, como ocurre en el ejemplo anterior con el título (*title*) de la página.
+>
+> Del mismo modo, nuestra vista para el listado de libros quedaría de esta forma:
+>
+> ```php+HTML
+> @extends('plantilla')
+> 
+> @section('titulo', 'Listado de libros')
+> 
+> @section('contenido')
+>     <h1>Listado de libros</h1>
+>     <ul>
+>     @forelse ($libros as $libro)
+>         <li>{{ $libro["titulo"] }} ({{ $libro["autor"] }})</li>
+>     @empty
+>         <li>No se encontraron libros</li>
+>     @endforelse
+>     </ul>
+> @endsection
+> ```
+>
+> 
 
-Del mismo modo, nuestra vista para el listado de libros quedaría de esta forma:
 
-```php
-@extends('plantilla')
 
-@section('titulo', 'Listado de libros')
+> realizar **ejercicio 3**.
 
-@section('contenido')
-    <h1>Listado de libros</h1>
-    <ul>
-    @forelse ($libros as $libro)
-        <li>{{ $libro["titulo"] }} ({{ $libro["autor"] }})</li>
-    @empty
-        <li>No se encontraron libros</li>
-    @endforelse
-    </ul>
-@endsection
-```
 
-### 2.4. Incluir vistas dentro de otras
 
-También suele ser habitual definir contenidos parciales (se suelen definir en una subcarpeta `partials` dentro de `resources/views`), e incluirlos en las vistas. Para esto, utilizaremos la directiva `@include` de Blade.
+### Incluir vistas dentro de otras
 
-Por ejemplo, vamos a definir un menú de navegación. Supongamos que dicho menú está en el archivo `resources/views/partials/nav.blade.php`.
+También suele ser habitual definir contenidos parciales (se suelen definir en una subcarpeta **`partials`** dentro de **`resources/views`**), e incluirlos en las vistas. Para esto, utilizaremos la directiva `@include` de Blade.
+
+Por ejemplo, vamos a definir un menú de navegación. Supongamos que dicho menú está en el archivo **`resources/views/partials/nav.blade.php`**:
 
 ```php
 <nav>
     <a href="{{ route('inicio') }}">Inicio</a>
-    &nbsp;&nbsp;
+    &nbsp;|&nbsp;
     <a href="{{ route('listado_libros') }}">Listado de libros</a>
 </nav>
 ```
@@ -498,22 +533,26 @@ Para incluir el menú en la plantilla anterior, podemos hacer esto (y eliminarí
 
 Como puede verse, podemos utilizar tanto el punto como la barra para indicar el separador de carpeta en la vista.
 
-### 2.5. Estructurar vistas en carpetas
+### Estructurar vistas en carpetas
 
 Cuando la aplicación es algo compleja, pueden ser necesarias varias vistas, y tenerlas todas en una misma carpeta puede ser algo difícil de gestionar. Es habitual, como iremos viendo en sesiones posteriores, estructurar las vistas de la carpeta `resources/views` en subcarpetas, de modo que, por ejemplo, cada carpeta se refiera a las vistas de una entidad o modelo de la aplicación, o a un controlador específico. De momento, en nuestro ejemplo de la biblioteca, vamos a ubicar la vista `listado.blade.php` en una subcarpeta `libros`, de modo que en la ruta que renderiza esta vista, ahora deberemos indicar también el nombre de la subcarpeta:
 
 ```php
 Route::get('listado', function() {
-    ...
+    // ...
     return view('libros.listado', compact('libros'));
 })->name('listado_libros');
 ```
 
+> **observa**: la ruta o *path* que se indica será `carpeta.vista` (separación mediante un puto `.` y sin la extensión `blade.php` la vista).
+
 Ahora mismo, en nuestra carpeta `resources/views` del proyecto de la biblioteca tendremos únicamente la plantilla base y la página de inicio (y la vista `welcome.blade.php`, que de hecho ya podemos borrar si queremos). El resto de vistas las iremos estructurando en subcarpetas.
 
-### 2.6. Vistas para páginas de error
+### Vistas para páginas de error
 
-A lo largo de estas sesiones, algunas acciones que hagamos provocarán páginas de error con determinados códigos, como por ejemplo 404 para páginas no encontradas. Si queremos definir el aspecto y estructura de estas páginas, basta con crear la vista correspondiente en la carpeta `resources/views/errors`, por ejemplo, `resources/views/errors/404.blade.php` para el error 404 (anteponemos el código de error al sufijo de la vista).
+A lo largo de estas sesiones, algunas acciones que hagamos provocarán páginas de error con determinados códigos, como por ejemplo 404 para páginas no encontradas. 
+
+Si queremos definir el aspecto y estructura de estas páginas, basta con crear la vista correspondiente en la carpeta `resources/views/errors`, por ejemplo, `resources/views/errors/404.blade.php` para el error 404 (anteponemos el código de error al sufijo de la vista).
 
 ```php
 @extends('plantilla')
@@ -536,7 +575,7 @@ Para poder añadir estilos CSS o archivos JavaScript a nuestro proyecto Laravel,
 
 En primer lugar, debemos tener en cuenta que todas las dependencias de librerías en la parte del cliente (JavaScript) se centralizan en el archivo `package.json`, disponible en la raíz del proyecto. Inicialmente cuenta ya con una serie de dependencias pre-añadidas. Algunas de ellas son importantes, como `vite` (o `laravel-mix`, dependiendo de la versión de Laravel que tengamos instalada), y otras puede que no las necesitemos y las podamos borrar. Es recomendable instalar las dependencias cuando creamos el proyecto, para tenerlas disponibles, con este comando:
 
-```php
+```sh
 npm install
 ```
 
@@ -561,18 +600,18 @@ Estos dos archivos anteriores (`resources/css/app.css` y `resources/js/app.js`) 
 
 ### Generación con Laravel mix
 
-Hasta las primeras versiones de Laravel 9, se empleaba el gestor `laravel-mix` como generador de toda la parte de *frontend* . En este caso, se tiene el archivo `webpack.mix.js` en la raíz del proyecto, que emplea la herramienta *WebPack* para compilar, empaquetar y minificar estos archivos resultado CSS y JavaScript.
+Hasta las primeras versiones de Laravel 9, se empleaba el gestor `laravel-mix` como generador de toda la parte de *frontend*. En este caso, se tiene el archivo `webpack.mix.js` en la raíz del proyecto, que emplea la herramienta *WebPack* para compilar, empaquetar y minificar estos archivos resultado CSS y JavaScript.
 
 ```javascript
 mix.js('resources/js/app.js', 'public/js')
    .postCss('resources/css/app.css', 'public/css', [
-    // 
+    // ...
     ]);
 ```
 
 Como podemos intuir, desde este archivo `webpack.mix.js` se tomará todo lo que hay en el archivo `resources/js/app.js` y se generará un archivo optimizado ubicado en `public/js/app.js`. De forma similar, se tomarán los estilos definidos en `resources/sass/app.scss` o en `resources/css/app.css` (dependiendo de la versión de Laravel) y se generará un archivo CSS optimizado en `public/css/app.css`. Para desencadenar este proceso, Laravel y WebPack se valen de la librería `laravel-mix`, incluida en el archivo `package.json`. Por eso es importante esta librería, y por eso debemos dejarla instalada previamente con el comando `npm install` que hemos explicado antes. Una vez instalada, para generar los CSS y JavaScript debemos ejecutar este comando desde la raíz del proyecto:
 
-```php
+```sh
 npm run dev
 ```
 
@@ -592,7 +631,7 @@ Esto generará los archivos `public/css/app.css` y `public/js/app.js`, y despué
 Desde alguna versión intermedia de Laravel 9, el gestor *frontend* por defecto que se incorpora es `vite`, junto con un archivo de configuración en la raíz del proyecto llamado `vite.config.js`. Debemos especificar en este archivo las rutas hacia los archivos CSS y JavaScript que queramos incorporar a la aplicación, aunque vienen por defecto ya incluidos los que hemos mencionado anteriormente:
 
 ```javascript
-...
+// ...
 
 export default defineConfig({
     plugins: [
@@ -626,20 +665,20 @@ Para incluir este framework en Laravel, debemos incluir una librería en el serv
 composer require laravel/ui:*
 ```
 
-> **NOTA:** la expresión `:*` al final del comando es para que descargue la última versión disponible compatible con el proyecto Laravel actual.
+> **nota**: la expresión `:*` al final del comando es para que descargue la última versión disponible compatible con el proyecto Laravel actual.
 
 Una vez añadida la herramienta, la podemos emplear a través del comando `artisan` para incorporar Bootstrap al proyecto:
 
-```php
+```sh
 php artisan ui bootstrap
 ```
 
 Esto incorporará Bootstrap al archivo `package.json`, en la sección de dependencias…
 
-```php
+```sh
 "devDependencies": {
     ...
-    "bootstrap": "^5.1.3",
+    "bootstrap": "^5.2.3",
     ...
 }
 ```
@@ -677,12 +716,18 @@ En el caso de usar Vite, deberemos actualizar la URL correspondiente al archivo 
 
 Para finalizar, debemos ejecutar nuevamente las instrucciones:
 
-```php
+```sh
 npm install
 npm run build
 ```
 
 La primera instrucción debe ejecutarse sólo una vez, y descargará e instalará Bootstrap en el proyecto (en la subcarpeta *node_modules*), y la segunda generará de nuevo los archivos CSS y JavaScript optimizados, incluyendo en ellos la librería Bootstrap. Con esto ya tendremos disponibles las clases y estilos de Bootstrap para nuestras vistas.
+
+
+
+> realizar **ejercicio 4**.
+
+
 
 # bibliografia
 
