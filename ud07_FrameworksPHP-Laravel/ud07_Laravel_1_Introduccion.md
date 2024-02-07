@@ -36,10 +36,11 @@ Actualmente existe una gran variedad de frameworks PHP que elegir para desarroll
 - **Laravel**, un framework relativamente reciente (fue creado en 2011), y que ha ganado bastante popularidad en los últimos años. Su filosofía es el poder desarrollar proyectos de forma elegante y simple. Cuenta con una amplia comunidad de soporte detrás, y se le augura un futuro bastante consolidado.
 - **Symfony**, creado en 2005, cuenta con más camino hecho que Laravel, y una estructura más consolidada. En sus primeras versiones se presentaba como un framework más monolítico (se instalaban demasiados módulos que luego no necesitábamos), pero recientemente ha adaptado su estructura para hacerla más modular. De hecho, podríamos considerar Symfony como un *metaframework*, es decir, un framework que, a su vez, sirve para desarrollar otros frameworks. Prueba de ello es que, por ejemplo, Laravel utiliza Symfony como base para ampliar esas funcionalidades.
 - **CodeIgniter**, un framework más ligero que los anteriores, pero también con un amplio grupo de seguidores y desarrolladores. Fue creado en 2006 y, aunque ha sufrido una etapa de abandono, ha vuelto a coger fuerza en los últimos años, quizá debido a su simplicidad de uso.
+- **Yii**, un framework de alto rendimiento para el desarrollo de aplicaciones web modernas. Es conocido por su eficiencia y velocidad.
 - **CakePHP**, creado en 2005, es otro framework similar a CodeIgniter en cuanto a simplicidad y facilidad de uso, aunque con menor popularidad.
 - **Zend**, creado en 2006, es otro framework bastante popular, aunque quizá con menor visibilidad que los anteriores hoy en día, a la altura de CakePHP.
 - **Phalcon**, otro framework de reciente creación (2012), con una potente capacidad de procesamiento de páginas PHP, y la posibilidad de trabajar como microframework (más ligero, para ofrecer funcionalidades muy específicas) o como framework completo. De hecho, muchos frameworks más antiguos también han incorporado recientemente la posibilidad de ejecutarlos como microframeworks.
-- … etc.
+- *otros*.
 
 Casi todos los frameworks PHP tienen una serie de características comunes, como son el uso del patrón MVC para desarrollar sus proyectos, la inyección de dependencias para gestionar recursos tales como conexiones a bases de datos, o elementos compartidos por toda la aplicación, la posibilidad de desarrollar tanto webs completas como servicios REST accesibles desde diversos clientes, etc.
 
@@ -102,7 +103,7 @@ Es un patrón de diseño muy conciso y bien estructurado, lo que le ha valido la
 
 En forma de esquema, podríamos representarlo así:
 
-<img src="./assets/01_mvc.png" alt="Modelo Vista Controlador" style="zoom:70%;" />
+<img src="./assets/01_mvc.png" alt="Modelo Vista Controlador" style="zoom:50%;" />
 
 # software necesario
 
@@ -276,19 +277,19 @@ sudo chmod +x /usr/local/bin/composer
 
 Como último paso, y ya que Composer utiliza el ejecutable de PHP, necesitamos que dicho ejecutable esté también en el PATH del sistema.
 
-- Para Linux deberemos hacer lo siguiente:
+- Para **Linux** deberemos hacer lo siguiente:
 
-```sh
-echo "export PATH=$PATH:/opt/lampp/bin" >> ~/.bashrc
-source ~/.bashrc
-```
+   ```sh
+   echo "export PATH=$PATH:/opt/lampp/bin" >> ~/.bashrc
+   source ~/.bashrc
+   ```
 
 - Para Mac OSX, es posible que se tenga alguna versión previa de PHP instalada con alguna otra herramienta. Para superponer la nueva versión de XAMPP a esta otra, podemos hacer este cambio en el PATH:
 
-```sh
-echo "export PATH=/Applications/XAMPP/xamppfiles/bin:$PATH" >> ~/.bash_profile
-source ~/.bash_profile
-```
+   ```sh
+   echo "export PATH=/Applications/XAMPP/xamppfiles/bin:$PATH" >> ~/.bash_profile
+   source ~/.bash_profile
+   ```
 
 Además, en el caso de Mac OSX quizá tengamos que editar el archivo de configuración de PHP (*/Applications/XAMPP/xamppfiles/etc/php.ini*) y añadir esta línea al final, para permitir que el comando PHP gestione la memoria:
 
